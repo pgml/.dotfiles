@@ -1,0 +1,8 @@
+font=San Francisco Display 11
+background-color=#282828ff
+text-color=#ebdbb2ff
+border-size=1
+border-color=#83a598ff
+border-radius=6
+default-timeout=8000
+padding=10

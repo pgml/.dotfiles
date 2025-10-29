@@ -1,0 +1,163 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+	"project_panel": {
+  "folder_icons": true
+ },
+ "active_pane_modifiers": {
+  "border_size": 0.0
+ },
+ "use_system_window_tabs": false,
+ "title_bar": {
+  "show_branch_icon": true,
+  "show_branch_name": true,
+  "show_project_items": true,
+  "show_onboarding_banner": false,
+  "show_user_picture": false,
+  "show_sign_in": false,
+  "show_menus": false
+ },
+ "ui_font_weight": 450.0,
+ "edit_predictions": {
+		"mode": "eager",
+		"copilot": {
+			"proxy": null,
+			"proxy_no_verify": null
+		},
+		"enabled_in_text_threads": false
+	},
+	"features": {
+		"edit_prediction_provider": "zed"
+	},
+	"telemetry": {
+		"diagnostics": false,
+		"metrics": false
+	},
+	"theme": {
+		"dark": "Mariana",
+		"light": "One Light",
+		"mode": "dark"
+	},
+	"ui_font_size": 16,
+	"buffer_font_size": 15.0,
+	"vim_mode": true,
+	"buffer_font_family": "VictorMono Nerd Font Mono",
+	"buffer_font_weight": 400.0,
+	"buffer_line_height": "comfortable",
+	"cursor_shape": "block",
+	"cursor_blink": false,
+	"relative_line_numbers": true,
+	"centered_layout": {
+		"left_padding": 0.25,
+		"right_padding": 0.25
+	},
+	"ui_font_family": "VictorMono Nerd Font Mono",
+	"tab_size": 2,
+	"tabs": {
+		"file_icons": false,
+  "git_status": true
+	},
+	"inlay_hints": {
+		"enabled": true,
+		"show_type_hints": true
+	},
+	"indent_guides": {
+		"enabled": false
+	},
+	"scrollbar": {
+		"show": "never"
+	},
+	"show_whitespaces": "selection",
+	// "centered_layout": {
+	// 	"left_padding": 0.2,
+	// 	"right_padding": 0.2
+	// },
+	"hard_tabs": true,
+	"tab_bar": {
+		"show_nav_history_buttons": true,
+  "show": false
+	},
+	"languages": {
+		"CSharp": {
+			"format_on_save": "off",
+			"auto_indent_on_paste": false,
+			"use_on_type_format": false
+		},
+		"Rust": {
+			"format_on_save": "off",
+			"auto_indent_on_paste": false,
+			"use_on_type_format": false
+		},
+		"JSON": {
+			"format_on_save": "off",
+			"auto_indent_on_paste": false,
+			"use_on_type_format": false
+		},
+		"TypeScript": {
+			"format_on_save": "off",
+			"auto_indent_on_paste": false,
+			"use_on_type_format": false
+		}
+	},
+	//"format_on_save": "off",
+	"lsp": {
+		"intelephense": {
+			"settings": {}
+		}
+	},
+	"auto_signature_help": true,
+	"toolbar": {
+		"breadcrumbs": true,
+		"quick_actions": false
+	},
+	"collaboration_panel": {
+		"button": false
+	},
+	"chat_panel": {
+		"button": "never"
+	},
+	"terminal": {
+		"toolbar": {
+   "breadcrumbs": true
+  },
+  "cursor_shape": "block",
+		"default_height": 1080
+	},
+	"agent": {
+		"default_model": {
+			"provider": "openai",
+			"model": "gpt-4o"
+		},
+		"version": "2",
+		"enabled": false,
+		"button": false
+	},
+	"scroll_beyond_last_line": "off",
+	"wrap_guides": [80],
+	"experimental.theme_overrides": {
+		"border": "#282C3300",
+		////"border": "#1d2227",
+		"editor.indent_guide": "#46525C88"
+		//"border.variant": "#1c222800",
+		//"editor.background": "#303841",
+		//"editor.gutter.background": "#303841",
+		//"background": "#303841",
+		//"toolbar.background": "#303841",
+		//"title_bar.background": "#1D2227",
+		////"status_bar.background": "#1D2227",
+		//"status_bar.background": "#303841"
+		////"panel.background": "#1c2228",
+		//"panel.background": "#303841",
+		//"tab_bar.background": "#1d2227",
+		//"tab.active_background": "#303841",
+		//"tab.inactive_background": "#1d2227",
+		////"terminal.background": "#1d2227"
+		//"terminal.background": "#303841"
+	}
+}
