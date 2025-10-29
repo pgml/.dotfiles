@@ -1,0 +1,55 @@
+#!/bin/bash
+## ~/.local/bin/scp
+#
+## Kill any existing instances
+#systemctl --user stop xdg-desktop-portal xdg-desktop-portal-wlr
+#
+## Start wlroots portal in background
+#/usr/libexec/xdg-desktop-portal-wlr -l DEBUG &
+#
+## Give it a moment to bind to DBus
+#sleep 1
+#
+## Start the main portal replacing any existing instance
+#/usr/libexec/xdg-desktop-portal --verbose -r &
+
+
+# ~/.local/bin/start-wlr-portal.sh
+
+# Exit on errors
+set -e
+
+# Make sure correct Wayland display is set
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
+
+# Kill any existing portal instances
+systemctl --user stop xdg-desktop-portal xdg-desktop-portal-wlr || true
+killall xdg-desktop-portal xdg-desktop-portal-wlr 2>/dev/null || true
+
+# Ensure PipeWire is running
+if ! pgrep pipewire > /dev/null; then
+    echo "Starting PipeWire..."
+    systemctl --user start pipewire pipewire-pulse wireplumber
+fi
+
+# Wait a short moment for PipeWire to initialize
+sleep 1
+
+# Start wlroots portal in the background
+echo "Starting xdg-desktop-portal-wlr..."
+/usr/libexec/xdg-desktop-portal-wlr -l DEBUG &
+
+# Wait until the WLR portal has registered on D-Bus
+# We’ll poll dbus for org.freedesktop.impl.portal.ScreenCast
+echo "Waiting for WLR portal to register on D-Bus..."
+for i in {1..10}; do
+    if busctl --user list | grep -q org.freedesktop.impl.portal.ScreenCast; then
+        echo "WLR portal is ready!"
+        break
+    fi
+    sleep 0.5
+done
+
+# Start main xdg-desktop-portal in verbose mode
+echo "Starting xdg-desktop-portal..."
+/usr/libexec/xdg-desktop-portal --verbose -r &

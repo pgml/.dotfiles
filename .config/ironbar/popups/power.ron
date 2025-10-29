@@ -1,0 +1,19 @@
+Popup(
+    content: Column(
+        spacing: 8,
+        children: [
+            Button(
+                label: "⏾ Suspend",
+                on_click: "systemctl suspend"
+            ),
+            Button(
+                label: "🔄 Reboot",
+                on_click: "systemctl reboot"
+            ),
+            Button(
+                label: "⏹ Power Off",
+                on_click: "systemctl poweroff"
+            ),
+        ]
+    )
+)

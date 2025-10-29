@@ -1,0 +1,178 @@
+let {
+	$tray = { type = "tray" }
+	$clock = {
+		type = "clock"
+		format = "  %B %d |   %H:%M"
+		// format = "%d/%m/%Y %H:%M"
+	}
+
+	$focused = {
+		type = "focused"
+		show_icon = true
+		show_title = true
+		icon_size = 18
+		icon_theme = "Tela-circle-nord"
+
+		truncate.mode = "start"
+		truncate.max_length = 50
+	}
+
+	$music = {
+		type = "music"
+		player_type = "mpris"
+		format = "{title}/{artist}"
+		truncate = "end"
+		// truncate.length = 30
+		// truncate.max_length = 100
+		icons.play = " "
+		icons.pause = " "
+		icons.prev = ""
+		icons.next = ""
+		//music_dir = "/home/bluebyt/Music"
+		on_scroll_down = "~/.config/niri/niri-volume.sh jack_out.3 down"
+		on_scroll_up = "~/.config/niri/niri-volume.sh jack_out.3 up"
+		on_click_middle = "pactl set-sink-mute jack_out.3 toggle"
+	}
+
+	$SysInfo = {
+		type = "sys_info"
+		interval.temps = 3
+		interval.disks = 300
+		interval.memory = 30
+		interval.cpu = 1
+		interval.networks = 3
+
+		format = [
+			" {cpu_percent}%"
+			" {memory_used} GB / {memory_total} GB"
+			" {temp_c@k10temp Tctl}°C"
+			//" {disk_free:/}GB"
+		]
+	}
+
+	$volume = {
+		type = "volume"
+		icon_size = 24
+		format = "{icon} {percentage}%"
+		max_volume = 100
+		icons.volume_high = " "
+		icons.volume_medium = " "
+		icons.volume_low = " "
+		icons.muted = "󰝟 "
+		on_scroll_down = "wpctl set-volume @DEFAULT_SINK@ 5%-"
+		on_scroll_up = "wpctl set-volume @DEFAULT_SINK@ 5%+"
+	}
+
+	$button = {
+		type = "button"
+		name = "wlogout"
+		class = "wlogout"
+		label = ""
+		on_click = "popup:toggle"
+	}
+
+	$popup = {
+		type = "box"
+		orientation = "vertical"
+		widgets = [
+			{ type = "label" name = "header" label = "Power menu" }
+			{
+				type = "box"
+				widgets = [
+					{
+						type = "button"
+						class="power-btn"
+						label = "<span font-size='20pt'></span>"
+						on_click = "!shutdown now"
+					}
+					{
+						type = "button"
+						class="power-btn"
+						label = "<span font-size='20pt'></span>"
+						on_click = "!reboot"
+					}
+					{
+						type = "button"
+						class = "sleep-btn"
+						label = "<span font-size='20pt'>󰒲</span>"
+						on_click = "systemctl suspend"
+					}
+				]
+			}
+			{
+				type = "label"
+				name = "uptime"
+				label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}"
+			}
+			{
+				type = "clock" disable_popup = true
+			}
+		]
+	}
+
+	$power_menu = {
+		type = "custom"
+		class = "power-menu"
+
+		bar = [ $button ]
+		popup = [ $popup ]
+
+		tooltip = "Up: {{30000:uptime -p | cut -d ' ' -f2-}}"
+	}
+
+	$weather = {
+		name = "weather"
+		type = "script"
+		mode = "poll"
+		interval = 600000
+		cmd = "~/.config/ironbar/scripts/weather"
+	}
+
+	$tray = {
+		type = "tray"
+		direction = "h"
+	}
+
+	$upower = {
+		type = "upower"
+		format = "{percentage}%"
+		icon_size = 14
+	}
+
+	$network = {
+		type = "network_manager"
+		icon_size = 12
+		on_click = "popup:toggle"
+	}
+
+	$clipboard = {
+		type = "clipboard"
+		max_items = 3
+		truncate.mode = "end"
+		truncate.length = 50
+	}
+
+	$start = [ $focused $music ]
+	$center = [ $clock ]
+	$end = [ $volume $SysInfo $network $tray $upower $power_menu ]
+}
+in {
+	monitors.DP-2 = {
+		//autohide = 1000
+		height = 20
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
+	//monitors.eDP-1 = {
+	//	//autohide = 1000
+	//	height = 26
+	//	icon_theme = "Tela-circle-nord"
+	//	position = "top"
+	//	start = $start
+	//	center = $center
+	//	end = $end
+	//}
+}

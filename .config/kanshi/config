@@ -1,0 +1,23 @@
+# Default profile: ensure laptop's built-in screen is enabled
+#profile {
+#  output eDP-1 enable
+#}
+# Undocked (external monitors unplugged)
+
+profile {
+	output eDP-1 enable mode 2560x1440@165.003 scale 1.12 position 0,0
+}
+
+# When external HDMI is plugged in
+#profile {
+#  output HDMI-A-1 enable
+#  output DP-1 enable
+#  output eDP-1 disable
+#}
+
+profile {
+	output eDP-1 disable
+
+	output HDMI-A-1 enable position 2300,0
+	output DP-1  enable position 2300,1080
+}

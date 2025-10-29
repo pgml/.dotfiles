@@ -1,0 +1,9 @@
+[Unit]
+Description=Niri Autostart Script
+PartOf=niri.service
+After=niri.service
+
+[Service]
+ExecStart=%h/.config/niri/autostart.sh
+Type=oneshot
+RemainAfterExit=yes

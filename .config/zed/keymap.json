@@ -1,0 +1,127 @@
+[
+	{
+		"context": "ProjectPanel || Editor",
+		"bindings": {
+			"ctrl-6": "pane::AlternateFile"
+		}
+	},
+	{
+		"context": "Editor && vim_mode == normal",
+		"bindings": {
+			"space d s": "outline::Toggle",
+			"space r n": "editor::Rename",
+			"g d": "editor::GoToDefinition",
+			"g r": "editor::FindAllReferences", // zed specific
+			//"space s d": "editor::GoToDiagnostic",
+			"space s d": "diagnostics::Deploy",
+			"space s g": "pane::DeploySearch",
+			"space e": "tab_switcher::Toggle",
+			"space q": "pane::CloseActiveItem",
+			"space p v": "workspace::ToggleLeftDock",
+			"space c a": "editor::ToggleCodeActions",
+			//"alt-shift-h": "pane::ActivatePrevItem",
+			//"alt-shift-l": "pane::ActivateNextItem"
+			"ctrl-w h": "workspace::ActivatePaneLeft",
+			"ctrl-w l": "workspace::ActivatePaneRight",
+			"ctrl-w k": "workspace::ActivatePaneUp",
+			"ctrl-w j": "workspace::ActivatePaneDown"
+		}
+	},
+	{
+		"context": "Editor && vim_mode == insert",
+		"bindings": {}
+	},
+	{
+		"context": "Editor && vim_mode == visual",
+		"bindings": {
+			"=": "editor::FormatSelections"
+		}
+	},
+	{
+		"context": "Editor && VimControl && !VimWaiting && !menu",
+		"bindings": {
+			"ctrl-k": "editor::Hover",
+			"space d s": "outline::Toggle",
+			"space c a": "editor::ToggleCodeActions",
+			"space q": "pane::CloseActiveItem"
+		}
+	},
+	{
+		"context": "Editor && mode == full && edit_prediction",
+		"bindings": {
+			"alt-l": "editor::NextEditPrediction",
+			"alt-h": "editor::PreviousEditPrediction",
+			"alt-right": "editor::AcceptPartialEditPrediction"
+		}
+	},
+	{
+		"context": "ProjectPanel && not_editing",
+		"bindings": {
+			"k": "menu::SelectPrevious",
+			"j": "menu::SelectNext",
+			"h": "project_panel::CollapseSelectedEntry",
+			"l": "project_panel::ExpandSelectedEntry",
+			"o": "project_panel::Open"
+		}
+	},
+	{
+		"context": "TabSwitcher",
+		"bindings": {
+			"k": "menu::SelectPrevious",
+			"j": "menu::SelectNext"
+		}
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			"alt-<": "terminal_panel::ToggleFocus",
+			//"alt-<": "workspace::ToggleBottomDock",
+			"ctrl-w v": "pane::SplitLeft",
+			"ctrl-w s": "pane::SplitDown",
+			"ctrl-w c": "pane::CloseActiveItem",
+			"alt-shift-h": "workspace::ToggleBottomDock",
+			"alt-shift-l": "workspace::ToggleBottomDock",
+			"ctrl-a s": "projects::OpenRecent"
+		}
+	},
+	{
+		"context": "Workspace && !menu",
+		"bindings": {
+			//"space c a": "editor::ToggleCodeActions",
+			//"space g r": "editor::FindAllReferences"
+			//"g space": "editor::OpenExcerpts",
+		}
+	},
+	{
+		"context": "Editor && showing_completions",
+		"bindings": {
+			//"tab": ""
+		}
+	},
+	{
+		"context": "Editor && (showing_code_actions || showing_completions)",
+		"bindings": {
+			"shift-tab": "editor::ContextMenuPrevious",
+			"tab": "editor::ContextMenuNext"
+		}
+	},
+	{
+		"context": "Panel",
+		"bindings": {
+			"space e": "tab_switcher::Toggle"
+		}
+	},
+	{
+		"context": "Terminal",
+		"bindings": {
+			"alt-<": "terminal_panel::ToggleFocus",
+			"alt-h": "workspace::ActivatePaneLeft",
+			"alt-l": "workspace::ActivatePaneRight",
+			"alt-shift-h": "pane::ActivatePreviousItem",
+			"alt-shift-l": "pane::ActivateNextItem",
+			"ctrl-w n": "workspace::NewTerminal",
+			"ctrl-w z": "workspace::ToggleZoom",
+			"ctrl-w c": "pane::CloseActiveItem"
+		}
+	}
+]
