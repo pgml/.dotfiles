@@ -8,7 +8,7 @@ return {
 			"lua_ls",
 			"gopls",
 			"csharp_ls",
-			"clang",
+			"clangd",
 			"rust_analyzer",
 			"zls",
 		})
