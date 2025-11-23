@@ -25,7 +25,7 @@ tabbar tabbox tab:selected {
 
 tabbar tabbox tab label {
 	font-size: 15px;
-	color: #aaa
+	color: #aaa;
 }
 
 tabbar tabbox tab:selected label {

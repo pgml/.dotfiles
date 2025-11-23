@@ -1,4 +1,4 @@
-export PATH=$HOME/.bin/:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin/:$DOTNET_ROOT:$DOTNET_ROOT/tools
+export PATH=$HOME/.bin/:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:/usr/bin:$HOME/.luarocks/bin:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/
 export DOTNET_ROOT=$HOME/.dotnet

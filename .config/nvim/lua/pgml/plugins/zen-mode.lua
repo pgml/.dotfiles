@@ -27,7 +27,16 @@ return {
 						require "zen-mode".open({
 							window = {
 								width = 95
-							}
+							},
+							plugins = {
+								options = {
+									enabled = true,
+									laststatus = 0,
+									ruler = true,
+									showcmd = true,
+								},
+								twilight = { enabled = true },
+							},
 						})
 					end
 				end)

@@ -64,6 +64,14 @@ vim.diagnostic.config({
 	},
 })
 
+vim.filetype.add({
+	extension = {
+		["fs"] = "glsl",
+		["vs"] = "glsl",
+	},
+})
+
+
 -- borders
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)

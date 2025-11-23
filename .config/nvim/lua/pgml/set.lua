@@ -47,7 +47,6 @@ end)
 --- LSP stuff
 
 vim.g.rust_recommended_style = false
-vim.g.zig_recommended_style = false
 
 vim.g.go_highlight_structs = 1
 vim.g.go_highlight_methods = 1

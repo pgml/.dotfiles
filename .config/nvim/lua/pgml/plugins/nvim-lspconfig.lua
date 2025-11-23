@@ -6,9 +6,11 @@ return {
 	init = function()
 		vim.lsp.enable({
 			"lua_ls",
-			"gopls",
+			--"emmylua_ls",
 			"csharp_ls",
 			"clangd",
+			"glsl_analyzer",
+			"gopls",
 			"rust_analyzer",
 			"zls",
 		})
@@ -33,26 +35,31 @@ return {
 						path = vim.split(package.path, ";")
 					},
 					workspace = {
-						useThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
-						checkThirdParty = "Apply",
+						--useThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
+						--checkThirdParty = "Apply",
 						library = {
 							vim.api.nvim_get_runtime_file("", true),
 							vim.fn.getcwd(),
-							"${3rd}/love2d/library",
-						}
+							--"${3rd}/love2d/library",
+						},
 					},
 					diagnostics = {
 						globals = {
 							"vim",
 							"require",
 							"love",
-						}
+						},
+						unusedLocalExclude = {
+							"_*",
+						},
 					},
 				}
 			}
 		})
 
+		--vim.lsp.config("emmylua_ls", {})
 		vim.lsp.config("clangd", {})
+		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})
 
 		vim.lsp.config("gopls", {
@@ -118,7 +125,6 @@ return {
 
 		vim.lsp.config("zls", {
 			cmd = { "zls" },
-			zig_exe_path = "~/.local/bin/zig",
 			filetypes = { "zig", "zir" },
 			single_file_support = true,
 			root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cmd,

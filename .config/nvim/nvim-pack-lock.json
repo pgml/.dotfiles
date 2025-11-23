@@ -1,23 +1,27 @@
 {
   "plugins": {
     "LuaSnip": {
-      "rev": "7381330",
+      "rev": "3732756",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "base16-nvim": {
-      "rev": "a2907cc",
+      "rev": "a7bd57b",
       "src": "https://github.com/RRethy/base16-nvim"
     },
     "cmp-buffer": {
       "rev": "b74fab3",
       "src": "https://github.com/hrsh7th/cmp-buffer"
     },
+    "cmp-gl": {
+      "rev": "b9dace3",
+      "src": "https://github.com/vurentjie/cmp-gl"
+    },
     "cmp-nvim-lsp": {
-      "rev": "bd5a7d6",
+      "rev": "cbc7b02",
       "src": "https://github.com/hrsh7th/cmp-nvim-lsp"
     },
     "cmp-nvim-lsp-signature-help": {
-      "rev": "031e6ba",
+      "rev": "fd3e882",
       "src": "https://github.com/hrsh7th/cmp-nvim-lsp-signature-help"
     },
     "cmp-path": {
@@ -37,12 +41,16 @@
       "src": "https://github.com/sindrets/diffview.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "1ee5c1f",
+      "rev": "cdafc32",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "go.nvim": {
-      "rev": "db20146",
+      "rev": "81bb94c",
       "src": "https://github.com/ray-x/go.nvim"
+    },
+    "harpoon": {
+      "rev": "1bc17e3",
+      "src": "https://github.com/ThePrimeagen/harpoon.git"
     },
     "love2d.nvim": {
       "rev": "2571539",
@@ -53,15 +61,15 @@
       "src": "https://github.com/onsails/lspkind.nvim"
     },
     "mason.nvim": {
-      "rev": "ad7146a",
+      "rev": "57e5a8a",
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "neogit": {
-      "rev": "90dcfa7b",
+      "rev": "4ba620ad",
       "src": "https://github.com/NeogitOrg/neogit"
     },
     "nvim-cmp": {
-      "rev": "b5311ab",
+      "rev": "d97d85e",
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
     "nvim-juliana": {
@@ -69,11 +77,11 @@
       "src": "https://github.com/pgml/nvim-juliana"
     },
     "nvim-lspconfig": {
-      "rev": "e688b48",
+      "rev": "b7c48a7",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
-      "rev": "75de178",
+      "rev": "fcfa7e0",
       "src": "https://github.com/kylechui/nvim-surround"
     },
     "nvim-treesitter": {
@@ -81,7 +89,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-web-devicons": {
-      "rev": "b8221e4",
+      "rev": "8dcb311",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "plenary.nvim": {
@@ -93,7 +101,7 @@
       "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"
     },
     "telescope.nvim": {
-      "rev": "b4da76b",
+      "rev": "83a3a71",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "undotree": {
@@ -109,8 +117,12 @@
       "src": "https://github.com/lukas-reineke/virt-column.nvim"
     },
     "zen-mode.nvim": {
-      "rev": "dfcb72a",
+      "rev": "8564ce6",
       "src": "https://github.com/folke/zen-mode.nvim"
+    },
+    "zig-lamp": {
+      "rev": "18c36e5",
+      "src": "https://github.com/jinzhongjia/zig-lamp"
     }
   }
 }
