@@ -13,12 +13,20 @@ vim.o.laststatus = 0
 vim.o.number = true
 vim.o.relativenumber = true
 
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.breakindentopt = {
+  "min:20",
+}
+vim.o.showbreak = "↪ "
+
 vim.o.tabstop = 3
 vim.o.softtabstop = 3
 vim.o.shiftwidth = 3
 
 vim.o.signcolumn = "yes"
-vim.o.colorcolumn = "75"
+vim.o.colorcolumn = "80"
 
 vim.o.guicursor = "n-v-c-i:block"
 vim.o.listchars = "tab:  ,trail:⎵,nbsp:·,space:·"
@@ -42,6 +50,7 @@ vim.o.termguicolors = true
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
+
 
 
 --- LSP stuff

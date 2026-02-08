@@ -18,12 +18,21 @@ export XDG_MENU_PREFIX=plasma-
 
 export ZSH="$HOME/.oh-my-zsh"
 
+if [[ -n $ZMX_SESSION ]]; then
+  export PS1="[$ZMX_SESSION] ${PS1}"
+fi
+
 export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 export GPG_TTY=$(tty)
 
 alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias anyrun="XDG_MENU_PREFIX=niri- anyrun"
 alias love="SDL_VIDEODRIVER=wayland love"
+
+alias proj="~/Projekte/"
+alias cdzig="~/Projekte/Zig/"
+alias cdgo="~/Projekte/Go/"
+alias zad="zmx a dev"
 
 ZSH_THEME="kennethreitz"
 plugins=(git)

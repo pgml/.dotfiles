@@ -23,6 +23,14 @@ vim.keymap.set("n", "<leader>thj", function()
 	vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 end, { desc = "Set dark colourtheme juliana" })
 
+vim.keymap.set("n", "<leader>the", function()
+	vim.g.everforest_colors_override = {
+		bg2 = { "#2D353B", "223" },
+	}
+	vim.cmd("colorscheme everforest")
+	vim.cmd("set background=dark")
+end, { desc = "Set dark colourtheme everforest" })
+
 vim.keymap.set("n", "<leader>thl", function()
 	vim.cmd("colorscheme base16-tokyo-night-terminal-light")
 	vim.cmd("set background=light")

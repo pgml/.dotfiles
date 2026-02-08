@@ -35,7 +35,6 @@ vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", bold = true })
 vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 
-
 -- autocommands
 
 -- strip trailig whitespace
