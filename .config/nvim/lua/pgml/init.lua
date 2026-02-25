@@ -43,6 +43,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 
+-- i don't do c++ and you can't make me
+vim.api.nvim_create_autocmd({ "BufNewFile" ,"BufRead" }, {
+	pattern = { "*.h" },
+	callback = function()
+		vim.bo.filetype = "c"
+	end,
+})
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
