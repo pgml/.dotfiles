@@ -58,7 +58,9 @@ return {
 		})
 
 		--vim.lsp.config("emmylua_ls", {})
-		vim.lsp.config("clangd", {})
+		vim.lsp.config("clangd", {
+			filetypes = { "c" },
+		})
 		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})
 
