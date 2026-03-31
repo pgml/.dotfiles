@@ -78,6 +78,9 @@ vim.filetype.add({
 	},
 })
 
+vim.api.nvim_create_user_command("PackUpdate", function()
+  require("vim.pack").update()
+end, { desc = "Update all plugins using vim.pack" })
 
 -- borders
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
