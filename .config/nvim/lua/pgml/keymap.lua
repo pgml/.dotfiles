@@ -25,11 +25,32 @@ end, { desc = "Set dark colourtheme juliana" })
 
 vim.keymap.set("n", "<leader>the", function()
 	vim.g.everforest_colors_override = {
+		blue = { "#D3C6AA	", "223" },
 		bg2 = { "#2D353B", "223" },
+		grey1 = { "#7A8478", "223" },
+		grey2 = { "#2D353B", "223" },
+		statusline1 = { "#56635f", "223" },
 	}
 	vim.cmd("colorscheme everforest")
 	vim.cmd("set background=dark")
 end, { desc = "Set dark colourtheme everforest" })
+
+vim.keymap.set("n", "<leader>bl", function()
+	vim.g.everforest_colors_override = {
+		bg0 = { "#f1ebe6	", "223" },
+		fg = { "#514337", "223" },
+		blue = { "#5c6a72", "223" },
+		red = { "#9b0097", "223" },
+		green = { "#007232", "223" },
+		yellow = { "#ae6000", "223" },
+		orange = { "#9b0097", "223" },
+		grey0 = { "#514337", "223" },
+		grey1 = { "#baa99d", "223" },
+		grey2 = { "#514337", "223" },
+	}
+	vim.cmd("colorscheme everforest")
+	vim.cmd("set background=light")
+end)
 
 vim.keymap.set("n", "<leader>thl", function()
 	vim.cmd("colorscheme base16-tokyo-night-terminal-light")
