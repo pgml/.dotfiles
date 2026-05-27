@@ -32,9 +32,16 @@ alias love="SDL_VIDEODRIVER=wayland love"
 alias proj="~/Projekte/"
 alias cdzig="~/Projekte/Zig/"
 alias cdgo="~/Projekte/Go/"
+alias cdc="~/Projekte/C/"
 alias zad="zmx a dev"
 
-ZSH_THEME="kennethreitz"
+#ZSH_THEME="kennethreitz"
+ZSH_THEME=pgml
+#ZSH_THEME=bira
+#ZSH_THEME=cloud
+#ZSH_THEME=flazz
+#ZSH_THEME=juanghurtado
+#ZSH_THEME=wezm+
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh

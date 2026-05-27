@@ -5,6 +5,8 @@ input {
 			layout "de"
 			variant "mac_nodeadkeys"
 			options "ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,compose:caps"
+			// apple keyboard
+			//options "ctrl:swap_lwin_lctl,lv3:caps_switch,compose:caps"
 			//options "lv3:caps_switch,compose:caps"
 		}
 
@@ -30,7 +32,7 @@ input {
 
 	mouse {
 		// off
-		accel-speed -0.7
+		accel-speed -0.5
 		accel-profile "flat"
 	}
 
@@ -132,7 +134,7 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 3
+	geometry-corner-radius 8
 	clip-to-geometry true
 	draw-border-with-background true
 }
@@ -239,19 +241,19 @@ binds {
 	// shows a list of important hotkeys.
 	Mod+Shift+Slash { show-hotkey-overlay; }
 
-	Mod+Space { spawn "anyrun"; }
+	//Mod+Space { spawn "anyrun"; }
 	Ctrl+Space { spawn "krunner"; }
 	Mod+Ctrl+Alt+C { spawn "wl-color-picker"; }
 	Ctrl+Alt+C { spawn "wl-color-picker" "clipboard"; }
 	Ctrl+Shift+X { spawn "bbclip"; }
-	Mod+A { spawn "~/.config/niri/toggle-ironbar.sh"; }
+	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 
 
 	Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
 	Mod+B {
 		spawn "vivaldi-stable" "--password-store=kwallet6" "--ozone-platform=wayland";
 	}
-	Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+	//Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
 	Mod+Ctrl+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" {
 		spawn "swaylock" "-i" "~/Pictures/Wallpapers/ScreenShot00021.png";
 	}
