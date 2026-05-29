@@ -20,6 +20,10 @@
 	margin: 5px 0;
 }
 
+.panel-group {
+	margin-top: 6px;
+}
+
 #tabs-subcontainer.left {
 	border-top-left-radius: 6px;
 	border-bottom-left-radius: 6px;
