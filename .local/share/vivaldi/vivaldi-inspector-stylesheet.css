@@ -37,11 +37,6 @@
 .tabs-left #tabs-container {
 	/* box-shadow: 4px 0px 10px -8px rgba(0, 0, 0, 0.2) */
 }
-
-.tabs-left #tabs-container .toolbar-divider {
-	height: 16px;
-}
-
 .tabs-left .separator {
 	max-width: 100%;
 }
@@ -52,8 +47,9 @@
 	opacity: 0.3;
 }
 
-.tabs-left #tabs-container .toolbar-divider svg {
-	transform: rotate(90deg);
+.tabs-left #tabs-tabbar-container .UrlBar-AddressField,
+.tabs-right #tabs-tabbar-container .UrlBar-AddressField {
+	margin: 6px 0 18px !important;
 }
 
 .tab.pinned {
