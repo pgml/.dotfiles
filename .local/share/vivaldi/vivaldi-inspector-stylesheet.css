@@ -17,7 +17,7 @@
 .density-on #tabs-subcontainer.left,
 .density-on #tabs-subcontainer.right {
 	background-color: var(--colorAccentFgAlphaHeavy);
-	margin: 5px 0;
+	margin: 1px 0;
 }
 
 .panel-group {
@@ -109,7 +109,10 @@
 	border-radius: 6px !important;
 	background-color: var(--colorBg) !important;
 	box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.6);
-	/*box-shadow: -5px 0 8px -5px rgba(0, 0, 0, 0.1);*/
+	margin: 1px !important;
+	/* box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.6); */
+	/* box-shadow: -5px 0 8px -5px rgba(0, 0, 0, 0.1); */
+	/* border: 1px solid rgba(0, 0, 0, 0.2); */
 }
 
 .UrlField {
