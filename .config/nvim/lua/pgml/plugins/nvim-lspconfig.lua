@@ -11,6 +11,7 @@ return {
 			"clangd",
 			"glsl_analyzer",
 			"gopls",
+			"vtsls",
 			"rust_analyzer",
 			"zls",
 		})
@@ -22,6 +23,8 @@ return {
 		vim.keymap.set('n', 'gr', builtin.lsp_references)
 
 		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
+		vim.keymap.set("v", "<leader>lf", vim.lsp.buf.format)
+		vim.keymap.set("x", "<leader>lf", vim.lsp.buf.format)
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
 
@@ -59,10 +62,11 @@ return {
 
 		--vim.lsp.config("emmylua_ls", {})
 		vim.lsp.config("clangd", {
-			filetypes = { "c" },
+			filetypes = { "c", "h" },
 		})
 		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})
+		vim.lsp.config("vtsls", {})
 
 		vim.lsp.config("gopls", {
 			settings = {
