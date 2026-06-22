@@ -87,5 +87,6 @@ end, { desc = "Set light colourtheme tokyo-night-terminal-light" })
 
 vim.keymap.set("n", "<leader>l", "<cmd>set list<CR>")
 vim.keymap.set("n", "<leader>nl", "<cmd>set nolist<CR>")
-vim.keymap.set("n", "<leader>z", "<cmd>ZenFake<CR>")
+vim.keymap.set("n", "<leader>zf", "<cmd>ZenFake<CR>")
 vim.keymap.set("n", "<leader>r", "<cmd>PadReset<CR>")
+vim.keymap.set("n", "<leader>zr", "<cmd>ZenRepair<CR>")

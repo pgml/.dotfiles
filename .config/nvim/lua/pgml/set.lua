@@ -19,7 +19,7 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.breakindent = true
 vim.opt.breakindentopt = {
-  "min:20",
+	"min:20",
 }
 vim.o.showbreak = "↪ "
 
@@ -32,6 +32,9 @@ vim.o.colorcolumn = "80"
 
 vim.o.guicursor = "n-v-c-i:block"
 vim.o.listchars = "tab:  ,trail:⎵,nbsp:·,space:·"
+vim.opt.fillchars = {
+	eob = " "
+}
 
 vim.o.swapfile = false
 vim.o.undofile = true
