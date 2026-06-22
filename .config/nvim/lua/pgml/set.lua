@@ -8,7 +8,7 @@ vim.o.winborder = "rounded"
 
 vim.g.have_nerd_font = true
 
-vim.o.showtabline = 2
+vim.o.showtabline = 1
 vim.o.list = true
 vim.o.background = "light"
 vim.o.laststatus = 0

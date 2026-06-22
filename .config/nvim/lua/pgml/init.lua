@@ -79,7 +79,7 @@ vim.filetype.add({
 })
 
 vim.api.nvim_create_user_command("PackUpdate", function()
-  require("vim.pack").update()
+	require("vim.pack").update()
 end, { desc = "Update all plugins using vim.pack" })
 
 -- borders
@@ -90,3 +90,31 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
+
+local function goto_center()
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if vim.w[win].is_zen_center then
+			vim.api.nvim_set_current_win(win)
+			return
+		end
+	end
+end
+
+vim.api.nvim_create_user_command("PadReset", function()
+	local buf = vim.api.nvim_create_buf(false, true) -- scratch buffer
+	vim.api.nvim_win_set_buf(0, buf)
+
+	goto_center()
+end, {})
+
+vim.api.nvim_create_user_command("ZenFake", function()
+	--vim.cmd("PadReset")
+	vim.cmd("vsplit")
+	--vim.cmd("vertical resize 30")
+	vim.cmd("vsplit")
+	--vim.cmd("vertical resize 30")
+	vim.cmd("wincmd l")
+
+	vim.w.is_zen_center = true
+	vim.w.is_zen_active = true
+end, {})

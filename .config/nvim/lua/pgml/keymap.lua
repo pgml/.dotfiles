@@ -1,3 +1,4 @@
+vim.keymap.set("n", "<F1>", "noop")
 vim.keymap.set("n", "<C-z>", "noop")
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
@@ -40,22 +41,22 @@ vim.keymap.set("n", "<leader>the", function()
 	vim.cmd("set background=dark")
 end, { desc = "Set dark colourtheme everforest" })
 
-vim.keymap.set("n", "<leader>bl", function()
-	vim.g.everforest_colors_override = {
-		bg0 = { "#f1ebe6	", "223" },
-		fg = { "#514337", "223" },
-		blue = { "#5c6a72", "223" },
-		red = { "#9b0097", "223" },
-		green = { "#007232", "223" },
-		yellow = { "#ae6000", "223" },
-		orange = { "#9b0097", "223" },
-		grey0 = { "#514337", "223" },
-		grey1 = { "#baa99d", "223" },
-		grey2 = { "#514337", "223" },
-	}
-	vim.cmd("colorscheme everforest")
-	vim.cmd("set background=light")
-end)
+--vim.keymap.set("n", "<leader>bl", function()
+--	vim.g.everforest_colors_override = {
+--		bg0 = { "#f1ebe6	", "223" },
+--		fg = { "#514337", "223" },
+--		blue = { "#5c6a72", "223" },
+--		red = { "#9b0097", "223" },
+--		green = { "#007232", "223" },
+--		yellow = { "#ae6000", "223" },
+--		orange = { "#9b0097", "223" },
+--		grey0 = { "#514337", "223" },
+--		grey1 = { "#baa99d", "223" },
+--		grey2 = { "#514337", "223" },
+--	}
+--	vim.cmd("colorscheme everforest")
+--	vim.cmd("set background=light")
+--end)
 
 vim.keymap.set("n", "<leader>thl", function()
 	vim.cmd("colorscheme base16-tokyo-night-terminal-light")
@@ -86,3 +87,5 @@ end, { desc = "Set light colourtheme tokyo-night-terminal-light" })
 
 vim.keymap.set("n", "<leader>l", "<cmd>set list<CR>")
 vim.keymap.set("n", "<leader>nl", "<cmd>set nolist<CR>")
+vim.keymap.set("n", "<leader>z", "<cmd>ZenFake<CR>")
+vim.keymap.set("n", "<leader>r", "<cmd>PadReset<CR>")

@@ -19,6 +19,6 @@ return {
 		})
 
 		vim.keymap.set("n", "<leader>bl", "<cmd>Gitsigns blame_line<CR>")
-		--vim.keymap.set("n", "<leader>b", "<cmd>Gitsigns blame<CR>")
+		vim.keymap.set("n", "<leader>blg", "<cmd>Gitsigns blame<CR>")
 	end
 }
