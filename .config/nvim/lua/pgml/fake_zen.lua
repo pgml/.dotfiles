@@ -18,15 +18,17 @@ local function apply_padding_style(win)
 end
 
 local function zen_repair()
+	local padding = vim.o.columns >= 300 and 107 or 68
+
 	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
 		if vim.w[win].is_zen_padding then
-			vim.api.nvim_win_set_width(win, 68)
+			vim.api.nvim_win_set_width(win, padding)
 			apply_padding_style(win)
 		end
 	end
-	vim.cmd("highlight WinSeparator guifg=#2E3842");
-end
 
+	vim.cmd("highlight WinSeparator guifg=#2E3842")
+end
 vim.api.nvim_create_user_command("ZenRepair", zen_repair, {})
 
 vim.api.nvim_create_user_command("PadReset", function()
@@ -40,11 +42,22 @@ vim.api.nvim_create_user_command("PadReset", function()
 end, {})
 
 vim.api.nvim_create_user_command("ZenFake", function()
+	if vim.w.is_zen_active then
+		for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+			if vim.api.nvim_win_is_valid(win) then
+				if vim.w[win].is_zen_padding then
+					vim.api.nvim_win_close(win, true)
+				end
+			end
+		end
+		vim.w.is_zen_active = false
+		return
+	end
+
 	vim.cmd("PadReset")
 
 	vim.cmd("vsplit")
 	vim.cmd("wincmd l")
-	vim.cmd("vertical resize 68")
 	vim.w.is_zen_padding = true
 	vim.cmd("set norelativenumber")
 	vim.cmd("set nonumber")
@@ -52,7 +65,6 @@ vim.api.nvim_create_user_command("ZenFake", function()
 	vim.cmd("wincmd h")
 
 	vim.cmd("vsplit")
-	vim.cmd("vertical resize 68")
 	vim.w.is_zen_padding = true
 	vim.cmd("set norelativenumber")
 	vim.cmd("set nonumber")
@@ -63,6 +75,7 @@ vim.api.nvim_create_user_command("ZenFake", function()
 	vim.w.is_zen_active = true
 
 	vim.cmd("highlight WinSeparator guifg=#2E3842");
+	vim.cmd("ZenRepair")
 end, {})
 
 vim.api.nvim_create_autocmd("WinClosed", {
