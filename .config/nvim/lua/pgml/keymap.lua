@@ -4,7 +4,12 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste but keeps register" })
 vim.keymap.set("n", "<A-q>", vim.cmd.bprevious, { desc = "Switch to previous buffer" })
-vim.keymap.set("n", '<A-e>', vim.cmd.bnext, { desc = "Switch to next buffer" })
+vim.keymap.set("n", "<A-e>", vim.cmd.bnext, { desc = "Switch to next buffer" })
+
+vim.keymap.set("n", "<leader>sn", "<cmd>set number<CR><cmd>set relativenumber<CR>");
+vim.keymap.set("n", "<leader>hn", "<cmd>set nonumber<CR><cmd>set norelativenumber<CR>");
+vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew);
+vim.keymap.set("n", "<leader>tc", vim.cmd.tabclose);
 
 vim.keymap.set("n", "<leader>i", function()
 	if vim.lsp.inlay_hint.is_enabled() then
