@@ -11,6 +11,8 @@ end
 
 require "pgml.keymap"
 
+vim.lsp.inlay_hint.enable(false)
+
 vim.cmd("colorscheme base16-tokyo-night-terminal-light")
 require "base16-colorscheme".setup({
 	base00 = '#d5d6db',
