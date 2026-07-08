@@ -23,9 +23,9 @@ vim.opt.breakindentopt = {
 }
 vim.o.showbreak = "↪ "
 
-vim.o.tabstop = 3
-vim.o.softtabstop = 3
-vim.o.shiftwidth = 3
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
 
 vim.o.signcolumn = "yes"
 vim.o.colorcolumn = "80"

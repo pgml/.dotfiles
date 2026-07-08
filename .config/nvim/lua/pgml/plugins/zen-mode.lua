@@ -1,5 +1,6 @@
 return {
 	src = "folke/zen-mode.nvim",
+	enabled = false,
 	init = function()
 		require "zen-mode".setup({
 			window = {

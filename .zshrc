@@ -1,16 +1,13 @@
-export PATH=$HOME/.bin/:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:/usr/bin:$HOME/.luarocks/bin:$DOTNET_ROOT:$DOTNET_ROOT/tools
+export PATH=$HOME/.bin/:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:/usr/bin:$HOME/.luarocks/bin
 
 export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig/
-export DOTNET_ROOT=$HOME/.dotnet
-export DOTNET_CLI_TELEMETRY_OPTOUT=true
-export OMNISHARP_USE_GLOBAL_MONO=never
 
 # stuff for niri
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_DIRS=/usr/share:/usr/local/share:$HOME/.local/share:$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share
-export QT_QPA_PLATFORM=wayland
 export XDG_CURRENT_DESKTOP=wlroots
 export KDE_FULL_SESSION=true
+export QT_QPA_PLATFORM=wayland
 export QT_QPA_PLATFORMTHEME=qt6ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -23,33 +20,29 @@ if [[ -n $ZMX_SESSION ]]; then
 fi
 
 export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
-export GPG_TTY=$(tty)
+
+if [[ -n $ZMX_SESSION ]]; then
+	export PS1="[$ZMX_SESSION] ${PS1}"
+fi
 
 alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias anyrun="XDG_MENU_PREFIX=niri- anyrun"
 alias love="SDL_VIDEODRIVER=wayland love"
 
-alias proj="~/Projekte/"
+alias proj="~/Projects/"
 alias cdzig="~/Projekte/Zig/"
 alias cdgo="~/Projekte/Go/"
 alias cdc="~/Projekte/C/"
 alias zad="zmx a dev"
+alias clab="~/Projects/clab/"
+alias clabc="~/Projects/clab/clab-compose/"
+alias docker-compose="docker compose"
 
-#ZSH_THEME="kennethreitz"
 ZSH_THEME=pgml
-#ZSH_THEME=bira
-#ZSH_THEME=cloud
-#ZSH_THEME=flazz
-#ZSH_THEME=juanghurtado
-#ZSH_THEME=wezm+
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
 alias vim=nvim
-alias cd2='cd /home2/pgml/'
-alias cd3='cd /home3/'
 
 ulimit -n 65535
-
-export PATH=$PATH:/home/pgml/.spicetify

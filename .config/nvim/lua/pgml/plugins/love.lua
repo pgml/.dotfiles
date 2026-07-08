@@ -1,5 +1,6 @@
 return {
 	src = "S1M0N38/love2d.nvim",
+	enabled = false,
 	init = function()
 		require "love2d".setup({
 			path_to_love_bin = "/usr/bin/love"
