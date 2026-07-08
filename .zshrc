@@ -29,15 +29,6 @@ alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias anyrun="XDG_MENU_PREFIX=niri- anyrun"
 alias love="SDL_VIDEODRIVER=wayland love"
 
-alias proj="~/Projects/"
-alias cdzig="~/Projekte/Zig/"
-alias cdgo="~/Projekte/Go/"
-alias cdc="~/Projekte/C/"
-alias zad="zmx a dev"
-alias clab="~/Projects/clab/"
-alias clabc="~/Projects/clab/clab-compose/"
-alias docker-compose="docker compose"
-
 ZSH_THEME=pgml
 plugins=(git)
 
@@ -46,3 +37,13 @@ source $ZSH/oh-my-zsh.sh
 alias vim=nvim
 
 ulimit -n 65535
+
+# pnpm
+export PNPM_HOME="/home/r/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
+eval "$(zoxide init zsh)"
