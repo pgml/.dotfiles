@@ -158,7 +158,8 @@ spawn-at-startup "xwayland-satellite"
 spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
 //spawn-at-startup "kanshi"
-spawn-at-startup "bbclip" "--silent"
+//spawn-at-startup "bbclip" "--silent"
+spawn-at-startup "bbclipd"
 spawn-at-startup "owncloud" "--quite"
 
 environment {
@@ -245,7 +246,9 @@ binds {
 	Ctrl+Space { spawn "krunner"; }
 	Mod+Ctrl+Alt+C { spawn "wl-color-picker"; }
 	Ctrl+Alt+C { spawn "wl-color-picker" "clipboard"; }
-	Ctrl+Shift+X { spawn "bbclip"; }
+	//Ctrl+Shift+X { spawn "bbclip"; }
+	Ctrl+Shift+X { spawn "sh" "-c" "bbclip" ">" "/tmp/yourapp.log 2>&1"; }
+
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 
 

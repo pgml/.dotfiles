@@ -58,6 +58,10 @@ vim.keymap.set("n", "<leader>the", function()
 	vim.cmd("set background=dark")
 end, { desc = "Set dark colourtheme everforest" })
 
+vim.keymap.set("n", "<leader>hl", function()
+	vim.cmd("highlight WinSeparator guifg=#2E3842")
+end)
+
 --vim.keymap.set("n", "<leader>bl", function()
 --	vim.g.everforest_colors_override = {
 --		bg0 = { "#f1ebe6	", "223" },

@@ -7,8 +7,12 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
-	"project_panel": {
-		"folder_icons": true
+	"git_panel": {
+  "dock": "left"
+ },
+ "project_panel": {
+		"dock": "left",
+  "folder_icons": true
 	},
 	"active_pane_modifiers": {
 		"border_size": 0.0

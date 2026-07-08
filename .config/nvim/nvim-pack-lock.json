@@ -36,6 +36,10 @@
       "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
       "src": "https://github.com/sindrets/diffview.nvim"
     },
+    "dropbar.nvim": {
+      "rev": "808ba31cde89aec8833e9789f5e04557cd31c9e1",
+      "src": "https://github.com/Bekaboo/dropbar.nvim"
+    },
     "everforest": {
       "rev": "b03a03148c8b34c24c96960b93da9c8883d11f54",
       "src": "https://github.com/sainnhe/everforest"
@@ -47,6 +51,10 @@
     "go.nvim": {
       "rev": "fe8e1de03157f8a68e9e5b819409368ce33aeb87",
       "src": "https://github.com/ray-x/go.nvim"
+    },
+    "godotdev.nvim": {
+      "rev": "5eeab65b922e7866209bf9f6a9a5500f26d8bfa8",
+      "src": "https://github.com/Mathijs-Bakker/godotdev.nvim"
     },
     "love2d.nvim": {
       "rev": "25715394680590f56aab90390d430cab0dc46808",
@@ -60,6 +68,10 @@
       "rev": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65",
       "src": "https://github.com/williamboman/mason.nvim"
     },
+    "nana": {
+      "rev": "bd4b6020d30015df00e8e378cd0dd3a0c6761b69",
+      "src": "https://github.com/pgml/nana"
+    },
     "neogit": {
       "rev": "4681c1fdac1b730592ae195576e87406f7255750",
       "src": "https://github.com/NeogitOrg/neogit"
@@ -71,6 +83,14 @@
     "nvim-cmp": {
       "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp"
+    },
+    "nvim-dap": {
+      "rev": "45a69eba683a2c448dd9ecfc4de89511f0646b5f",
+      "src": "https://github.com/mfussenegger/nvim-dap"
+    },
+    "nvim-dap-ui": {
+      "rev": "1a66cabaa4a4da0be107d5eda6d57242f0fe7e49",
+      "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
     "nvim-juliana": {
       "rev": "1cec2455ddec39be5e2ab5abf1c076d36936d370",
@@ -103,6 +123,10 @@
     "telescope.nvim": {
       "rev": "cfb85dcf7f822b79224e9e6aef9e8c794211b20b",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
+    },
+    "toggleterm.nvim": {
+      "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
+      "src": "https://github.com/akinsho/toggleterm.nvim"
     },
     "undotree": {
       "rev": "6fa6b57cda8459e1e4b2ca34df702f55242f4e4d",
