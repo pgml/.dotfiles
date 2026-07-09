@@ -13,56 +13,23 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export XDG_MENU_PREFIX=plasma-
 
-export ZSH="$HOME/.oh-my-zsh"
-#export ZSH="$HOME/.zsh"
-
-if [[ -n $ZMX_SESSION ]]; then
-  export PS1="[$ZMX_SESSION] ${PS1}"
-fi
+export ZSH="$HOME/.zsh"
+source $ZSH/fancystuff
 
 export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 
-if [[ -n $ZMX_SESSION ]]; then
-	export PS1="[$ZMX_SESSION] ${PS1}"
-fi
+alias krunner="XDG_MENU_PREFIX=niri- krunner"
+alias love="SDL_VIDEODRIVER=wayland love"
 
+alias ..="cd .."
 alias l="ls"
 alias ll="ls -l"
 alias la="ll -a"
-alias krunner="XDG_MENU_PREFIX=niri- krunner"
-alias anyrun="XDG_MENU_PREFIX=niri- anyrun"
-alias love="SDL_VIDEODRIVER=wayland love"
 alias c="z"
-
-ZSH_THEME=pgml
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh/utils
-#source $ZSH/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source $ZSH/zsh-history-substring-search/zsh-history-substring-search.zsh
-#source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#source $ZSH/utils
-
-#bindkey '^[[A' history-substring-search-up
-#bindkey '^[[B' history-substring-search-down
-
-# Enable colors and prompt substitution
-#autoload -U colors && colors
-#setopt PROMPT_SUBST
-#source $ZSH/pgml.zsh-theme
-
+alias cd="z"
 
 alias vim=nvim
 
 ulimit -n 65535
-
-# pnpm
-export PNPM_HOME="/home/r/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
 
 eval "$(zoxide init zsh)"
