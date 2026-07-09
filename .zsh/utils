@@ -1,3 +1,9 @@
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
+
 # Track the directory history for both backward and forward navigation
 typeset -g -a DIR_HISTORY=()
 typeset -g -a DIR_FORWARD_HISTORY=()
@@ -98,7 +104,7 @@ bindkey '^[[98;6u' go_to_forward_dir
 
 _zoxide_instant_tab() {
     # Test if the current command starts with 'cd'
-    if [[ "$BUFFER" =~ ^cd ]]; then
+    if [[ "$BUFFER" =~ c ]]; then
         # Extract the query after 'cd' and trim whitespace
         local query="${BUFFER#cd}"
         query="$(echo "$query" | xargs)"
@@ -145,3 +151,4 @@ setopt extended_glob
 
 zle -N _zoxide_instant_tab
 bindkey '^I' _zoxide_instant_tab
+

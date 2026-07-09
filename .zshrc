@@ -14,6 +14,7 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export XDG_MENU_PREFIX=plasma-
 
 export ZSH="$HOME/.oh-my-zsh"
+#export ZSH="$HOME/.zsh"
 
 if [[ -n $ZMX_SESSION ]]; then
   export PS1="[$ZMX_SESSION] ${PS1}"
@@ -25,15 +26,32 @@ if [[ -n $ZMX_SESSION ]]; then
 	export PS1="[$ZMX_SESSION] ${PS1}"
 fi
 
+alias l="ls"
+alias ll="ls -l"
+alias la="ll -a"
 alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias anyrun="XDG_MENU_PREFIX=niri- anyrun"
 alias love="SDL_VIDEODRIVER=wayland love"
+alias c="z"
 
 ZSH_THEME=pgml
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/utils
+#source $ZSH/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source $ZSH/zsh-history-substring-search/zsh-history-substring-search.zsh
+#source $ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source $ZSH/utils
+
+#bindkey '^[[A' history-substring-search-up
+#bindkey '^[[B' history-substring-search-down
+
+# Enable colors and prompt substitution
+#autoload -U colors && colors
+#setopt PROMPT_SUBST
+#source $ZSH/pgml.zsh-theme
+
 
 alias vim=nvim
 
