@@ -8,6 +8,8 @@ vim.keymap.set("n", "<A-e>", vim.cmd.bnext, { desc = "Switch to next buffer" })
 
 vim.keymap.set("n", "<leader>sn", "<cmd>set number<CR><cmd>set relativenumber<CR>");
 vim.keymap.set("n", "<leader>hn", "<cmd>set nonumber<CR><cmd>set norelativenumber<CR>");
+vim.keymap.set("n", "<leader>l", "<cmd>set list<CR>")
+vim.keymap.set("n", "<leader>nl", "<cmd>set nolist<CR>")
 vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew);
 vim.keymap.set("n", "<leader>w", vim.cmd.tabclose);
 
@@ -30,84 +32,3 @@ end, { desc = "Toggles inlay hints" })
 vim.keymap.set("n", "<leader>hl", function()
 	vim.cmd("highlight WinSeparator guifg=#2e3842")
 end)
-
-vim.keymap.set("n", "<leader>thj", function()
-	vim.cmd("colorscheme juliana")
-	vim.cmd("set background=dark")
-	--vim.cmd("set laststatus=0")
-	vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#576C85" })
-	vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", bold = true })
-	vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
-end, { desc = "Set dark colourtheme juliana" })
-
-vim.keymap.set("n", "<leader>thn", function()
-	vim.cmd("colorscheme nana")
-	vim.cmd("set background=dark")
-end, { desc = "Set dark colourtheme nana" })
-
-vim.keymap.set("n", "<leader>the", function()
-	vim.g.everforest_colors_override = {
-		blue = { "#D3C6AA	", "223" },
-		bg2 = { "#2D353B", "223" },
-		grey1 = { "#7A8478", "223" },
-		grey2 = { "#2D353B", "223" },
-		statusline1 = { "#56635f", "223" },
-	}
-	vim.cmd("colorscheme everforest")
-	vim.cmd("set background=dark")
-end, { desc = "Set dark colourtheme everforest" })
-
-vim.keymap.set("n", "<leader>hl", function()
-	vim.cmd("highlight WinSeparator guifg=#2E3842")
-end)
-
---vim.keymap.set("n", "<leader>bl", function()
---	vim.g.everforest_colors_override = {
---		bg0 = { "#f1ebe6	", "223" },
---		fg = { "#514337", "223" },
---		blue = { "#5c6a72", "223" },
---		red = { "#9b0097", "223" },
---		green = { "#007232", "223" },
---		yellow = { "#ae6000", "223" },
---		orange = { "#9b0097", "223" },
---		grey0 = { "#514337", "223" },
---		grey1 = { "#baa99d", "223" },
---		grey2 = { "#514337", "223" },
---	}
---	vim.cmd("colorscheme everforest")
---	vim.cmd("set background=light")
---end)
-
-vim.keymap.set("n", "<leader>thl", function()
-	vim.cmd("colorscheme base16-tokyo-night-terminal-light")
-	vim.cmd("set background=light")
-	--vim.cmd("set laststatus=0")
-	vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", bold = true })
-	vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
-	require "base16-colorscheme".setup({
-		base00 = '#d5d6db',
-		base01 = '#d5d6db',
-		base02 = '#cbccd1',
-		base03 = '#9699a3',
-		base04 = '#4c505e',
-		base05 = '#4c505e',
-		base06 = '#1a1b26',
-		base07 = '#1a1b26',
-		base08 = '#8c4351',
-		base09 = '#965027',
-		base0A = '#8f5e15',
-		base0B = '#33635c',
-		base0C = '#0f4b6e',
-		base0D = '#34548a',
-		base0E = '#5a4a78',
-		base0F = '#655259'
-	})
-end, { desc = "Set light colourtheme tokyo-night-terminal-light" })
-
-vim.keymap.set("n", "<leader>l", "<cmd>set list<CR>")
-vim.keymap.set("n", "<leader>nl", "<cmd>set nolist<CR>")
-vim.keymap.set("n", "<leader>zz", "<cmd>ZenFake<CR>")
-vim.keymap.set("n", "<leader>r", "<cmd>PadReset<CR>")
-vim.keymap.set("n", "<leader>zr", "<cmd>ZenRepair<CR>")

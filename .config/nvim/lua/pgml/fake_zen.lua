@@ -150,3 +150,7 @@ vim.api.nvim_create_autocmd("VimResized", {
 		end
 	end,
 })
+
+vim.keymap.set("n", "<leader>zz", "<cmd>ZenFake<CR>")
+vim.keymap.set("n", "<leader>r", "<cmd>PadReset<CR>")
+vim.keymap.set("n", "<leader>zr", "<cmd>ZenRepair<CR>")
