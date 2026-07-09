@@ -205,6 +205,57 @@ if [[ -n "$terminfo[kcud1]" ]]; then
   bindkey -M viins "$terminfo[kcud1]" history-substring-search-down
 fi
 
+# Ctrl+W removes one path segment (until the previous /)
+_backward_kill_to_slash() {
+    local new_cursor=$((CURSOR - 1))
+    while (( new_cursor > 0 )); do
+        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+            BUFFER="${BUFFER[1,$new_cursor]}${BUFFER[$((CURSOR + 1)),-1]}"
+            CURSOR=$new_cursor
+            return
+        fi
+        new_cursor=$((new_cursor - 1))
+    done
+    # If no slash found, delete to the beginning
+    BUFFER="${BUFFER[$((CURSOR + 1)),-1]}"
+    CURSOR=0
+}
+
+zle -N _backward_kill_to_slash
+bindkey '^W' _backward_kill_to_slash
+
+# Alt+Arrow keys for path-aware word navigation (using / as separator)
+_backward_to_slash() {
+    local new_cursor=$((CURSOR - 1))
+    while (( new_cursor > 0 )); do
+        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+            CURSOR=$new_cursor
+            return
+        fi
+        new_cursor=$((new_cursor - 1))
+    done
+    CURSOR=0
+}
+
+_forward_to_slash() {
+    local new_cursor=$((CURSOR + 1))
+    local len=$#BUFFER
+    while (( new_cursor < len )); do
+        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+            CURSOR=$new_cursor
+            return
+        fi
+        new_cursor=$((new_cursor + 1))
+    done
+    CURSOR=$len
+}
+
+zle -N _backward_to_slash
+zle -N _forward_to_slash
+
+bindkey '\e[1;3D' _backward_to_slash
+bindkey '\e[1;3C' _forward_to_slash
+
 
 # pnpm
 export PNPM_HOME="/home/r/.local/share/pnpm"
