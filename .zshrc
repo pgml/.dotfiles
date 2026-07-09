@@ -33,6 +33,7 @@ ZSH_THEME=pgml
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.zsh/utils
 
 alias vim=nvim
 

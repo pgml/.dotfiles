@@ -1,0 +1,147 @@
+# Track the directory history for both backward and forward navigation
+typeset -g -a DIR_HISTORY=()
+typeset -g -a DIR_FORWARD_HISTORY=()
+typeset -g CURRENT_DIR="$PWD"
+typeset -g IS_NAVIGATING_HISTORY=0
+
+function chpwd() {
+    # If the change was triggered by our history navigation, skip adding to history
+    if [[ "$IS_NAVIGATING_HISTORY" -eq 1 ]]; then
+        CURRENT_DIR="$PWD"
+        return
+    fi
+
+    # Only add to history if the directory actually changed to avoid duplicates
+    if [[ "$PWD" != "$CURRENT_DIR" ]]; then
+        # Prepend the old directory to the backward history array
+        DIR_HISTORY=("$CURRENT_DIR" "${DIR_HISTORY[@]}")
+        DIR_HISTORY=("${DIR_HISTORY[@]:0:5}")
+
+        # Clear forward history because a new manual navigation occurred
+        DIR_FORWARD_HISTORY=()
+
+        CURRENT_DIR="$PWD"
+    fi
+}
+
+# Updates the prompt and forces execution of all registered hooks to refresh theme states.
+function _refresh_prompt_and_hooks() {
+    local hook_function
+    for hook_function in chpwd "${chpwd_functions[@]}" precmd "${precmd_functions[@]}"; do
+        if [[ "${+functions[$hook_function]}" -ne 0 ]]; then
+            "$hook_function" &>/dev/null || true
+        fi
+    done
+
+    if [[ "${+functions[p10k]}" -ne 0 ]]; then
+        p10k display -r
+    else
+        zle reset-prompt
+    fi
+}
+
+function go_to_previous_dir() {
+    if [[ "${#DIR_HISTORY}" -gt 0 ]]; then
+        local target_dir="${DIR_HISTORY[1]}"
+
+        if [[ -d "$target_dir" ]]; then
+            DIR_HISTORY=("${DIR_HISTORY[@]:1}")
+
+            # Save our current directory to the forward history before leaving
+            DIR_FORWARD_HISTORY=("$PWD" "${DIR_FORWARD_HISTORY[@]}")
+            DIR_FORWARD_HISTORY=("${DIR_FORWARD_HISTORY[@]:0:5}")
+
+            IS_NAVIGATING_HISTORY=1
+            cd "$target_dir"
+            IS_NAVIGATING_HISTORY=0
+
+            _refresh_prompt_and_hooks
+        else
+            DIR_HISTORY=("${DIR_HISTORY[@]:1}")
+            go_to_previous_dir
+        fi
+    fi
+}
+
+# Pops the most recent directory from forward history and navigates forward.
+function go_to_forward_dir() {
+    if [[ "${#DIR_FORWARD_HISTORY}" -gt 0 ]]; then
+        local target_dir="${DIR_FORWARD_HISTORY[1]}"
+
+        if [[ -d "$target_dir" ]]; then
+            DIR_FORWARD_HISTORY=("${DIR_FORWARD_HISTORY[@]:1}")
+
+            # Put our current directory back into the normal backward history
+            DIR_HISTORY=("$PWD" "${DIR_HISTORY[@]}")
+            DIR_HISTORY=("${DIR_HISTORY[@]:0:5}")
+
+            IS_NAVIGATING_HISTORY=1
+            cd "$target_dir"
+            IS_NAVIGATING_HISTORY=0
+
+            _refresh_prompt_and_hooks
+        else
+            DIR_FORWARD_HISTORY=("${DIR_FORWARD_HISTORY[@]:1}")
+            go_to_forward_dir
+        fi
+    fi
+}
+
+# Create Zle widgets from the functions
+zle -N go_to_previous_dir
+zle -N go_to_forward_dir
+
+# Bind Ctrl+B to backward and Ctrl+Shift+B to forward navigation
+bindkey '^B' go_to_previous_dir
+bindkey '^[[98;6u' go_to_forward_dir
+
+
+_zoxide_instant_tab() {
+    # Test if the current command starts with 'cd'
+    if [[ "$BUFFER" =~ ^cd ]]; then
+        # Extract the query after 'cd' and trim whitespace
+        local query="${BUFFER#cd}"
+        query="$(echo "$query" | xargs)"
+
+        # Match against local directories first
+        if [[ -n "$query" ]]; then
+            local local_matches
+            setopt local_options nocaseglob
+            local_matches=($query*(N/))
+
+            if ((${#local_matches} > 0)); then
+                # Local matches found, let zsh handle the completion
+                zle expand-or-complete
+                return
+            else
+                # No local matches, use zoxide with fzf for completion
+                local compl
+                compl=$(zoxide query --list | command fzf \
+                    --height 40% \
+                    --layout reverse \
+                    --info inline \
+                    --query "$query" \
+                    --select-1 \
+                    --exit-0 \
+                    --bind 'tab:down,shift-tab:up' \
+                    --preview 'ls --color=always {} | head -50')
+
+                if [[ -n "$compl" ]]; then
+                    BUFFER="cd ${(q)compl}"
+                    CURSOR=$#BUFFER
+                    zle accept-line
+                fi
+                zle reset-prompt
+                return
+            fi
+        fi
+    fi
+
+    # Fallback
+    zle expand-or-complete
+}
+
+setopt extended_glob
+
+zle -N _zoxide_instant_tab
+bindkey '^I' _zoxide_instant_tab
