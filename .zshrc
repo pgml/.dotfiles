@@ -20,6 +20,7 @@ export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 
 alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias love="SDL_VIDEODRIVER=wayland love"
+alias ghostty="ghostty +new-window"
 
 alias ..="cd .."
 alias ls="ls --color"
