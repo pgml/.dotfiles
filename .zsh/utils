@@ -193,6 +193,10 @@ else
   : ${HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='i'}
 fi
 
+# Only search for history entries that start with the search term
+export HISTORY_SUBSTRING_SEARCH_PREFIXED=1
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=0
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=0
 
 # Bind terminal-specific up and down keys
 
@@ -209,7 +213,7 @@ fi
 _backward_kill_to_slash() {
     local new_cursor=$((CURSOR - 1))
     while (( new_cursor > 0 )); do
-        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+        if [[ "${BUFFER[$new_cursor]}" == "/" || "${BUFFER[$new_cursor]}" == " " ]]; then
             BUFFER="${BUFFER[1,$new_cursor]}${BUFFER[$((CURSOR + 1)),-1]}"
             CURSOR=$new_cursor
             return
@@ -224,11 +228,11 @@ _backward_kill_to_slash() {
 zle -N _backward_kill_to_slash
 bindkey '^W' _backward_kill_to_slash
 
-# Alt+Arrow keys for path-aware word navigation (using / as separator)
+# Ctrl+Arrow keys for path-aware word navigation (using / and space as separators)
 _backward_to_slash() {
     local new_cursor=$((CURSOR - 1))
     while (( new_cursor > 0 )); do
-        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+        if [[ "${BUFFER[$new_cursor]}" == "/" || "${BUFFER[$new_cursor]}" == " " ]]; then
             CURSOR=$new_cursor
             return
         fi
@@ -241,7 +245,7 @@ _forward_to_slash() {
     local new_cursor=$((CURSOR + 1))
     local len=$#BUFFER
     while (( new_cursor < len )); do
-        if [[ "${BUFFER[$new_cursor]}" == "/" ]]; then
+        if [[ "${BUFFER[$new_cursor]}" == "/" || "${BUFFER[$new_cursor]}" == " " ]]; then
             CURSOR=$new_cursor
             return
         fi
@@ -253,8 +257,8 @@ _forward_to_slash() {
 zle -N _backward_to_slash
 zle -N _forward_to_slash
 
-bindkey '\e[1;3D' _backward_to_slash
-bindkey '\e[1;3C' _forward_to_slash
+bindkey '^[[1;5D' _backward_to_slash
+bindkey '^[[1;5C' _forward_to_slash
 
 
 # pnpm
