@@ -6,6 +6,10 @@ fi
 function git_prompt_info() {
     local branch
     branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || return
+
+    if [[ "$branch" == "HEAD" ]]; then
+        branch=$(git rev-parse --short HEAD 2>/dev/null)
+    fi
     
     if [[ -z "$(git status --porcelain 2>/dev/null)" ]]; then
         echo "%{$fg[green]%}(%{$fg[yellow]%}$branch%{$fg[green]%})%{$reset_color%}"
