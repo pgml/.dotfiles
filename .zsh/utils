@@ -308,7 +308,14 @@ zmx-select() {
     return 130
   fi
 
-  zmx attach "$session_name"
+  zmx attach "$session_name" < /dev/tty > /dev/tty 2>&1
 }
 
-bindkey -s '^e' "zmx-select\n"
+_zmx_select_widget() {
+  zle -I
+  zmx-select
+  zle reset-prompt
+}
+
+zle -N _zmx_select_widget
+bindkey '^e' _zmx_select_widget
