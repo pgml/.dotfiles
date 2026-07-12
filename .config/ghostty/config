@@ -42,7 +42,6 @@ font-size = 11
 # Misc
 confirm-close-surface = false
 shell-integration-features = no-cursor
-keybind = ctrl+shift+- = reload_config
 app-notifications = no-clipboard-copy
 quit-after-last-window-closed = true
 quit-after-last-window-closed-delay = 10m
@@ -54,6 +53,7 @@ keybind = alt+shift+h=previous_tab
 keybind = alt+shift+l=next_tab
 keybind = ctrl+a>ctrl+shift+l=move_tab:1
 keybind = ctrl+a>ctrl+shift+h=move_tab:-1
+keybind = ctrl+shift+-=reload_config
 
 keybind = ctrl+a>shift+2=new_split:down
 keybind = ctrl+a>shift+5=new_split:right

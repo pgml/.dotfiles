@@ -3,8 +3,10 @@ vim.keymap.set("n", "<C-z>", "noop")
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste but keeps register" })
-vim.keymap.set("n", "<A-q>", vim.cmd.bprevious, { desc = "Switch to previous buffer" })
-vim.keymap.set("n", "<A-e>", vim.cmd.bnext, { desc = "Switch to next buffer" })
+vim.keymap.set("n", "<A-q>", vim.cmd.tabprevious)
+vim.keymap.set("n", "<A-e>", vim.cmd.tabnext)
+vim.keymap.set("t", "<A-q>", vim.cmd.tabprevious)
+vim.keymap.set("t", "<A-e>", vim.cmd.tabnext)
 
 vim.keymap.set("n", "<leader>sn", "<cmd>set number<CR><cmd>set relativenumber<CR>");
 vim.keymap.set("n", "<leader>hn", "<cmd>set nonumber<CR><cmd>set norelativenumber<CR>");
