@@ -102,6 +102,9 @@ vim.api.nvim_create_user_command("ZenFake", function()
 		return
 	end
 
+	local current_buf = vim.api.nvim_get_current_buf()
+	local current_view = vim.fn.winsaveview()
+
 	vim.cmd("PadReset")
 
 	vim.cmd("vsplit")
@@ -120,6 +123,8 @@ vim.api.nvim_create_user_command("ZenFake", function()
 	vim.cmd("wincmd l")
 
 	vim.api.nvim_win_set_var(0, "is_zen_center", true)
+	vim.api.nvim_win_set_buf(0, current_buf)
+	vim.fn.winrestview(current_view)
 
 	vim.cmd("highlight WinSeparator guifg=#43434c");
 	vim.cmd("ZenRepair")
