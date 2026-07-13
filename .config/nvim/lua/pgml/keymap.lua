@@ -12,7 +12,7 @@ vim.keymap.set("n", "<leader>sn", "<cmd>set number<CR><cmd>set relativenumber<CR
 vim.keymap.set("n", "<leader>hn", "<cmd>set nonumber<CR><cmd>set norelativenumber<CR>");
 vim.keymap.set("n", "<leader>l", "<cmd>set list<CR>")
 vim.keymap.set("n", "<leader>nl", "<cmd>set nolist<CR>")
-vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew);
+vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew, { desc = "Open tab in FakeZen" });
 vim.keymap.set("n", "<leader>w", vim.cmd.tabclose);
 
 vim.keymap.set('t', '<C-esc>', "<C-\\><C-n>")

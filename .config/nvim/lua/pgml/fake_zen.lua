@@ -1,6 +1,9 @@
 local M = {}
 
 local defaults = {
+	hide_separators_on_start = false,
+	open_on_new_tab = false,
+	open_on_start = false,
 	width = 92,
 	separator_color = "#43434c",
 	keymaps = {
@@ -52,6 +55,19 @@ local function is_enabled(tab)
 	return ok and value == true
 end
 
+--- Check whether a tab displays a terminal buffer.
+---@param tab integer
+---@return boolean
+local function has_terminal_buffer(tab)
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+		if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "terminal" then
+			return true
+		end
+	end
+
+	return false
+end
+
 --- Resolve the highlight used as Normal in the current window.
 ---@return string
 local function current_normal_highlight()
@@ -91,6 +107,36 @@ end
 ---@return integer
 local function create_padding_buffer()
 	return vim.api.nvim_create_buf(false, true)
+end
+
+--- Make the empty buffer created by :tabnew disappear once a file replaces it.
+---@param buf integer
+local function make_center_placeholder(buf)
+	if vim.api.nvim_buf_get_name(buf) ~= "" or vim.bo[buf].buftype ~= "" or vim.bo[buf].modified then
+		return
+	end
+
+	if vim.api.nvim_buf_line_count(buf) ~= 1 or vim.api.nvim_buf_get_lines(buf, 0, 1, false)[1] ~= "" then
+		return
+	end
+
+	vim.bo[buf].bufhidden = "wipe"
+	vim.bo[buf].buflisted = false
+	vim.bo[buf].swapfile = false
+	vim.api.nvim_buf_set_var(buf, "is_fake_zen_placeholder", true)
+end
+
+--- Turn a named FakeZen placeholder back into a normal file buffer.
+---@param buf integer
+local function restore_placeholder_buffer(buf)
+	local ok = pcall(vim.api.nvim_buf_get_var, buf, "is_fake_zen_placeholder")
+	if not ok or vim.api.nvim_buf_get_name(buf) == "" then
+		return
+	end
+
+	vim.bo[buf].bufhidden = ""
+	vim.bo[buf].buflisted = true
+	pcall(vim.api.nvim_buf_del_var, buf, "is_fake_zen_placeholder")
 end
 
 --- Remove visual editor UI from a padding window.
@@ -298,6 +344,7 @@ function M.enable()
 
 	local center = vim.api.nvim_get_current_win()
 	local view = vim.fn.winsaveview()
+	make_center_placeholder(vim.api.nvim_win_get_buf(center))
 	vim.api.nvim_win_set_var(center, "is_fake_zen_center", true)
 
 	create_padding_window(center, "left")
@@ -418,6 +465,7 @@ end
 ---@param opts? table
 function M.setup(opts)
 	M.config = vim.tbl_deep_extend("force", vim.deepcopy(defaults), opts or {})
+	state.separators_hidden = M.config.hide_separators_on_start
 
 	for _, name in ipairs({
 		"ZenToggle",
@@ -482,6 +530,55 @@ function M.setup(opts)
 		group = group,
 		callback = apply_separator_highlight,
 	})
+
+	vim.api.nvim_create_autocmd("BufFilePost", {
+		group = group,
+		callback = function(args)
+			restore_placeholder_buffer(args.buf)
+		end,
+	})
+
+	apply_separator_highlight()
+
+	if M.config.open_on_start then
+		vim.api.nvim_create_autocmd("VimEnter", {
+			group = group,
+			once = true,
+			callback = function()
+				-- Let startup plugins finish creating their initial window first.
+				vim.schedule(function()
+					if not M.is_active() then
+						M.enable()
+					end
+				end)
+			end,
+		})
+	end
+
+	if M.config.open_on_new_tab then
+		vim.api.nvim_create_autocmd("TabNewEntered", {
+			group = group,
+			callback = function()
+				local tab = vim.api.nvim_get_current_tabpage()
+
+				-- Let commands such as :terminal replace the new tab's buffer first.
+				vim.schedule(function()
+					if not vim.api.nvim_tabpage_is_valid(tab) or M.is_active(tab) or has_terminal_buffer(tab) then
+						return
+					end
+
+					local original_win = vim.api.nvim_get_current_win()
+					local target_win = vim.api.nvim_tabpage_list_wins(tab)[1]
+					vim.api.nvim_set_current_win(target_win)
+					M.enable()
+
+					if vim.api.nvim_win_is_valid(original_win) then
+						vim.api.nvim_set_current_win(original_win)
+					end
+				end)
+			end,
+		})
+	end
 end
 
 return M
