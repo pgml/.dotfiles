@@ -52,10 +52,6 @@
       "rev": "fe8e1de03157f8a68e9e5b819409368ce33aeb87",
       "src": "https://github.com/ray-x/go.nvim"
     },
-    "godotdev.nvim": {
-      "rev": "5eeab65b922e7866209bf9f6a9a5500f26d8bfa8",
-      "src": "https://github.com/Mathijs-Bakker/godotdev.nvim"
-    },
     "love2d.nvim": {
       "rev": "25715394680590f56aab90390d430cab0dc46808",
       "src": "https://github.com/S1M0N38/love2d.nvim"
@@ -83,14 +79,6 @@
     "nvim-cmp": {
       "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp"
-    },
-    "nvim-dap": {
-      "rev": "45a69eba683a2c448dd9ecfc4de89511f0646b5f",
-      "src": "https://github.com/mfussenegger/nvim-dap"
-    },
-    "nvim-dap-ui": {
-      "rev": "1a66cabaa4a4da0be107d5eda6d57242f0fe7e49",
-      "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
     "nvim-juliana": {
       "rev": "1cec2455ddec39be5e2ab5abf1c076d36936d370",
