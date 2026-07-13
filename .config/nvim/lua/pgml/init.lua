@@ -9,7 +9,6 @@ for _, plugin in ipairs(plugins) do
 end
 
 require "pgml.keymap"
-require "pgml.fake_zen"
 require "pgml.utils"
 
 vim.lsp.inlay_hint.enable(false)
@@ -44,4 +43,3 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
-

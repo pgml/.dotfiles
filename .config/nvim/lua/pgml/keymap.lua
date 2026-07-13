@@ -30,7 +30,3 @@ vim.keymap.set("n", "<leader>i", function()
 		vim.lsp.inlay_hint.enable()
 	end
 end, { desc = "Toggles inlay hints" })
-
-vim.keymap.set("n", "<leader>hl", function()
-	vim.cmd("highlight WinSeparator guifg=#2e3842")
-end)
