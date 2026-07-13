@@ -7,6 +7,21 @@ vim.api.nvim_create_user_command("PackUpdate", function()
 end, { desc = "Update all plugins using vim.pack" })
 
 
+-- OPEN A TERMINAL IN A NEW TAB
+local function terminal_tab()
+	vim.cmd.tabnew()
+	vim.cmd.terminal()
+	vim.cmd.startinsert()
+end
+
+vim.api.nvim_create_user_command("TerminalTab", terminal_tab, {
+	desc = "Open a terminal in a new tab",
+})
+vim.keymap.set("n", "<leader>tt", terminal_tab, {
+	desc = "Open terminal in new tab",
+})
+
+
 -- STRIP TRAILIG WHITESPACE
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*" },
