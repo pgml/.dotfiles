@@ -17,6 +17,7 @@ local defaults = {
 local state = {
 	equalalways = nil,
 	keymaps = {},
+	repairing = false,
 	separators_hidden = false,
 }
 
@@ -68,10 +69,12 @@ local function has_terminal_buffer(tab)
 	return false
 end
 
---- Resolve the highlight used as Normal in the current window.
+--- Resolve the highlight used as Normal in a window.
+---@param win? integer
 ---@return string
-local function current_normal_highlight()
-	for item in vim.wo.winhighlight:gmatch("[^,]+") do
+local function window_normal_highlight(win)
+	local winhighlight = win and vim.wo[win].winhighlight or vim.wo.winhighlight
+	for item in winhighlight:gmatch("[^,]+") do
 		local from, to = item:match("^([^:]+):(.+)$")
 		if from == "Normal" then
 			return to
@@ -90,8 +93,12 @@ local function apply_separator_highlight()
 		return
 	end
 
+	-- Floating pickers often use a grey Normal override. Always sample the
+	-- FakeZen center so opening one cannot turn the separators into grey bars.
+	local tab = vim.api.nvim_get_current_tabpage()
+	local center = marked_windows(tab, "is_fake_zen_center")[1]
 	local normal = vim.api.nvim_get_hl(0, {
-		name = current_normal_highlight(),
+		name = window_normal_highlight(center),
 		link = false,
 	})
 
@@ -139,11 +146,15 @@ local function restore_placeholder_buffer(buf)
 	pcall(vim.api.nvim_buf_del_var, buf, "is_fake_zen_placeholder")
 end
 
---- Remove visual editor UI from a padding window.
+--- Show relative numbers for files in a padding window and hide them for padding buffers.
 ---@param win integer
 local function style_padding_window(win)
-	vim.wo[win].number = false
-	vim.wo[win].relativenumber = false
+	local buf = vim.api.nvim_win_get_buf(win)
+	local contains_file = vim.bo[buf].buftype == ""
+		and (vim.api.nvim_buf_get_name(buf) ~= "" or vim.bo[buf].buflisted)
+
+	vim.wo[win].number = contains_file
+	vim.wo[win].relativenumber = contains_file
 	vim.wo[win].signcolumn = "no"
 	vim.wo[win].foldcolumn = "0"
 	vim.wo[win].statuscolumn = ""
@@ -158,11 +169,11 @@ local function create_padding_window(center, side)
 	vim.cmd(side == "left" and "leftabove vsplit" or "rightbelow vsplit")
 
 	local win = vim.api.nvim_get_current_win()
-	vim.api.nvim_win_set_buf(win, create_padding_buffer())
 	-- :split copies window variables from the center window.
 	pcall(vim.api.nvim_win_del_var, win, "is_fake_zen_center")
 	vim.api.nvim_win_set_var(win, "is_fake_zen_padding", true)
 	vim.api.nvim_win_set_var(win, "fake_zen_padding_side", side)
+	vim.api.nvim_win_set_buf(win, create_padding_buffer())
 	style_padding_window(win)
 
 	return win
@@ -190,11 +201,11 @@ local function ensure_center_window(tab)
 	vim.cmd(side == "left" and "rightbelow vsplit" or "leftabove vsplit")
 
 	local center = vim.api.nvim_get_current_win()
-	vim.api.nvim_win_set_buf(center, create_padding_buffer())
 	-- This split originates from a padding window, so discard its markers.
 	pcall(vim.api.nvim_win_del_var, center, "is_fake_zen_padding")
 	pcall(vim.api.nvim_win_del_var, center, "fake_zen_padding_side")
 	vim.api.nvim_win_set_var(center, "is_fake_zen_center", true)
+	vim.api.nvim_win_set_buf(center, create_padding_buffer())
 	vim.api.nvim_set_current_win(center)
 
 	return center
@@ -215,7 +226,8 @@ infer_padding_side = function(win, center)
 	return win_column < center_column and "left" or "right"
 end
 
---- Ensure an active FakeZen tab still has one scratch padding window on each side.
+--- Ensure an active FakeZen tab still has one scratch padding window
+--- on each side.
 ---@param tab integer
 local function ensure_padding_windows(tab)
 	if tab ~= vim.api.nvim_get_current_tabpage() then
@@ -234,7 +246,6 @@ local function ensure_padding_windows(tab)
 		sides[side] = win
 		pcall(vim.api.nvim_win_del_var, win, "is_fake_zen_center")
 		vim.api.nvim_win_set_var(win, "fake_zen_padding_side", side)
-
 	end
 
 	local current = vim.api.nvim_get_current_win()
@@ -274,22 +285,45 @@ function M.is_active(tab)
 	return #marked_windows(tab, "is_fake_zen_center") > 0
 end
 
+--- Focus the center window in the current FakeZen tab.
+function M.focus_center()
+	local tab = vim.api.nvim_get_current_tabpage()
+	local centers = marked_windows(tab, "is_fake_zen_center")
+
+	if #centers == 0 and is_enabled(tab) then
+		M.repair(tab)
+		centers = marked_windows(tab, "is_fake_zen_center")
+	end
+
+	if #centers > 0 and vim.api.nvim_win_is_valid(centers[1]) then
+		vim.api.nvim_set_current_win(centers[1])
+	end
+end
+
 --- Recalculate the center and padding widths for a tab.
 ---@param tab? integer Defaults to the current tab.
 function M.repair(tab)
 	tab = tab or vim.api.nvim_get_current_tabpage()
 
-	if not vim.api.nvim_tabpage_is_valid(tab) or (not M.is_active(tab) and not is_enabled(tab)) then
+	if state.repairing or not vim.api.nvim_tabpage_is_valid(tab)
+		or (not M.is_active(tab) and not is_enabled(tab)) then
 		return
 	end
+	state.repairing = true
 
 	ensure_padding_windows(tab)
 
 	local centers = marked_windows(tab, "is_fake_zen_center")
 	local paddings = marked_windows(tab, "is_fake_zen_padding")
 	local separator_width = #paddings
-	local center_width = math.min(M.config.width, math.max(1, vim.o.columns - separator_width - #paddings))
-	local available_padding = math.max(2, vim.o.columns - center_width - separator_width)
+	local center_width = math.min(
+		M.config.width,
+		math.max(1, vim.o.columns - separator_width - #paddings)
+	)
+	local available_padding = math.max(
+		2,
+		vim.o.columns - center_width - separator_width
+	)
 	local left_padding = math.max(1, math.ceil(available_padding / 2))
 	local right_padding = math.max(1, math.floor(available_padding / 2))
 
@@ -304,11 +338,16 @@ function M.repair(tab)
 
 	for _, win in ipairs(centers) do
 		if vim.api.nvim_win_is_valid(win) then
+			vim.wo[win].winfixwidth = true
+			vim.wo[win].numberwidth = 6
+			vim.wo[win].signcolumn = "yes:1"
+			vim.wo[win].foldcolumn = "0"
 			pcall(vim.api.nvim_win_set_width, win, center_width)
 		end
 	end
 
 	apply_separator_highlight()
+	state.repairing = false
 end
 
 --- Replace both padding buffers and restore their styling and widths.
@@ -319,6 +358,8 @@ function M.reset()
 		return
 	end
 
+	local center = marked_windows(tab, "is_fake_zen_center")[1]
+
 	for _, win in ipairs(marked_windows(tab, "is_fake_zen_padding")) do
 		if vim.api.nvim_win_is_valid(win) then
 			vim.api.nvim_win_set_buf(win, create_padding_buffer())
@@ -327,6 +368,10 @@ function M.reset()
 	end
 
 	M.repair(tab)
+
+	if center and vim.api.nvim_win_is_valid(center) then
+		vim.api.nvim_set_current_win(center)
+	end
 end
 
 --- Enable FakeZen in the current tab.
@@ -347,8 +392,10 @@ function M.enable()
 	make_center_placeholder(vim.api.nvim_win_get_buf(center))
 	vim.api.nvim_win_set_var(center, "is_fake_zen_center", true)
 
+	state.repairing = true
 	create_padding_window(center, "left")
 	create_padding_window(center, "right")
+	state.repairing = false
 
 	vim.api.nvim_set_current_win(center)
 	vim.fn.winrestview(view)
@@ -486,6 +533,7 @@ function M.setup(opts)
 		M.repair()
 	end, "Repair centered FakeZen layout")
 	set_command("FakeZenReset", M.reset, "Reset FakeZen padding windows")
+	set_command("FakeZenFocusCenter", M.focus_center, "Focus FakeZen center window")
 	set_command("FakeZenDebug", M.debug, "Show FakeZen layout details")
 	set_command("FakeZenHideSeparators", M.hide_separators, "Hide split separators")
 	set_command("FakeZenShowSeparators", M.show_separators, "Show split separators")
@@ -510,7 +558,17 @@ function M.setup(opts)
 		end,
 	})
 
-	-- Rebuild the center before plugins such as Neogit open their replacement buffer.
+	-- Keep the center width stable while buffer- and filetype-local
+	-- options are applied.
+	vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType" }, {
+		group = group,
+		callback = function()
+			M.repair(vim.api.nvim_get_current_tabpage())
+		end,
+	})
+
+	-- Rebuild the center before plugins such as Neogit open their
+	-- replacement buffer.
 	vim.api.nvim_create_autocmd("BufDelete", {
 		group = group,
 		callback = function()
