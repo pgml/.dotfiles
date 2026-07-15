@@ -350,27 +350,22 @@ function M.repair(tab)
 	state.repairing = false
 end
 
---- Replace both padding buffers and restore their styling and widths.
+--- Replace the current padding buffer and restore its styling and width.
 function M.reset()
 	local tab = vim.api.nvim_get_current_tabpage()
+	local win = vim.api.nvim_get_current_win()
 
-	if not M.is_active(tab) then
+	if not M.is_active(tab) or not get_win_var(win, "is_fake_zen_padding") then
 		return
 	end
 
-	local center = marked_windows(tab, "is_fake_zen_center")[1]
-
-	for _, win in ipairs(marked_windows(tab, "is_fake_zen_padding")) do
-		if vim.api.nvim_win_is_valid(win) then
-			vim.api.nvim_win_set_buf(win, create_padding_buffer())
-			style_padding_window(win)
-		end
-	end
+	vim.api.nvim_win_set_buf(win, create_padding_buffer())
+	style_padding_window(win)
 
 	M.repair(tab)
 
-	if center and vim.api.nvim_win_is_valid(center) then
-		vim.api.nvim_set_current_win(center)
+	if vim.api.nvim_win_is_valid(win) then
+		vim.api.nvim_set_current_win(win)
 	end
 end
 
@@ -532,7 +527,7 @@ function M.setup(opts)
 	set_command("FakeZenRepair", function()
 		M.repair()
 	end, "Repair centered FakeZen layout")
-	set_command("FakeZenReset", M.reset, "Reset FakeZen padding windows")
+	set_command("FakeZenReset", M.reset, "Reset current FakeZen padding window")
 	set_command("FakeZenFocusCenter", M.focus_center, "Focus FakeZen center window")
 	set_command("FakeZenDebug", M.debug, "Show FakeZen layout details")
 	set_command("FakeZenHideSeparators", M.hide_separators, "Hide split separators")
@@ -541,7 +536,7 @@ function M.setup(opts)
 
 	clear_keymaps()
 	set_keymap(M.config.keymaps.toggle, M.toggle, "Toggle FakeZen layout")
-	set_keymap(M.config.keymaps.reset, M.reset, "Reset FakeZen padding windows")
+	set_keymap(M.config.keymaps.reset, M.reset, "Reset current FakeZen padding window")
 	set_keymap(M.config.keymaps.repair, M.repair, "Repair FakeZen layout")
 	set_keymap(M.config.keymaps.hide_separators, M.toggle_separators, "Toggle split separators")
 
