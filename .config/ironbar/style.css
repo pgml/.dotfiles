@@ -1,7 +1,5 @@
 .container {
 	font-family: VictorMono Nerd Font, San Francisco Display, MesloLGSDZ Nerd Font;
-	/*  font-family: CaskaydiaCove Nerd Font; */
-	/*  font-weight: bold; */
 	font-size: 12px;
 }
 
@@ -11,6 +9,20 @@
 
 .background {
 	background-color: rgba(0, 0, 0, 0);
+}
+
+popover contents {
+	padding: 10px 0px 10px 10px;
+	background-color: rgba(230, 230, 230, 0.98);
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 2px;
+	color: #c0caf5;
+	margin-top: 5px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+
+calendar {
+	background: transparent;
 }
 
 .wlogout {
@@ -25,6 +37,7 @@
 	border-bottom: 1px solid #aaa;
 	font-size: 14px;
 }
+
 .wlogout:hover {
 	color: #7dcfff;
 	background: #1a1b26;
@@ -32,6 +45,7 @@
 	transition: all 0.3s ease-in-out;
 	opacity: 0.6;
 }
+
 /* cpu */
 .sysinfo .item:nth-child(1) {
 	padding: 0px 10px;
@@ -44,6 +58,7 @@
 	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
 	border-bottom: 1px solid #aaa;
 }
+
 /* memory */
 .sysinfo .item:nth-child(2) {
 	padding: 0px 10px;
@@ -56,6 +71,7 @@
 	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
 	border-bottom: 1px solid #aaa;
 }
+
 /* temp */
 .sysinfo .item:nth-child(3) {
 	padding: 0px 10px;
@@ -93,19 +109,6 @@
 	border-bottom: 1px solid #aaa;
 }
 
-.popup-volume {
-	padding: 20px 20px 20px 20px;
-	border-radius: 5px;
-	color: #c0caf5;
-	/* background: #1a1b26; */
-	background-color: rgba(26, 27, 38, 0.9);
-	box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 5px 2px;
-}
-
-.popup-volume button {
-	margin-top: 10px;
-}
-
 .clock {
 	margin-top: 5px;
 	margin-right: 10px;
@@ -123,35 +126,6 @@
 
 .clock_date {
 	color: rgb(94, 129, 172);
-}
-
-.popup-clock {
-	font-weight: bolder;
-	background-color: rgba(26, 27, 38, 0.8);
-	border-radius: 5px;
-	padding: 15px;
-}
-
-.popup-clock .calendar-clock {
-	color: #c0caf5;
-	/*  font-size: 2.5em; */
-	padding-bottom: 0.1em;
-}
-
-.popup-clock .calendar {
-	background-color: rgba(26, 27, 38, 0.8);
-	color: #c0caf5;
-	border-radius: 5px;
-}
-
-.popup-clock .calendar .header {
-	padding-top: 1em;
-	border-top: 1px solid #424242;
-	font-size: 1.5em;
-}
-
-.popup-clock .calendar:selected {
-	background-color: #3d59a1;
 }
 
 .focused {
@@ -179,17 +153,7 @@
 	opacity: 0.6;
 }
 
-.popup-clipboard {
-	margin-left: 5px;
-	padding: 10px 10px 10px 10px;
-	border-radius: 5px;
-	color: #c0caf5;
-	background: #1a1b26;
-	background-color: rgba(26, 27, 38, 0.8);
-	box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 5px 2px;
-}
-
-.tray, .upower, .network_manager {
+.tray, .upower, .network_manager, .battery {
 	padding: 0px 10px 0px 10px;
 	margin-top: 5px;
 	margin-right: 10px;
@@ -203,15 +167,6 @@
 
 .tray .item {
 	margin: 0 5px;
-}
-
-.tray:hover {
-	color: #c3e88d;
-	background: #1a1b26;
-	border-radius: 5px;
-	min-width: 40px;
-	transition: all 0.3s ease-in-out;
-	opacity: 0.6;
 }
 
 .script {
@@ -233,20 +188,6 @@
 	opacity: 0.6;
 }
 
-.popup-custom {
-	margin: 0 5px;
-	padding: 10px 10px 10px 10px;
-	border-radius: 5px;
-	color: #c0caf5;
-	background: #1a1b26;
-	background-color: rgba(26, 27, 38, 0.8);
-	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
-}
-.popup-custom button {
-	border-radius: 5px;
-	margin: 5px
-}
-
 .music {
 	border-radius: 5px;
 	padding: 0px 10px;
@@ -259,37 +200,27 @@
 	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
 	border-bottom: 1px solid #aaa;
 }
+
 .popup-music {
-	margin-left: 5px;
-	padding: 10px 10px 10px 10px;
-	border-radius: 5px;
-	color: #c0caf5;
-	background: #1a1b26;
-	box-shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
+	padding-right: 5px;
 }
 
-.popup-music button {
-	margin-right: 6px;
-	font-size: 12px;
+.popup-music * {
+	color: #333;
 }
 
-.popup-music.volume {
+.popup-music .volume {
+	padding: 0;
 }
-.popup-music .volume .slider {
-	padding: 2px 2px 2px 2px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-right: 5px;
-	margin-left: 5px;
-}
+
 .popup-music .volume .icon {
+	margin-left: 6px;
 }
 
 tooltip.background {
 	background-color: rgba(00, 00, 00, 0.5);
 	font-size: 18px;
 	border-radius: 5px;
-	color: #fdfdfd;
 }
 
 tooltip * {

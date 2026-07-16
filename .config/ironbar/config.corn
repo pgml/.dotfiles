@@ -134,7 +134,7 @@ let {
 	}
 
 	$upower = {
-		type = "upower"
+		type = "battery"
 		format = "{percentage}%"
 		icon_size = 14
 	}
@@ -156,6 +156,7 @@ let {
 	$center = [ $clock ]
 	$end = [ $volume $SysInfo $network $tray $upower $power_menu ]
 }
+
 in {
 	monitors.DP-2 = {
 		//autohide = 1000
@@ -166,13 +167,22 @@ in {
 		center = $center
 		end = $end
 	}
-	//monitors.eDP-1 = {
-	//	//autohide = 1000
-	//	height = 26
-	//	icon_theme = "Tela-circle-nord"
-	//	position = "top"
-	//	start = $start
-	//	center = $center
-	//	end = $end
-	//}
+	monitors.eDP-1 = {
+		//autohide = 1000
+		height = 26
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
+	monitors.HDMI-A-1 = {
+		//autohide = 1000
+		height = 26
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
 }
