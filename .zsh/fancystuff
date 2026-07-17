@@ -20,6 +20,10 @@ setopt HIST_FIND_NO_DUPS
 # Initialize zsh completion system
 autoload -U compinit && compinit -d "$HOME/.zsh/.zcompdump"
 
+# Docker's package-managed completion can change without compinit invalidating
+# its cached registry, so ensure the command is registered on every startup.
+autoload -Uz _docker && compdef _docker docker
+
 # Completion settings with visual menu
 setopt AUTO_MENU
 setopt MENU_COMPLETE
