@@ -242,17 +242,17 @@ binds {
 	// shows a list of important hotkeys.
 	Mod+Shift+Slash { show-hotkey-overlay; }
 
-	//Mod+Space { spawn "anyrun"; }
-	Ctrl+Space { spawn "krunner"; }
+	Ctrl+Space { spawn "~/.config/rofi/scripts/launcher_t7"; }
 	Mod+Ctrl+Alt+C { spawn "wl-color-picker"; }
 	Ctrl+Alt+C { spawn "wl-color-picker" "clipboard"; }
-	//Ctrl+Shift+X { spawn "bbclip"; }
-	Ctrl+Shift+X { spawn "sh" "-c" "bbclip" ">" "/tmp/yourapp.log 2>&1"; }
+	Ctrl+Shift+X { spawn "bbclip"; }
 
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 
 
-	Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+	Mod+T hotkey-overlay-title="Open a Terminal: ghostty" {
+		spawn "ghostty" "+new-window";
+	}
 	Mod+B {
 		spawn "vivaldi-stable" "--password-store=kwallet6" "--ozone-platform=wayland";
 	}

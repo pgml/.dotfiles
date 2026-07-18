@@ -6,6 +6,29 @@ return {
 	},
 	init = function()
 		local neogit = require("neogit")
+		local focus_group = vim.api.nvim_create_augroup("pgml-neogit-focus", { clear = true })
+
+		vim.api.nvim_create_autocmd("FileType", {
+			group = focus_group,
+			pattern = "NeogitStatus",
+			callback = function(args)
+				vim.api.nvim_create_autocmd("BufWinLeave", {
+					group = focus_group,
+					buffer = args.buf,
+					once = true,
+					callback = function()
+						local tab = vim.api.nvim_get_current_tabpage()
+
+						vim.schedule(function()
+							if vim.api.nvim_tabpage_is_valid(tab)
+								and vim.api.nvim_get_current_tabpage() == tab then
+								require("pgml.fake_zen").focus_center()
+							end
+						end)
+					end,
+				})
+			end,
+		})
 
 		vim.keymap.set("n", "<leader>gg", function()
 			vim.cmd("Neogit")
@@ -51,4 +74,3 @@ return {
 		})
 	end,
 }
-
