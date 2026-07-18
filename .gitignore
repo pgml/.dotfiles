@@ -1,0 +1,18 @@
+# Shell-generated completion cache
+/.zsh/.zcompdump*
+
+# REAPER registration data
+/.config/REAPER/reaper-reginfo2.ini
+
+# REAPER optional content, generated caches, and machine-local state
+/.config/REAPER/Data/Grooves/
+/.config/REAPER/MetadataCaches/
+/.config/REAPER/ReaPack/cache/
+/.config/REAPER/reaper-install-rev.txt
+/.config/REAPER/reaper-midihw*.ini
+/.config/REAPER/reaper-recentfx.ini
+/.config/REAPER/reaper-*plugins*.ini
+/.config/REAPER/reaper-wndpos.ini
+/.config/REAPER/*.log
+/.config/REAPER/*.dmp
+/.config/REAPER/**/*.reapeaks
