@@ -363,10 +363,7 @@ function M.reset()
 	style_padding_window(win)
 
 	M.repair(tab)
-
-	if vim.api.nvim_win_is_valid(win) then
-		vim.api.nvim_set_current_win(win)
-	end
+	M.focus_center()
 end
 
 --- Enable FakeZen in the current tab.
