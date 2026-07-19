@@ -1,5 +1,6 @@
 return {
 	src = "nvim-treesitter/nvim-treesitter",
+	enabled = false,
 	init = function()
 		require('nvim-treesitter').setup {
 			install_dir = vim.fn.stdpath('data') .. '/site'
