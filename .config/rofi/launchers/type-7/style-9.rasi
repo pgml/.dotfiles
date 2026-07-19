@@ -61,7 +61,7 @@ listbox {
     spacing:                     20px;
     padding:                     20px;
     background-color:            transparent;
-    orientation:                 vertical;
+    orientation:                 horizontal;
     children:                    [ "message", "listview" ];
 }
 
@@ -76,6 +76,7 @@ inputbar {
     orientation:                 horizontal;
     children:                    [ "textbox-prompt-colon", "entry", "dummy", "mode-switcher" ];
 }
+
 textbox-prompt-colon {
     enabled:                     true;
     expand:                      false;
@@ -85,6 +86,7 @@ textbox-prompt-colon {
     background-color:            @background-alt;
     text-color:                  inherit;
 }
+
 entry {
     enabled:                     true;
     expand:                      false;
@@ -97,13 +99,14 @@ entry {
     placeholder:                 "Search";
     placeholder-color:           inherit;
 }
+
 dummy {
     expand:                      true;
     background-color:            transparent;
 }
 
 /*****----- Mode Switcher -----*****/
-mode-switcher{
+mode-switcher {
     enabled:                     true;
     spacing:                     10px;
     background-color:            transparent;
@@ -125,8 +128,8 @@ button selected {
 /*****----- Listview -----*****/
 listview {
     enabled:                     true;
-    columns:                     4;
-    lines:                       1;
+    columns:                     1;
+    lines:                       5;
     cycle:                       true;
     dynamic:                     true;
     scrollbar:                   false;
@@ -145,12 +148,12 @@ listview {
 element {
     enabled:                     true;
     spacing:                     5px;
-    padding:                     15px 10px;
+    padding:                     5px 5px;
     border-radius:               10px;
     background-color:            transparent;
     text-color:                  @foreground;
     cursor:                      pointer;
-    orientation:                 vertical;
+    orientation:                 horizontal;
 }
 element normal.normal {
     background-color:            inherit;
@@ -179,7 +182,7 @@ element selected.active {
 element-icon {
     background-color:            transparent;
     text-color:                  inherit;
-    size:                        48px;
+    size:                        24px;
     cursor:                      inherit;
 }
 element-text {
