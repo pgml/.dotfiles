@@ -62,10 +62,10 @@ keybind = alt+l=goto_split:right
 keybind = alt+k=goto_split:up
 keybind = alt+j=goto_split:down
 keybind = ctrl+a>shift+0=equalize_splits
-keybind = ctrl+a>ctrl+up=resize_split:up,75
-keybind = ctrl+a>ctrl+down=resize_split:down,75
-keybind = ctrl+a>ctrl+left=resize_split:left,75
-keybind = ctrl+a>ctrl+right=resize_split:right,75
+keybind = ctrl+a>ctrl+k=resize_split:up,75
+keybind = ctrl+a>ctrl+j=resize_split:down,75
+keybind = ctrl+a>ctrl+h=resize_split:left,75
+keybind = ctrl+a>ctrl+l=resize_split:right,75
 
 keybind = ctrl+a>x=close_surface
 
