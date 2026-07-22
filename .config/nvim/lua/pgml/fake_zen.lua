@@ -325,23 +325,35 @@ function M.repair(tab)
 		vim.o.columns - center_width - separator_width
 	)
 	local left_padding = math.max(1, math.ceil(available_padding / 2))
-	local right_padding = math.max(1, math.floor(available_padding / 2))
 
-	for _, win in ipairs(paddings) do
-		if vim.api.nvim_win_is_valid(win) then
-			local side = get_win_var(win, "fake_zen_padding_side")
-			local width = side == "left" and left_padding or right_padding
-			pcall(vim.api.nvim_win_set_width, win, width)
-			style_padding_window(win)
-		end
-	end
-
+	-- Establish the fixed center width before balancing the padding windows.
+	-- Otherwise, growing the center afterwards takes columns from whichever
+	-- padding window Neovim chooses and leaves the layout visibly off-center.
 	for _, win in ipairs(centers) do
 		if vim.api.nvim_win_is_valid(win) then
 			vim.wo[win].winfixwidth = true
 			vim.wo[win].numberwidth = 6
 			vim.wo[win].signcolumn = "yes:1"
 			vim.wo[win].foldcolumn = "0"
+			pcall(vim.api.nvim_win_set_width, win, center_width)
+		end
+	end
+
+	for _, win in ipairs(paddings) do
+		if vim.api.nvim_win_is_valid(win) then
+			local side = get_win_var(win, "fake_zen_padding_side")
+			if side == "left" then
+				pcall(vim.api.nvim_win_set_width, win, left_padding)
+			end
+			style_padding_window(win)
+		end
+	end
+
+	-- Resizing the left window can temporarily change the fixed center's
+	-- width. Reasserting it moves only the center/right boundary; the right
+	-- padding then receives exactly the remaining columns.
+	for _, win in ipairs(centers) do
+		if vim.api.nvim_win_is_valid(win) then
 			pcall(vim.api.nvim_win_set_width, win, center_width)
 		end
 	end
