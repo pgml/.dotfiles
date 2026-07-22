@@ -2,8 +2,9 @@
 }
 
 tabbar * {
-	border-radius: 0;
+	border-radius: 0px;
 	transition: 0;
+	padding-left: 50%;
 }
 
 tabbar tabbox {
@@ -19,12 +20,11 @@ tabbar tabbox tab {
 }
 
 tabbar tabbox tab:selected {
-	background-color: #343D46;
+	background-color: #2e3842;
 	color: #ffffff;
 }
 
 tabbar tabbox tab label {
-	font-size: 15px;
 	color: #aaa;
 }
 

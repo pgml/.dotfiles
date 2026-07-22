@@ -19,8 +19,9 @@ split-divider-color = #ff0000
 gtk-custom-css = custom.css
 gtk-titlebar = false
 gtk-opengl-debug = false
-#gtk-wide-tabs = false
-#adw-toolbar-style = raised-border
+gtk-tabs-location = top
+gtk-toolbar-style = flat
+gtk-wide-tabs = false
 
 # Clipboard
 clipboard-trim-trailing-spaces = true

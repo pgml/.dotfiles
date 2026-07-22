@@ -13,6 +13,7 @@
 /.config/REAPER/reaper-recentfx.ini
 /.config/REAPER/reaper-*plugins*.ini
 /.config/REAPER/reaper-wndpos.ini
+/.config/REAPER/*.rk
 /.config/REAPER/*.log
 /.config/REAPER/*.dmp
 /.config/REAPER/**/*.reapeaks
