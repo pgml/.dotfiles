@@ -4,7 +4,6 @@
 tabbar * {
 	border-radius: 0px;
 	transition: 0;
-	padding-left: 50%;
 }
 
 tabbar tabbox {

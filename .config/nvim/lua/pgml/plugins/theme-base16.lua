@@ -3,8 +3,8 @@ return {
 	init = function()
 		vim.cmd("colorscheme base16-tokyo-night-terminal-light")
 		require "base16-colorscheme".setup({
-			base00 = '#d5d6db',
-			base01 = '#d5d6db',
+			base00 = '#dbdbdc',
+			base01 = '#dbdbdc',
 			base02 = '#cbccd1',
 			base03 = '#9699a3',
 			base04 = '#4c505e',
@@ -29,8 +29,8 @@ return {
 			vim.api.nvim_set_hl(0, "TabLineSel", { bg = "NONE", bold = true })
 			vim.api.nvim_set_hl(0, "TabLineFill", { bg = "NONE" })
 			require "base16-colorscheme".setup({
-				base00 = '#d5d6db',
-				base01 = '#d5d6db',
+				base00 = '#dbdbdc',
+				base01 = '#dbdbdc',
 				base02 = '#cbccd1',
 				base03 = '#9699a3',
 				base04 = '#4c505e',
