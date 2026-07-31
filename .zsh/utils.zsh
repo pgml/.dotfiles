@@ -319,3 +319,35 @@ _zmx_select_widget() {
 
 zle -N _zmx_select_widget
 bindkey '^e' _zmx_select_widget
+
+[[ -r "$HOME/.zsh/ssh-colours.local.zsh" ]] &&
+    source "$HOME/.zsh/ssh-colours.local.zsh"
+
+function ssh() {
+    local background='#123b2a'
+    local argument
+
+    # Use a connection-specific colour when the exact SSH destination matches.
+    if (( ${+SSH_BACKGROUND_COLOURS} )); then
+        for argument in "$@"; do
+            if [[ -n "${SSH_BACKGROUND_COLOURS[$argument]-}" ]]; then
+                background="${SSH_BACKGROUND_COLOURS[$argument]}"
+                break
+            fi
+        done
+    fi
+
+    printf "\033]11;%s\a" "$background"
+
+    # Run the SSH command inside a subshell to isolate the trap
+    (
+        # Trap SIGINT (Ctrl+C), SIGTERM, and normal EXIT
+        # This guarantees the execution of the printf command
+        # Restore the terminal's configured default background colour.
+        trap 'printf "\033]111\a"' EXIT INT TERM
+
+        # Execute the actual ssh command
+        /usr/bin/ssh "$@"
+    )
+}
+compdef _ssh ssh

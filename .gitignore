@@ -1,6 +1,9 @@
 # Shell-generated completion cache
 /.zsh/.zcompdump*
 
+# Machine-local SSH background colour mappings
+/.zsh/ssh-colours.local.zsh
+
 # REAPER registration data
 /.config/REAPER/reaper-reginfo2.ini
 

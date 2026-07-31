@@ -1,6 +1,5 @@
 #source $ZSH/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSH/zsh-history-substring-search/zsh-history-substring-search.zsh
-source $ZSH/utils
 
 # Enable colors and prompt substitution
 autoload -U colors && colors
@@ -19,6 +18,9 @@ setopt HIST_FIND_NO_DUPS
 
 # Initialize zsh completion system
 autoload -U compinit && compinit -d "$HOME/.zsh/.zcompdump"
+
+# Utilities register custom completions, so load them after compinit defines compdef.
+source $ZSH/utils.zsh
 
 # Docker's package-managed completion can change without compinit invalidating
 # its cached registry, so ensure the command is registered on every startup.
