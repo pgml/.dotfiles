@@ -159,13 +159,15 @@ spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
 //spawn-at-startup "kanshi"
 //spawn-at-startup "bbclip" "--silent"
-spawn-at-startup "bbclipd"
+spawn-at-startup "bbclipd" "--max-entries=200"
 spawn-at-startup "owncloud" "--quite"
+spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 3"
 
 environment {
 	DISPLAY ":1"
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
 	XDG_MENU_PREFIX "niri-"
+	QT_QPA_PLATFORM "wayland"
 }
 
 prefer-no-csd
@@ -178,7 +180,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
 	// off
 	// Slow down all animations by this factor. Values below 1 speed them up instead.
-	slowdown 0.3
+	slowdown 0.5
 }
 
 // Window rules let you adjust behavior for individual windows.

@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 
+-- This config is C-only: make Neovim detect .h files as C, not C++.
+vim.g.c_syntax_for_h = true
+
 vim.g.netrw_banner = 0
 vim.g.netrw_preview = 1
 vim.g.netrw_winsize = 20

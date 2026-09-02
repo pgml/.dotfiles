@@ -11,6 +11,7 @@ return {
 			"clangd",
 			"glsl_analyzer",
 			"gopls",
+			"ols",
 			"vtsls",
 			"rust_analyzer",
 			"zls",
@@ -62,10 +63,11 @@ return {
 
 		--vim.lsp.config("emmylua_ls", {})
 		vim.lsp.config("clangd", {
-			filetypes = { "c", "h" },
+			filetypes = { "c" },
 		})
 		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})
+		vim.lsp.config("ols", {})
 		vim.lsp.config("vtsls", {})
 
 		vim.lsp.config("gopls", {
