@@ -171,7 +171,7 @@ spawn-at-startup "mako"
 //spawn-at-startup "bbclip" "--silent"
 spawn-sh-at-startup "bbclipd --max-entries=200"
 spawn-sh-at-startup "owncloud --quite"
-spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 2 -b 0 100 --solo_first_column"
+spawn-sh-at-startup "~/.config/niri/niri-tilemod -n 2 -b 0 100 --solo_first_column"
 
 environment {
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
@@ -374,10 +374,10 @@ binds {
 
 	// move or swap selected window to the left column depending
 	// on column row count
-	Mod+Shift+H  { spawn-sh "~/.config/niri/niri-smart-move.sh left"; }
+	Mod+Shift+H  { spawn-sh "~/.config/niri/niri-smart-move left"; }
 	// move or swap selected window to the right column depending
 	// on column row count
-	Mod+Shift+L  { spawn-sh "~/.config/niri/niri-smart-move.sh right"; }
+	Mod+Shift+L  { spawn-sh "~/.config/niri/niri-smart-move right"; }
 
 	Mod+Home { focus-column-first; }
 	Mod+End  { focus-column-last; }
@@ -477,7 +477,7 @@ binds {
 	Mod+F { maximize-column; }
 	Mod+Page_Up { maximize-column; }
 	Mod+Return { maximize-column; }
-	Mod+Ctrl+Return { spawn-sh "python3 ~/.config/niri/niri_maximize_helper.py"; }
+	Mod+Ctrl+Return { spawn-sh "~/.config/niri/niri-maximize-helper"; }
 
 	// Expand the focused column to space not taken up by other fully visible columns.
 	// Makes the column "fill the rest of the space".
