@@ -4,7 +4,7 @@ input {
 		xkb {
 			layout "de"
 			variant "mac_nodeadkeys"
-			options "ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,compose:caps"
+			options "ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,compose:caps,kpdl:comma"
 			// apple keyboard
 			//options "ctrl:swap_lwin_lctl,lv3:caps_switch,compose:caps"
 			//options "lv3:caps_switch,compose:caps"
@@ -76,8 +76,12 @@ layout {
 	empty-workspace-above-first
 
 	tab-indicator {
-		corner-radius 5
+		length total-proportion=0.5
+		corner-radius 10
+		active-color "#990000"
 		inactive-color "gray"
+		urgent-color "blue"
+		gap 0
 	}
 
 	preset-column-widths {
@@ -134,9 +138,15 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 8
+	geometry-corner-radius 10
 	clip-to-geometry true
 	draw-border-with-background true
+
+	background-effect {
+		blur true
+		noise 0.05
+		saturation 3
+	}
 }
 
 hotkey-overlay {
@@ -161,13 +171,11 @@ spawn-at-startup "mako"
 //spawn-at-startup "bbclip" "--silent"
 spawn-at-startup "bbclipd" "--max-entries=200"
 spawn-at-startup "owncloud" "--quite"
-spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 3"
+spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 2 -b 0 100"
 
 environment {
-	DISPLAY ":1"
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
 	XDG_MENU_PREFIX "niri-"
-	QT_QPA_PLATFORM "wayland"
 }
 
 prefer-no-csd
@@ -180,7 +188,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
 	// off
 	// Slow down all animations by this factor. Values below 1 speed them up instead.
-	slowdown 0.5
+	slowdown 0.6
 }
 
 // Window rules let you adjust behavior for individual windows.
@@ -191,8 +199,14 @@ window-rule {
 	match app-id=r#"^one\.alynx\.showmethekey$"# title="^Floating Window - Show Me The Key$"
 	open-floating true
 }
+
 window-rule {
 	match app-id=r#"^showmethekey-gtk$"#
+	open-floating true
+}
+
+window-rule {
+	match app-id=r#"^org.kde.kcalc$"#
 	open-floating true
 }
 
@@ -251,16 +265,33 @@ binds {
 
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 
-
-	Mod+T hotkey-overlay-title="Open a Terminal: ghostty" {
+	Mod+T {
 		spawn "ghostty" "+new-window";
 	}
-	Mod+B {
-		spawn "vivaldi-stable" "--password-store=kwallet6" "--ozone-platform=wayland";
+
+	Mod+Ctrl+C {
+		spawn "ghostty" "+new-window" "--title=niri-column";
 	}
-	//Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-	Mod+Ctrl+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" {
-		spawn "swaylock" "-i" "~/Pictures/Wallpapers/ScreenShot00021.png";
+
+	Mod+Ctrl+S {
+		spawn "ghostty" "+new-window" "--title=niri-stack";
+	}
+
+	Mod+P hotkey-overlay-title="Open a Terminal: ghostty" {
+		spawn "ghostty" "+toggle-quick-terminal";
+	}
+
+	Mod+B {
+		spawn-sh "vivaldi-stable --password-store=kwallet6
+			--ozone-platform=wayland
+			--title=niri-stack";
+	}
+
+	Mod+Ctrl+B {
+		spawn-sh "touch \"$XDG_RUNTIME_DIR/niri-tilemod-force-column-vivaldi\";
+			exec vivaldi-stable --password-store=kwallet6
+				--ozone-platform=wayland
+				--new-window";
 	}
 
 	// --- Volume internal - tuxedo
@@ -270,36 +301,23 @@ binds {
 	//XF86AudioLowerVolume allow-when-locked=true {
 	//	spawn "wpctl" "set-volume" "@DEFAULT_SINK@" "5%-"
 	//}
-	//XF86AudioMute        allow-when-locked=true {
-	//	spawn "wpctl" "set-mute" "@DEFAULT_SINK@" "toggle"
-	//}
+	XF86AudioMute allow-when-locked=true {
+		spawn "wpctl" "set-mute" "@DEFAULT_SINK@" "toggle";
+	}
+
+	XF86AudioMicMute allow-when-locked=true {
+		spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle";
+	}
 
 	// --- Volume Desktop sink
 	XF86AudioRaiseVolume allow-when-locked=true {
-		spawn "~/.config/niri/niri-volume.sh" "jack_out" "up";
+		spawn "~/.config/niri/niri-volume.sh" "@DEFAULT_SINK@" "up";
 	}
 	XF86AudioLowerVolume allow-when-locked=true {
-		spawn "~/.config/niri/niri-volume.sh" "jack_out" "down";
-	}
-	XF86AudioMute        allow-when-locked=true {
-		spawn "pactl" "set-sink-mute" "jack_out" "toggle";
-	}
-	XF86AudioMicMute     allow-when-locked=true {
-		spawn "pactl" "set-sink-mute" "jack_out" "toggle";
+		spawn "~/.config/niri/niri-volume.sh" "@DEFAULT_SINK@" "down";
 	}
 
-	// --- VOLUME Discord sink
-	Mod+Shift+XF86AudioRaiseVolume allow-when-locked=true {
-		spawn "~/.config/niri/niri-volume.sh" "jack_out.2" "up";
-	}
-	Mod+Shift+XF86AudioLowerVolume allow-when-locked=true {
-		spawn "~/.config/niri/niri-volume.sh" "jack_out.2" "down";
-	}
-	Mod+Shift+XF86AudioMute        allow-when-locked=true {
-		spawn "pactl" "set-sink-mute" "jack_out.2" "toggle";
-	}
-
-	// --- VOLUME BGM sink
+	// --- Volume BGM sink
 	Mod+XF86AudioRaiseVolume allow-when-locked=true {
 		spawn "~/.config/niri/niri-volume.sh" "jack_out.3" "up";
 	}
@@ -309,7 +327,6 @@ binds {
 	Mod+XF86AudioMute        allow-when-locked=true {
 		spawn "pactl" "set-sink-mute" "jack_out.3" "toggle";
 	}
-
 	// --- Media keys
 	XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
 	XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
@@ -340,47 +357,37 @@ binds {
 	}
 
 	Mod+O repeat=false { toggle-overview; }
-	Alt+Tab repeat=false { toggle-overview; }
+	//Alt+Tab repeat=false { toggle-overview; }
 
-	//Ctrl+Q { close-window; }
-	Mod+Q { close-window; }
+	Mod+Q { spawn-sh "~/.config/niri/niri-smart-close.sh"; }
 
-	Mod+Left  { focus-column-left; }
-	Mod+Down  { focus-window-down; }
-	Mod+Up    { focus-window-up; }
-	Mod+Right { focus-column-right; }
-	Mod+H     { focus-column-left; }
-	Mod+U     { focus-window-down; }
-	Mod+I     { focus-window-up; }
-	Mod+L     { focus-column-right; }
+	Mod+H     { spawn-sh "~/.config/niri/niri-focus-column-row.sh left"; }
+	Mod+J     { focus-window-down; }
+	Mod+K     { focus-window-up; }
+	Mod+L     { spawn-sh "~/.config/niri/niri-focus-column-row.sh right"; }
 
-	Mod+Ctrl+Left  { move-column-left; }
-	Mod+Ctrl+Down  { move-window-down; }
-	Mod+Ctrl+Up    { move-window-up; }
-	Mod+Ctrl+Right { move-column-right; }
 	Mod+Shift+H     { move-column-left; }
 	Mod+Shift+J     { move-window-down; }
 	Mod+Shift+K     { move-window-up; }
 	Mod+Shift+L     { move-column-right; }
+
+	// move or swap selected window to the left column depending
+	// on column row count
+	Mod+Alt+H  { spawn-sh "~/.config/niri/niri-smart-move.sh left"; }
+	// move or swap selected window to the right column depending
+	// on column row count
+	Mod+Alt+L  { spawn-sh "~/.config/niri/niri-smart-move.sh right"; }
 
 	Mod+Home { focus-column-first; }
 	Mod+End  { focus-column-last; }
 	Mod+Ctrl+Home { move-column-to-first; }
 	Mod+Ctrl+End  { move-column-to-last; }
 
-	Mod+Shift+Left  { focus-monitor-left; }
-	Mod+Shift+Down  { focus-monitor-down; }
-	Mod+Shift+Up    { focus-monitor-up; }
-	Mod+Shift+Right { focus-monitor-right; }
-	Mod+Ctrl+H     { focus-monitor-left; }
-	Mod+J     { focus-monitor-down; }
-	Mod+K     { focus-monitor-up; }
-	Mod+Ctrl+L     { focus-monitor-right; }
+	Ctrl+Shift+H     { focus-monitor-left; }
+	Ctrl+Shift+J     { focus-monitor-down; }
+	Ctrl+Shift+K     { focus-monitor-up; }
+	Ctrl+Shift+L     { focus-monitor-right; }
 
-	Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-	Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-	Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-	Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
 	Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
 	Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
 	Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
@@ -464,11 +471,12 @@ binds {
 	Mod+R { switch-preset-column-width; }
 	Mod+Shift+R { switch-preset-window-height; }
 	Mod+Ctrl+R { reset-window-height; }
-	Mod+F { maximize-column; }
 	Mod+Shift+F { fullscreen-window; }
 	Ctrl+Return { fullscreen-window; }
+	Mod+F { maximize-column; }
 	Mod+Page_Up { maximize-column; }
 	Mod+Return { maximize-column; }
+	Mod+Ctrl+Return { spawn-sh "python3 ~/.config/niri/niri_maximize_helper.py"; }
 
 	// Expand the focused column to space not taken up by other fully visible columns.
 	// Makes the column "fill the rest of the space".
@@ -477,7 +485,7 @@ binds {
 	Mod+C { center-column; }
 
 	// Center all fully visible columns on screen.
-	Mod+Ctrl+C { center-visible-columns; }
+	//Mod+Ctrl+C { center-visible-columns; }
 
 	// Finer width adjustments.
 	// This command can also:
@@ -502,8 +510,8 @@ binds {
 	Mod+W { toggle-column-tabbed-display; }
 
 	// Actions to switch layouts.
-	// Note: if you uncomment these, make sure you do NOT have
-	// a matching layout switch hotkey configured in xkb options above.
+// Note: if you uncomment these, make sure you do NOT have
+// a matching layout switch hotkey configured in xkb options above.
 	// Having both at once on the same hotkey will break the switching,
 	// since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
 	// Mod+Space       { switch-layout "next"; }
@@ -534,3 +542,7 @@ binds {
 	// moving the mouse or pressing any other key.
 	Mod+Shift+P { power-off-monitors; }
 }
+
+// Machine-specific work overrides. This repository is intentionally separate
+// from the shared dotfiles repository and may be absent on non-work machines.
+include optional=true "~/.dotfiles-work/.config/niri/work.kdl"

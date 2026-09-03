@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 # ---------------------------------------------------------------------------------------------------------------------
 # %% Imports
 
@@ -15,6 +14,15 @@ from time import sleep, perf_counter
 from socket import socket, AF_UNIX, SOCK_STREAM
 from signal import signal, SIGTERM
 from enum import Enum
+
+FORCE_COLUMN_MARKER = (
+    Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp"))
+    / "niri-tilemod-force-column-vivaldi"
+)
+
+FORCE_COLUMN_APPS = {
+    "vivaldi-stable",
+}
 
 # Potentially missing lib (requires python v3.11+, but v3.10 is still considered supported!)
 HAS_TOML_LIB = True
@@ -679,6 +687,18 @@ try:
             # For clarity, get stacking config
             col_tiling_bounds = config["column_bounds"]
             num_stack = config["num_stack"]
+
+            # Special placement requested through the window title.
+            win_title = new_win_dict.get("title", "")
+            app_id = new_win_dict.get("app_id", "")
+
+            force_column = win_title == "niri-column"
+            force_stack = win_title == "niri-stack"
+
+            if app_id in FORCE_COLUMN_APPS and FORCE_COLUMN_MARKER.exists():
+                force_column = True
+                FORCE_COLUMN_MARKER.unlink()
+
             enable_rtl = config["right_to_left"]
             enable_strict_fill_gaps = config["autostack_into_row_gaps"] == "strict"
             enable_fill_gaps = enable_strict_fill_gaps or (config["autostack_into_row_gaps"] == True)
@@ -717,31 +737,38 @@ try:
             # Check if we need to shift into another column
             start_colidx, end_colidx = sorted(col_tiling_bounds)
             need_shift_amt = 0
-            for side_col_idx, shift_amt in side_col_iter:
-                if side_col_idx not in rows_per_column_dict.keys():
-                    continue
 
-                # Check for auto-stacking within column bounds
-                num_side_rows = rows_per_column_dict[side_col_idx]
-                if (num_side_rows < num_stack) and (start_colidx <= side_col_idx <= end_colidx):
-                    need_shift_amt = shift_amt
-                    break
+            if force_stack:
+                # A new niri window initially appears directly to the right
+                # of the focused column. Consume it back into that column.
+                left_col_idx = new_win_col_idx - 1
+                if left_col_idx in rows_per_column_dict:
+                    need_shift_amt = -1
 
-                # Special check for filling row gaps (e.g. if a single window is not filling column height)
-                if enable_fill_gaps and num_side_rows == 1:
-                    is_neighbour = lambda info: (info["id"] != new_win_id) and (get_col_index(info) == side_col_idx)
-                    nb_win_info = (info for info in tile_win_dict.values() if is_neighbour(info))
-                    nb_col_height = sum(info["layout"]["tile_size"][1] for info in nb_win_info)
-                    monitor_height = curr_monitor_dict["logical"]["height"]
-                    if enable_strict_fill_gaps:
-                        new_win_height = new_win_dict["layout"]["tile_size"][1]
-                        if (nb_col_height + new_win_height) <= monitor_height:
-                            need_shift_amt = shift_amt
-                            break
-                    elif nb_col_height < (monitor_height * 0.8):
+            elif not force_column:
+                for side_col_idx, shift_amt in side_col_iter:
+                    if side_col_idx not in rows_per_column_dict.keys():
+                        continue
+                    # Check for auto-stacking within column bounds
+                    num_side_rows = rows_per_column_dict[side_col_idx]
+                    if (num_side_rows < num_stack) and (start_colidx <= side_col_idx <= end_colidx):
                         need_shift_amt = shift_amt
                         break
-                pass
+                    # Special check for filling row gaps
+                    if enable_fill_gaps and num_side_rows == 1:
+                        is_neighbour = lambda info: (info["id"] != new_win_id) and (get_col_index(info) == side_col_idx)
+                        nb_win_info = (info for info in tile_win_dict.values() if is_neighbour(info))
+                        nb_col_height = sum(info["layout"]["tile_size"][1] for info in nb_win_info)
+                        monitor_height = curr_monitor_dict["logical"]["height"]
+                        if enable_strict_fill_gaps:
+                            new_win_height = new_win_dict["layout"]["tile_size"][1]
+                            if (nb_col_height + new_win_height) <= monitor_height:
+                                need_shift_amt = shift_amt
+                                break
+                        elif nb_col_height < (monitor_height * 0.8):
+                            need_shift_amt = shift_amt
+                            break
+                    pass
 
             # Handle shifting
             is_focus_on_new_win = focused_win_id == new_win_id
@@ -807,3 +834,4 @@ finally:
     event_stream_reader.close()
     niri.close()
     print("", f"({SCRIPTNAME}) - Closed niri IPC connection", sep="\n")
+

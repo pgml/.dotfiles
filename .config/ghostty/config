@@ -4,6 +4,7 @@ background = #2E3842
 confirm-close-surface = always
 window-decoration = server
 window-theme = ghostty
+background-opacity = 0.9
 cursor-style = block
 cursor-style-blink = false
 window-padding-y = 0
@@ -31,7 +32,7 @@ clipboard-paste-protection = false
 
 # Font
 font-family = "VictorMono Nerd Font"
-font-style = "SemiBold"
+font-style = "Medium"
 font-family = "VictorMono Nerd Font"
 font-style-bold = "Bold"
 font-family = "VictorMono Nerd Font"
@@ -70,7 +71,7 @@ keybind = ctrl+a>ctrl+l=resize_split:right,75
 
 keybind = ctrl+a>x=close_surface
 
-keybind = super+ctrl+r=prompt_surface_title
+keybind = shift+ctrl+r=prompt_surface_title
 
 
 # Vim-mode keybindings
