@@ -1,6 +1,7 @@
 # Appearance
 theme = Mariana
 background = #2E3842
+background-opacity = 0.8
 confirm-close-surface = always
 window-decoration = server
 window-theme = ghostty

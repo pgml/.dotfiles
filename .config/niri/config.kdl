@@ -57,7 +57,7 @@ input {
 	position x=0 y=0
 }
 
-output "DP-2" {
+output "DP-3" {
 	focus-at-startup
 	position x=0 y=0
 }
@@ -169,9 +169,9 @@ spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
 //spawn-at-startup "kanshi"
 //spawn-at-startup "bbclip" "--silent"
-spawn-at-startup "bbclipd" "--max-entries=200"
-spawn-at-startup "owncloud" "--quite"
-spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 2 -b 0 100"
+spawn-sh-at-startup "bbclipd --max-entries=200"
+spawn-sh-at-startup "owncloud --quite"
+spawn-sh-at-startup "python3 ~/.config/niri/niri_tilemod.py -n 2 -b 0 100 --solo_first_column"
 
 environment {
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
@@ -282,9 +282,10 @@ binds {
 	}
 
 	Mod+B {
-		spawn-sh "vivaldi-stable --password-store=kwallet6
-			--ozone-platform=wayland
-			--title=niri-stack";
+		spawn-sh "touch \"$XDG_RUNTIME_DIR/niri-tilemod-force-stack-vivaldi\";
+			exec vivaldi-stable --password-store=kwallet6
+				--ozone-platform=wayland
+				--new-window";
 	}
 
 	Mod+Ctrl+B {
@@ -362,21 +363,21 @@ binds {
 	Mod+Q { spawn-sh "~/.config/niri/niri-smart-close.sh"; }
 
 	Mod+H     { spawn-sh "~/.config/niri/niri-focus-column-row.sh left"; }
-	Mod+J     { focus-window-down; }
-	Mod+K     { focus-window-up; }
+	Mod+J     { focus-window-or-monitor-down; }
+	Mod+K     { focus-window-or-monitor-up; }
 	Mod+L     { spawn-sh "~/.config/niri/niri-focus-column-row.sh right"; }
 
-	Mod+Shift+H     { move-column-left; }
+	Mod+Alt+H     { move-column-left; }
 	Mod+Shift+J     { move-window-down; }
 	Mod+Shift+K     { move-window-up; }
-	Mod+Shift+L     { move-column-right; }
+	Mod+Alt+L     { move-column-right; }
 
 	// move or swap selected window to the left column depending
 	// on column row count
-	Mod+Alt+H  { spawn-sh "~/.config/niri/niri-smart-move.sh left"; }
+	Mod+Shift+H  { spawn-sh "~/.config/niri/niri-smart-move.sh left"; }
 	// move or swap selected window to the right column depending
 	// on column row count
-	Mod+Alt+L  { spawn-sh "~/.config/niri/niri-smart-move.sh right"; }
+	Mod+Shift+L  { spawn-sh "~/.config/niri/niri-smart-move.sh right"; }
 
 	Mod+Home { focus-column-first; }
 	Mod+End  { focus-column-last; }

@@ -19,8 +19,19 @@ FORCE_COLUMN_MARKER = (
     Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp"))
     / "niri-tilemod-force-column-vivaldi"
 )
+FORCE_STACK_MARKER = (
+    Path(os.environ.get("XDG_RUNTIME_DIR", "/tmp"))
+    / "niri-tilemod-force-stack-vivaldi"
+)
 
 FORCE_COLUMN_APPS = {
+    "vivaldi-stable",
+}
+FORCE_STACK_APPS = {
+    "vivaldi-stable",
+}
+
+DEFAULT_COLUMN_APPS = {
     "vivaldi-stable",
 }
 
@@ -78,6 +89,11 @@ parser.add_argument(
     "--autostack_last_column_only",
     action="store_true",
     help="Only enable auto-stacking when the new window is opened in the last-most column",
+)
+parser.add_argument(
+    "--solo_first_column",
+    action="store_true",
+    help="Keep the first column solo, then stack subsequent columns normally",
 )
 parser.add_argument(
     "--autostack_into_row_gaps",
@@ -142,6 +158,7 @@ ARG_MAXIMIZE_SOLOS_ON_CLOSE = not args.no_maximize_on_close
 ARG_COLLAPSE_SOLOS_ON_OPEN = not args.no_collapse_on_open
 ARG_APPLY_TO_MOVED_WINDOWS = args.apply_to_moved_windows
 ARG_AUTOSTACK_LAST_ONLY = args.autostack_last_column_only
+ARG_SOLO_FIRST_COLUMN = args.solo_first_column
 ARG_AUTOSTACK_INTO_GAPS = args.autostack_into_row_gaps
 ARG_ACTION_MAXIMIZE = args.action_maximize
 STARTUP_DELAY_MS = args.delay_startup_ms
@@ -249,6 +266,24 @@ class WindowSizeState(Enum):
 
 # ---------------------------------------------------------------------------------------------------------------------
 # %% Helpers
+
+
+def get_forced_placement(*, window_title: str, app_id: str, default_column_apps: set[str]) -> str | None:
+    """Return an explicit placement override for a newly opened window."""
+    if window_title == "niri-stack":
+        return "stack"
+    if window_title == "niri-column" or app_id in default_column_apps:
+        return "column"
+    return None
+
+
+def should_autostack(*, force_column: bool, solo_first_column: bool, num_tile_windows: int) -> bool:
+    """Return whether normal neighbor auto-stacking should be considered."""
+    if force_column:
+        return False
+    if solo_first_column and num_tile_windows == 2:
+        return False
+    return True
 
 
 def get_tiling_config(tiling_configs_dict: dict, workspace_dict: dict, outputs_dict: dict) -> tuple[str, dict]:
@@ -401,6 +436,7 @@ base_configs_dict = {
         "allow_outer_stack": ARG_ALLOW_OUTER_STACK,
         "apply_to_moved_windows": ARG_APPLY_TO_MOVED_WINDOWS,
         "autostack_last_column_only": ARG_AUTOSTACK_LAST_ONLY,
+        "solo_first_column": ARG_SOLO_FIRST_COLUMN,
         "autostack_into_row_gaps": ARG_AUTOSTACK_INTO_GAPS,
         "right_to_left": ARG_ENABLE_RTL,
         "action_maximize": ARG_ACTION_MAXIMIZE,
@@ -692,12 +728,22 @@ try:
             win_title = new_win_dict.get("title", "")
             app_id = new_win_dict.get("app_id", "")
 
-            force_column = win_title == "niri-column"
-            force_stack = win_title == "niri-stack"
+            forced_placement = get_forced_placement(
+                window_title=win_title,
+                app_id=app_id,
+                default_column_apps=DEFAULT_COLUMN_APPS,
+            )
 
-            if app_id in FORCE_COLUMN_APPS and FORCE_COLUMN_MARKER.exists():
-                force_column = True
+            if app_id in FORCE_STACK_APPS and FORCE_STACK_MARKER.exists():
+                forced_placement = "stack"
+                FORCE_STACK_MARKER.unlink()
+            elif app_id in FORCE_COLUMN_APPS and FORCE_COLUMN_MARKER.exists():
+                if forced_placement != "stack":
+                    forced_placement = "column"
                 FORCE_COLUMN_MARKER.unlink()
+
+            force_column = forced_placement == "column"
+            force_stack = forced_placement == "stack"
 
             enable_rtl = config["right_to_left"]
             enable_strict_fill_gaps = config["autostack_into_row_gaps"] == "strict"
@@ -745,7 +791,11 @@ try:
                 if left_col_idx in rows_per_column_dict:
                     need_shift_amt = -1
 
-            elif not force_column:
+            elif should_autostack(
+                force_column=force_column,
+                solo_first_column=config["solo_first_column"],
+                num_tile_windows=num_tile_wins,
+            ):
                 for side_col_idx, shift_amt in side_col_iter:
                     if side_col_idx not in rows_per_column_dict.keys():
                         continue
@@ -834,4 +884,3 @@ finally:
     event_stream_reader.close()
     niri.close()
     print("", f"({SCRIPTNAME}) - Closed niri IPC connection", sep="\n")
-

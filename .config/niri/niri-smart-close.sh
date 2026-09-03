@@ -2,6 +2,11 @@
 
 set -euo pipefail
 
+if [[ "$(niri msg -j overview-state | jq -r '.is_open')" == "true" ]]; then
+    niri msg action close-window
+    exit 0
+fi
+
 state="${XDG_RUNTIME_DIR:-/tmp}/niri-preferred-row.json"
 
 before="$(niri msg -j focused-window)"
