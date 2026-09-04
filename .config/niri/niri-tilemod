@@ -272,6 +272,8 @@ def get_forced_placement(*, window_title: str, app_id: str, default_column_apps:
     """Return an explicit placement override for a newly opened window."""
     if window_title == "niri-stack":
         return "stack"
+    if window_title == "niri-tile":
+        return "tile"
     if window_title == "niri-column" or app_id in default_column_apps:
         return "column"
     return None
@@ -487,6 +489,8 @@ focused_wspace_id: int | None = None
 all_win_dict: dict[int, dict] = {}
 all_wspace_dict: dict[int, dict] = {}
 all_monitor_dict: dict[str, dict] = {}
+# New niri-tile window ID -> window ID whose width should be restored on close.
+force_tile_restore_targets: dict[int, int] = {}
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -521,6 +525,7 @@ try:
 
         # Reset event state
         new_win_dict = None
+        new_win_previous_focus_id = None
         closed_win_dict = None
         is_win_move_wspace_event = False
 
@@ -557,6 +562,7 @@ try:
                 is_win_move_wspace_event = evt_win_data["workspace_id"] != all_win_dict[evt_win_id]["workspace_id"]
             if is_new_window or is_win_move_wspace_event:
                 new_win_dict = evt_win_data
+                new_win_previous_focus_id = focused_win_id
 
             # Update focus, if needed
             if evt_data["window"]["is_focused"]:
@@ -668,9 +674,43 @@ try:
             if config["disabled"]:
                 continue
 
-            # Handle re-maximizing solo windows
+            # Restore the source column when its paired niri-tile window closes.
             tile_win_dict = get_tiled_workspace_windows(all_win_dict, curr_wspace_id)
-            if len(tile_win_dict) == 1 and config["maximize_solos_on_close"]:
+            closed_win_id = closed_win_dict["id"]
+            restore_target_id = force_tile_restore_targets.pop(closed_win_id, None)
+
+            # Drop mappings whose source window was closed first.
+            for paired_win_id, source_win_id in tuple(force_tile_restore_targets.items()):
+                if source_win_id == closed_win_id:
+                    force_tile_restore_targets.pop(paired_win_id)
+
+            restore_target = tile_win_dict.get(restore_target_id, None)
+
+            # After a tilemod restart the in-memory mapping is unavailable.
+            # The marker title and original adjacent column provide a fallback.
+            if restore_target is None and closed_win_dict.get("title", "") == "niri-tile":
+                closed_col_idx = get_col_index(closed_win_dict)
+                restore_target = next(
+                    (
+                        info
+                        for info in tile_win_dict.values()
+                        if get_col_index(info) == closed_col_idx - 1
+                    ),
+                    None,
+                )
+                restore_target_id = None if restore_target is None else restore_target["id"]
+
+            did_restore_force_tile = False
+            if restore_target is not None:
+                restore_target_size_state = get_missing_size_state(restore_target, curr_monitor_dict)
+                niri.batch_action("FocusWindow", id=restore_target_id)
+                if restore_target_size_state == WindowSizeState.NOT_MAXIMIZED:
+                    niri.batch_action("MaximizeColumn")
+                niri.commit_batch()
+                did_restore_force_tile = True
+
+            # Handle re-maximizing solo windows
+            if not did_restore_force_tile and len(tile_win_dict) == 1 and config["maximize_solos_on_close"]:
                 solo_id = tuple(tile_win_dict.keys())[0]
                 solo_win_size_state = get_missing_size_state(tile_win_dict[solo_id], curr_monitor_dict)
                 if solo_win_size_state == WindowSizeState.NOT_MAXIMIZED:
@@ -742,7 +782,10 @@ try:
                     forced_placement = "column"
                 FORCE_COLUMN_MARKER.unlink()
 
-            force_column = forced_placement == "column"
+            # "tile" is a forced column that may also break a fullscreen solo
+            # window below. Keep "column" from changing fullscreen state.
+            force_tile = forced_placement == "tile"
+            force_column = forced_placement in ("column", "tile")
             force_stack = forced_placement == "stack"
 
             enable_rtl = config["right_to_left"]
@@ -820,6 +863,10 @@ try:
                             break
                     pass
 
+            # Collect action responses here because force-tile may need to
+            # commit once early, then re-read state after leaving fullscreen.
+            action_responses = []
+
             # Handle shifting
             is_focus_on_new_win = focused_win_id == new_win_id
             if need_shift_amt != 0:
@@ -846,8 +893,69 @@ try:
                     if not is_focus_on_new_win and (focused_win_id is not None):
                         niri.batch_action("FocusWindow", id=focused_win_id)
 
+            # An explicit niri-tile request makes the previously focused
+            # column and the new column share the view. This applies even if
+            # the workspace has other columns outside the visible area.
+            did_force_tile = False
+            if force_tile:
+                tile_target_id = new_win_previous_focus_id
+                tile_target = tile_win_dict.get(tile_target_id, None)
+
+                # Normally the previous focus is known. Fall back to the
+                # column directly left of the newly opened window if needed.
+                if tile_target is None or tile_target_id == new_win_id:
+                    left_col_idx = new_win_col_idx - 1
+                    tile_target = next(
+                        (
+                            info
+                            for info in tile_win_dict.values()
+                            if info["id"] != new_win_id and get_col_index(info) == left_col_idx
+                        ),
+                        None,
+                    )
+                    tile_target_id = None if tile_target is None else tile_target["id"]
+
+                if tile_target is not None:
+                    tile_target_size_state = get_missing_size_state(tile_target, curr_monitor_dict)
+
+                    if tile_target_size_state == WindowSizeState.FULLSCREEN:
+                        niri.batch_action("FocusWindow", id=tile_target_id)
+                        niri.batch_action("FullscreenWindow", id=tile_target_id)
+                        action_responses.extend(niri.commit_batch())
+
+                        # Fullscreen is independent of the underlying column
+                        # width. Refresh after leaving it so a maximized column
+                        # can be collapsed too.
+                        ok_windows, windows_response = niri.message("Windows")
+                        if ok_windows:
+                            refreshed_target = next(
+                                (
+                                    info
+                                    for info in windows_response["Windows"]
+                                    if info["id"] == tile_target_id
+                                ),
+                                None,
+                            )
+                            if refreshed_target is not None:
+                                tile_target_size_state = get_missing_size_state(
+                                    refreshed_target,
+                                    curr_monitor_dict,
+                                )
+
+                    niri.batch_action("FocusWindow", id=tile_target_id)
+                    if tile_target_size_state == WindowSizeState.MAX_COLUMN:
+                        niri.batch_action("MaximizeColumn")
+                    elif tile_target_size_state == WindowSizeState.MAX_TO_EDGES:
+                        niri.batch_action("MaximizeWindowToEdges", id=tile_target_id)
+                    niri.batch_action("SetColumnWidth", change={"SetProportion": 50.0})
+
+                    niri.batch_action("FocusWindow", id=new_win_id)
+                    niri.batch_action("SetColumnWidth", change={"SetProportion": 50.0})
+                    force_tile_restore_targets[new_win_id] = tile_target_id
+                    did_force_tile = True
+
             # Collapse maximized windows when no longer solo
-            if num_tile_wins == 2 and config["collapse_solos_on_open"]:
+            if num_tile_wins == 2 and config["collapse_solos_on_open"] and not did_force_tile:
                 other_win_id = [win_id for win_id in tile_win_dict.keys() if win_id != new_win_id][0]
                 other_win_size_state = get_missing_size_state(tile_win_dict[other_win_id], curr_monitor_dict)
                 if other_win_size_state != WindowSizeState.NOT_MAXIMIZED:
@@ -856,12 +964,11 @@ try:
                         niri.batch_action("MaximizeColumn")
                     elif other_win_size_state == WindowSizeState.MAX_TO_EDGES:
                         niri.batch_action("MaximizeWindowToEdges")
-                    # -> Could collapse fullscreen state, but probably not desired...
                     niri.batch_action("FocusWindow", id=focused_win_id if focused_win_id is not None else new_win_id)
                 pass
 
             # Trigger all actions & report any errors
-            action_responses = niri.commit_batch()
+            action_responses.extend(niri.commit_batch())
             for name_action, (ok_action, response_msg) in action_responses:
                 if not ok_action:
                     notify(f"Action error: {name_action}\n{response_msg}")

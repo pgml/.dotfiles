@@ -4,6 +4,16 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste but keeps register" })
 
+-- multicursor stuff
+local mc = vim.api.nvim_create_namespace("nvim.multicursor")
+vim.keymap.set("n", ",", function()
+    if vim.api.nvim_buf_get_extmarks(0, mc, 0, -1, { limit = 1 })[1] then
+        vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)
+        return ""
+    end
+    return ","
+end, { expr = true })
+
 local function switch_tab(command)
 	return function()
 		command()
