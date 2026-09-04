@@ -1,0 +1,14 @@
+//! name "Work with Laptop"
+//! shortcut "L"
+//! style font-family="sans-serif"
+
+output "HDMI-A-1" {
+	mode "2560x1440@144"
+	position x=0 y=0
+}
+
+output "eDP-1" {
+	mode "1920x1200@60"
+	scale 1.15
+	position x=2560 y=765
+}

@@ -1,0 +1,15 @@
+//! name "Vertical"
+//! shortcut "d"
+//! style font-family="sans-serif"
+
+output "DP-3" {
+	mode "1920x1080@165"
+	focus-at-startup
+	position x=0 y=0
+}
+
+output "HDMI-A-1" {
+	mode "1920x1080@60"
+	position x=0 y=1080
+}
+
