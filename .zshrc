@@ -14,7 +14,7 @@ export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export XDG_MENU_PREFIX=plasma-
 
 export ZSH="$HOME/.zsh"
-source $ZSH/fancystuff
+source $ZSH/fancystuff.zsh
 
 export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 
