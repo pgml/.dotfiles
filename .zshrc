@@ -34,3 +34,18 @@ alias vim=nvim
 ulimit -n 65535
 
 eval "$(zoxide init zsh)"
+
+# bun completions
+[ -s "/home/pgml/.bun/_bun" ] && source "/home/pgml/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/pgml/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

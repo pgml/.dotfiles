@@ -15,7 +15,7 @@ input {
 
 	touchpad {
 		tap
-		dwt
+		//dwt
 		dwtp
 		drag true
 		// drag-lock
@@ -136,6 +136,7 @@ cursor {
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
+//spawn-at-startup "kanshi"
 spawn-sh-at-startup "bbclipd --max-entries=200"
 spawn-sh-at-startup "owncloud --quite"
 spawn-sh-at-startup "~/.config/niri/niri-tilemod -n 2 -b 0 100 --solo_first_column"
