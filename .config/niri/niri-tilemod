@@ -33,6 +33,11 @@ FORCE_STACK_APPS = {
 
 DEFAULT_COLUMN_APPS = {
     "vivaldi-stable",
+    # Installed image/video viewers and players.
+    "org.kde.gwenview",
+    "mpv",
+    "vlc",
+    "ffplay",
 }
 
 # Potentially missing lib (requires python v3.11+, but v3.10 is still considered supported!)

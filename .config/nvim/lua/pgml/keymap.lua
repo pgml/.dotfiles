@@ -7,11 +7,11 @@ vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste but keeps register" })
 -- multicursor stuff
 local mc = vim.api.nvim_create_namespace("nvim.multicursor")
 vim.keymap.set("n", ",", function()
-    if vim.api.nvim_buf_get_extmarks(0, mc, 0, -1, { limit = 1 })[1] then
-        vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)
-        return ""
-    end
-    return ","
+	if vim.api.nvim_buf_get_extmarks(0, mc, 0, -1, { limit = 1 })[1] then
+		vim.api.nvim_buf_clear_namespace(0, mc, 0, -1)
+		return ""
+	end
+	return ","
 end, { expr = true })
 
 local function switch_tab(command)
@@ -37,7 +37,7 @@ vim.keymap.set("n", "<leader>tn", vim.cmd.tabnew, { desc = "Open tab in FakeZen"
 vim.keymap.set("n", "<leader>w", vim.cmd.tabclose);
 
 vim.keymap.set('t', '<esc><esc>', "<C-\\><C-n>")
-vim.keymap.set('t', 'jk',    "<C-\\><C-n>")
+vim.keymap.set('t', 'jk', "<C-\\><C-n>")
 vim.keymap.set('t', '<C-h>', "<Cmd>wincmd h<CR>")
 vim.keymap.set('t', '<C-j>', "<Cmd>wincmd j<CR>")
 vim.keymap.set('t', '<C-k>', "<Cmd>wincmd k<CR>")

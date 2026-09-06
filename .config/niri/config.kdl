@@ -370,12 +370,13 @@ binds {
 	// Expel the bottom window from the focused column to the right.
 	Mod+Period { expel-window-from-column; }
 
-	Mod+R           { switch-preset-column-width; }
-	Mod+Ctrl+R     { switch-preset-window-height; }
+	Mod+R            { switch-preset-column-width; }
+	Mod+Ctrl+R       { switch-preset-window-height; }
 	Mod+Shift+R      { reset-window-height; }
-	Ctrl+Return     { fullscreen-window; }
-	Mod+Return      { maximize-column; }
-	Mod+Ctrl+Return { spawn-sh "~/.config/niri/niri-maximize-helper"; }
+	Ctrl+Return      { fullscreen-window; }
+	Mod+Return       { maximize-column; }
+	Mod+Ctrl+Return  { spawn-sh "~/.config/niri/niri-maximize-helper"; }
+	Mod+Ctrl+F       { expand-column-to-available-width; }
 
 	Mod+C { center-column; }
 
