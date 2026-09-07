@@ -30,6 +30,15 @@ function chpwd() {
     fi
 }
 
+function git() {
+    if [[ "$1" == "pull" && "$PWD" == "$HOME/Projects/clab/kube"* && "$(command git branch --show-current 2>/dev/null)" == "staging" ]]; then
+        command git pull
+        command git submodule foreach 'git checkout $(git config -f $toplevel/.gitmodules submodule.$name.branch || echo staging) && git pull'
+    else
+        command git "$@"
+    fi
+}
+
 # Updates the prompt and forces execution of all registered hooks to refresh theme states.
 function _refresh_prompt_and_hooks() {
     local hook_function
