@@ -22,7 +22,7 @@ alias krunner="XDG_MENU_PREFIX=niri- krunner"
 alias love="SDL_VIDEODRIVER=wayland love"
 
 alias ..="cd .."
-alias ls="ls --color"
+alias ls="ls -h --color"
 alias l="ls"
 alias ll="l -l"
 alias la="ll -a"

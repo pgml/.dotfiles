@@ -107,14 +107,23 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 10
+	geometry-corner-radius 3
 	clip-to-geometry true
 	draw-border-with-background true
 
 	background-effect {
 		blur true
 		noise 0.05
-		saturation 3
+		saturation 1
+		xray true
+	}
+
+	popups {
+		geometry-corner-radius 3
+
+		background-effect {
+			blur true
+		}
 	}
 }
 
@@ -140,6 +149,7 @@ spawn-at-startup "mako"
 spawn-sh-at-startup "bbclipd --max-entries=200"
 spawn-sh-at-startup "owncloud --quite"
 spawn-sh-at-startup "~/.config/niri/niri-tilemod -n 2 -b 0 100 --solo_first_column"
+spawn-sh-at-startup "~/.local/bin/waypaper --restore"
 
 environment {
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
@@ -175,6 +185,12 @@ window-rule {
 }
 
 window-rule {
+	match app-id=r#"waypaper$"#
+	open-floating true
+	baba-is-float true
+}
+
+window-rule {
 	match app-id=r#"firefox$"# title="^Picture-in-Picture$"
 	open-floating true
 }
@@ -203,6 +219,7 @@ binds {
 	Mod+Ctrl+Alt+C { spawn "wl-color-picker"; }
 	Ctrl+Alt+C { spawn "wl-color-picker" "clipboard"; }
 	Ctrl+Shift+X { spawn "bbclip"; }
+	Mod+Ctrl+W { spawn "~/.local/bin/waypaper" "--zen-mode"; }
 
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 
@@ -404,8 +421,16 @@ binds {
 	Ctrl+Alt+Delete { quit; }
 
 	Mod+Shift+P { power-off-monitors; }
+	Mod+Ctrl+D { spawn "~/.config/niri/nirilayout"; }
 }
 
 // Machine-specific work overrides. This repository is intentionally separate
 // from the shared dotfiles repository and may be absent on non-work machines.
 include optional=true "~/.dotfiles-work/.config/niri/work.kdl"
+
+// >>> niri-pip runtime include >>>
+// niri-pip runtime rules
+include optional=true "niri-pip-runtime.kdl"
+// <<< niri-pip runtime include <<<
+
+include optional=true "nirilayout.kdl"
