@@ -23,9 +23,12 @@ return {
 		vim.keymap.set('n', 'gd', builtin.lsp_definitions)
 		vim.keymap.set('n', 'gr', builtin.lsp_references)
 
-		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
-		vim.keymap.set("v", "<leader>lf", vim.lsp.buf.format)
-		vim.keymap.set("x", "<leader>lf", vim.lsp.buf.format)
+		vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
+			require("conform").format({
+				async = true,
+				lsp_format = "fallback",
+			})
+		end, { desc = "Format buffer or selection" })
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
 
@@ -64,6 +67,10 @@ return {
 		--vim.lsp.config("emmylua_ls", {})
 		vim.lsp.config("clangd", {
 			filetypes = { "c" },
+			init_options = {
+				-- clangd otherwise guesses that standalone headers are C++.
+				fallbackFlags = { "-xc", "-std=gnu17" },
+			},
 		})
 		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})

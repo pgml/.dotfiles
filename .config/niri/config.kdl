@@ -222,6 +222,7 @@ binds {
 	Mod+Ctrl+W { spawn "~/.local/bin/waypaper" "--zen-mode"; }
 
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
+	Mod+Ctrl+Y { spawn "~/.config/ghostty/toggle-theme"; }
 
 	Mod+T {
 		spawn "ghostty" "+new-window";

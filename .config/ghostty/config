@@ -1,11 +1,17 @@
 # Appearance
-theme = Mariana
-background = #2E3842
-background-opacity = 0.8
+
+# -- DARK
+#theme = Mariana
+#background = #2E3842
+
+# -- LIGHT
+theme = Breadog
+background = #dbdbdc
+
 confirm-close-surface = always
 window-decoration = server
 window-theme = ghostty
-background-opacity = 0.8
+background-opacity = 0.95
 cursor-style = block
 cursor-style-blink = false
 window-padding-y = 0
@@ -15,6 +21,7 @@ unfocused-split-opacity = 0.92
 
 unfocused-split-fill = #eeeeee
 split-divider-color = #ff0000
+quick-terminal-screen = mouse
 
 
 # GTK

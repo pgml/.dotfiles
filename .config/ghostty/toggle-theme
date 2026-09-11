@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+config="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/config"
+
+sed -Ei \
+	-e '/^(theme|background) = /s/^/##/' \
+	-e '/^#(theme|background) = /s/^#//' \
+	-e '/^##(theme|background) = /s/^#//' \
+	"$config"
+
+systemctl --user reload app-com.mitchellh.ghostty.service
