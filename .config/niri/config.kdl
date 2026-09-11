@@ -2,9 +2,9 @@ input {
 	mod-key "Super"
 	keyboard {
 		xkb {
-			layout "de"
+			layout "de,us"
 			variant "mac_nodeadkeys"
-			options "ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,compose:caps,kpdl:comma"
+			options "grp:win_space_toggle,ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,compose:caps,kpdl:comma"
 			// apple keyboard
 			//options "ctrl:swap_lwin_lctl,lv3:caps_switch,compose:caps"
 			//options "lv3:caps_switch,compose:caps"
