@@ -2,9 +2,7 @@ input {
 	mod-key "Super"
 	keyboard {
 		xkb {
-			layout "de,us"
-			variant "mac_nodeadkeys,altgr-weur"
-			options "grp:win_space_toggle,ctrl:swap_lalt_lctl_lwin,lv3:caps_switch,kpdl:comma"
+			file "~/.config/niri/programming-keymap.xkb"
 			// apple keyboard
 			//options "ctrl:swap_lwin_lctl,lv3:caps_switch,compose:caps"
 			//options "lv3:caps_switch,compose:caps"
