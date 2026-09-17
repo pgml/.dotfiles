@@ -4,25 +4,25 @@ xkb_keymap {
     xkb_compat { include "complete" };
     xkb_symbols {
         include "pc+de(mac_nodeadkeys)+de(mac_nodeadkeys):2+inet(evdev)+group(win_space_toggle)+ctrl(swap_lalt_lctl_lwin)+level3(caps_switch)+kpdl(comma)"
-        name[Group2] = "programming";
+        name[Group1] = "programming";
 
-        key <AE09> { symbols[Group2] = [ 9, parenleft, braceleft, periodcentered ] };
-        key <AE10> { symbols[Group2] = [ 0, parenright, braceright, macron ] };
-        key <AE11> { symbols[Group2] = [ 0, equal, notequal, macron ] };
+        key <AE09> { symbols[Group1] = [ 9, parenleft, braceleft, periodcentered ] };
+        key <AE10> { symbols[Group1] = [ 0, parenright, braceright, macron ] };
+        key <AE11> { symbols[Group1] = [ 0, equal, notequal, macron ] };
         key <AD11> {
-			type[Group2] = "FOUR_LEVEL",
-			symbols[Group2] = [ bracketleft, braceleft, udiaeresis, Udiaeresis ]
+			type[Group1] = "FOUR_LEVEL",
+			symbols[Group1] = [ bracketleft, braceleft, udiaeresis, Udiaeresis ]
 		};
-        key <AD12> { symbols[Group2] = [ bracketright, plus, asterisk, braceright ] };
+        key <AD12> { symbols[Group1] = [ bracketright, plus, asterisk, braceright ] };
         key <AC10> {
-			type[Group2] = "FOUR_LEVEL",
-			symbols[Group2] = [ semicolon, colon, odiaeresis, Odiaeresis ]
+			type[Group1] = "FOUR_LEVEL",
+			symbols[Group1] = [ semicolon, colon, odiaeresis, Odiaeresis ]
 		};
         key <AC11> {
-			type[Group2] = "FOUR_LEVEL",
-			symbols[Group2] = [ apostrophe, quotedbl, adiaeresis, Adiaeresis ]
+			type[Group1] = "FOUR_LEVEL",
+			symbols[Group1] = [ apostrophe, quotedbl, adiaeresis, Adiaeresis ]
 		};
-        key <BKSL> { symbols[Group2] = [ numbersign, slash, bar, backslash ] };
-        key <AB10> { symbols[Group2] = [ minus, underscore, question, emdash ] };
+        key <BKSL> { symbols[Group1] = [ numbersign, slash, bar, backslash ] };
+        key <AB10> { symbols[Group1] = [ minus, underscore, question, emdash ] };
     };
 };
