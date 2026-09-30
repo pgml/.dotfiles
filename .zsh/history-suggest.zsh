@@ -14,7 +14,7 @@ function _update_history_preview() {
     fi
 
     local preview
-	preview=$(/home/r/.dotfiles/.local/bin/history-preview --preview "$BUFFER" "$COLUMNS" 2>/dev/null)
+	preview=$(~/.dotfiles/.local/bin/history-preview --preview "$BUFFER" "$COLUMNS" 2>/dev/null)
 
     if [[ -n "$preview" ]]; then
         zle -M "$preview"
@@ -37,7 +37,7 @@ function _custom_backward_delete() {
     _update_history_preview
 }
 
-# Launches interactive Bubble Tea history selection and replaces the buffer with the chosen command.
+# Launches the history picker and replaces or clears the input after selection or execution.
 function _select_history_with_bubbletea() {
     if [[ -z "$BUFFER" ]]; then
         return
@@ -56,12 +56,17 @@ function _select_history_with_bubbletea() {
     # Flush any pending key strokes
     while read -t 0 -k 1; do read -k 1; done
 
-    local chosen
-    chosen=$(/home/r/.dotfiles/.local/bin/history-preview "$BUFFER")
+    local chosen picker_status=0
+    chosen=$(~/.dotfiles/.local/bin/history-preview "$BUFFER") || picker_status=$?
 
     while read -t 0 -k 1; do read -k 1; done
 
-    if [[ -n "$chosen" ]]; then
+    # Status 10 asks the shell to clear the input after executing a command.
+    if (( picker_status == 10 )); then
+        BUFFER=""
+        CURSOR=0
+        _HISTORY_BROWSING=0
+    elif [[ -n "$chosen" ]]; then
         fc -R
         BUFFER="$chosen"
         CURSOR=$#BUFFER
