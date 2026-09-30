@@ -14,6 +14,7 @@ xkb_keymap {
 			symbols[Group1] = [ bracketleft, braceleft, udiaeresis, Udiaeresis ]
 		};
         key <AD12> { symbols[Group1] = [ bracketright, plus, asterisk, braceright ] };
+        key <AC02> { type[Group1] = "FOUR_LEVEL", symbols[Group1] = [ s, S, ssharp, U1E9E ] };
         key <AC10> {
 			type[Group1] = "FOUR_LEVEL",
 			symbols[Group1] = [ semicolon, colon, odiaeresis, Odiaeresis ]

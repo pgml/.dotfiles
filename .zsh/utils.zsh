@@ -332,20 +332,35 @@ bindkey '^e' _zmx_select_widget
 [[ -r "$HOME/.zsh/ssh-colours.local.zsh" ]] &&
     source "$HOME/.zsh/ssh-colours.local.zsh"
 
+_terminal_background_is_light() {
+    local reply character
+
+    printf '\033]11;?\033\\' > /dev/tty
+    while IFS= read -rs -k 1 -t 0.1 character < /dev/tty; do
+        reply+="$character"
+        [[ "$reply" == *$'\033\\' ]] && break
+    done
+
+    [[ "$reply" =~ 'rgb:([[:xdigit:]]+)/([[:xdigit:]]+)/([[:xdigit:]]+)' ]] || return 1
+    (( 16#$match[1] + 16#$match[2] + 16#$match[3] > 3 * (1 << (4 * ${#match[1]} - 1)) ))
+}
+
 function ssh() {
-    local background='#123b2a'
+    local backgrounds='#123b2a:#d8f3dc'
     local argument
 
     # Use a connection-specific colour when the exact SSH destination matches.
     if (( ${+SSH_BACKGROUND_COLOURS} )); then
         for argument in "$@"; do
             if [[ -n "${SSH_BACKGROUND_COLOURS[$argument]-}" ]]; then
-                background="${SSH_BACKGROUND_COLOURS[$argument]}"
+                backgrounds="${SSH_BACKGROUND_COLOURS[$argument]}"
                 break
             fi
         done
     fi
 
+    local background="${backgrounds%%:*}"
+    _terminal_background_is_light && background="${backgrounds#*:}"
     printf "\033]11;%s\a" "$background"
 
     # Run the SSH command inside a subshell to isolate the trap

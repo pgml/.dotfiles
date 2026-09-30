@@ -32,6 +32,8 @@ setopt MENU_COMPLETE
 zmodload zsh/complist
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 
+source $ZSH/history-suggest.zsh
+
 # Styling for completion menu
 zstyle ':completion:*' menu select
 zstyle ':completion:*:*:*:*:*' menu select
