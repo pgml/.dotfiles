@@ -48,3 +48,9 @@ vim.api.nvim_create_user_command("TerminalTab", terminal_tab, {
 vim.keymap.set("n", "<leader>tt", terminal_tab, {
 	desc = "Open terminal in new tab",
 })
+
+-- Reload files changed outside of Neovim when focus is gained or when entering a buffer
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave", "WinEnter", "BufEnter" }, {
+    group = vim.api.nvim_create_augroup("checktime", { clear = true }),
+    command = "checktime",
+})
