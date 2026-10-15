@@ -7,6 +7,8 @@ vim.g.netrw_banner = 0
 vim.g.netrw_preview = 1
 vim.g.netrw_winsize = 20
 
+vim.g.loaded_nvim_dir_plugin = 1
+
 vim.o.winborder = "rounded"
 
 vim.g.have_nerd_font = true
