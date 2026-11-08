@@ -2,10 +2,6 @@
 // The include is installed separately and can be removed without touching iNiR core files.
 
 window-rule {
-	match title=r#"(?i)^picture(?:[ -]?in[ -]?)picture$"#
-	opacity 1.00
-}
-
-binds {
-	Mod+Alt+P { spawn-sh "niripip menu"; }
+match title=r#"(?i)^picture(?:[ -]?in[ -]?)picture$"#
+opacity 1.00
 }

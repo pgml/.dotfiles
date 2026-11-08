@@ -4,6 +4,10 @@
       "rev": "642b0c595e11608b4c18219e93b88d7637af27bc",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
+    "alabaster.nvim": {
+      "rev": "db4e0ed208af2c4f33a65b4231a675bb533b505a",
+      "src": "https://github.com/mcncl/alabaster.nvim"
+    },
     "base16-nvim": {
       "rev": "190397833e53fdfd5cf400c5baaf1a4e533158e5",
       "src": "https://github.com/RRethy/base16-nvim"

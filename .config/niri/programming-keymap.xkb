@@ -9,6 +9,10 @@ xkb_keymap {
         key <AE09> { symbols[Group1] = [ 9, parenleft, braceleft, periodcentered ] };
         key <AE10> { symbols[Group1] = [ 0, parenright, braceright, macron ] };
         key <AE11> { symbols[Group1] = [ 0, equal, notequal, macron ] };
+        key <AC02> {
+            type[Group1] = "FOUR_LEVEL",
+            symbols[Group1] = [ s, S, ssharp, U1E9E ]
+        };
         key <AD11> {
 			type[Group1] = "FOUR_LEVEL",
 			symbols[Group1] = [ bracketleft, braceleft, udiaeresis, Udiaeresis ]

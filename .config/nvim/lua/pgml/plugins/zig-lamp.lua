@@ -1,5 +1,6 @@
 return {
 	src = "jinzhongjia/zig-lamp",
+	enabled = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		-- For Neovim < 0.11 you’ll likely want lspconfig

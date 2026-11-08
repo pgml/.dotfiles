@@ -16,6 +16,14 @@ return {
 		luasnip.config.setup({})
 
 		cmp.setup({
+			enabled = function()
+				local context = require("cmp.config.context")
+				if vim.api.nvim_get_option_value("buftype", { buf = 0 }) == "prompt" then
+					return false
+				end
+				return not context.in_treesitter_capture("comment")
+					and not context.in_syntax_group("Comment")
+			end,
 			window = {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),

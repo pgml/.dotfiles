@@ -11,6 +11,9 @@ end
 require "pgml.keymap"
 require "pgml.utils"
 
+vim.cmd("colorscheme nana")
+vim.cmd("set background=light")
+
 vim.lsp.inlay_hint.enable(false)
 
 vim.api.nvim_set_hl(0, "TabLine", { bg = "NONE" })

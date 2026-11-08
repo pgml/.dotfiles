@@ -1,5 +1,6 @@
 return {
 	src = "RRethy/base16-nvim",
+	enabled = true,
 	init = function()
 		vim.cmd("colorscheme base16-tokyo-night-terminal-light")
 		require "base16-colorscheme".setup({
@@ -21,7 +22,7 @@ return {
 			base0F = '#655259'
 		})
 
-		vim.keymap.set("n", "<leader>thl", function()
+		vim.keymap.set("n", "<leader>tht", function()
 			vim.cmd("colorscheme base16-tokyo-night-terminal-light")
 			vim.cmd("set background=light")
 			--vim.cmd("set laststatus=0")

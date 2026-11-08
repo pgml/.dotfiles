@@ -24,15 +24,10 @@ return {
 		vim.keymap.set('n', 'gr', builtin.lsp_references)
 
 		vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
-			require("conform").format({
-				async = true,
-				lsp_format = "fallback",
-			})
+			vim.lsp.buf.format({ async = true })
 		end, { desc = "Format buffer or selection" })
 		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-
-		local lspconfig = require("lspconfig")
 
 		vim.lsp.config("lua_ls", {
 			settings = {
@@ -74,7 +69,17 @@ return {
 		})
 		vim.lsp.config("glsl_analyzer", {})
 		vim.lsp.config("rust_analyzer", {})
-		vim.lsp.config("ols", {})
+		vim.lsp.config("ols", {
+			flags = {
+				allow_incremental_sync = false,
+			},
+			init_options = {
+				enable_semantic_tokens = true,
+				enable_unused_imports_reporting = true,
+				enable_snippets = true,
+				enable_procedure_snippet = true,
+			},
+		})
 		vim.lsp.config("vtsls", {})
 
 		vim.lsp.config("gopls", {
@@ -139,10 +144,9 @@ return {
 		})
 
 		vim.lsp.config("zls", {
-			cmd = { "zls" },
-			filetypes = { "zig", "zir" },
-			single_file_support = true,
-			root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cmd,
+			--filetypes = { "zig", "zir" },
+			--single_file_support = true,
+			--root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cmd,
 		})
 	end
 }

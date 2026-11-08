@@ -29,6 +29,10 @@ input {
 		accel-speed -0.5
 		accel-profile "flat"
 	}
+
+	tablet {
+		map-to-output "DP-3"
+	}
 }
 
 // Kanshi handles monitor stuff, this is just here as a fallback if
@@ -105,15 +109,15 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 3
+	geometry-corner-radius 2
 	clip-to-geometry true
 	draw-border-with-background true
 
 	background-effect {
 		blur true
 		noise 0.05
-		saturation 1
-		xray true
+		saturation 8
+		xray false
 	}
 
 	popups {
@@ -144,13 +148,13 @@ spawn-at-startup "xwayland-satellite"
 spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
 //spawn-at-startup "kanshi"
-spawn-sh-at-startup "bbclipd --max-entries=200"
 spawn-sh-at-startup "owncloud --quite"
 spawn-sh-at-startup "~/.config/niri/niri-tilemod -n 2 -b 0 100 --solo_first_column"
 spawn-sh-at-startup "~/.local/bin/waypaper --restore"
 
 environment {
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
+	XCOMPOSEFILE "/home/pgml/.config/niri/programming-compose"
 	XDG_MENU_PREFIX "niri-"
 }
 
@@ -401,9 +405,11 @@ binds {
 
 	Mod+Minus { set-column-width "-10%"; }
 	Mod+Plus { set-column-width "+10%"; }
+	Mod+BracketRight { set-column-width "+10%"; }
 
 	Mod+Shift+Minus { set-window-height "-10%"; }
 	Mod+Shift+Plus { set-window-height "+10%"; }
+	Mod+Shift+BracketRight { set-window-height "+10%"; }
 
 	Mod+V       { toggle-window-floating; }
 	Ctrl+less   { switch-focus-between-floating-and-tiling; }
@@ -426,10 +432,9 @@ binds {
 // Machine-specific work overrides. This repository is intentionally separate
 // from the shared dotfiles repository and may be absent on non-work machines.
 include optional=true "~/.dotfiles-work/.config/niri/work.kdl"
+include optional=true "nirilayout.kdl"
 
 // >>> niri-pip runtime include >>>
 // niri-pip runtime rules
-include optional=true "niri-pip-runtime.kdl"
+include optional=true "/home/pgml/.config/niri/niri-pip-runtime.kdl"
 // <<< niri-pip runtime include <<<
-
-include optional=true "nirilayout.kdl"

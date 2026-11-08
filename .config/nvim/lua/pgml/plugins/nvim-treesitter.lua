@@ -1,6 +1,6 @@
 return {
 	src = "nvim-treesitter/nvim-treesitter",
-	enabled = false,
+	enabled = true,
 	init = function()
 		require('nvim-treesitter').setup {
 			install_dir = vim.fn.stdpath('data') .. '/site'
@@ -11,6 +11,7 @@ return {
 			"c_sharp",
 			"go",
 			"lua",
+			"odin",
 			"rust",
 			"vim",
 			"vimdoc",
