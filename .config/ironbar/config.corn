@@ -158,7 +158,7 @@ let {
 }
 
 in {
-	monitors.DP-2 = {
+	monitors.DVI-I-1 = {
 		//autohide = 1000
 		height = 20
 		icon_theme = "Tela-circle-nord"

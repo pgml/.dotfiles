@@ -5,7 +5,7 @@
 # Undocked (external monitors unplugged)
 
 profile {
-	output eDP-1 enable mode 2560x1440@165.003 scale 1.20 position 0,0
+	output eDP-1 enable scale 1 position 0,0
 }
 
 # When external HDMI is plugged in
@@ -18,6 +18,16 @@ profile {
 profile {
 	output eDP-1 disable
 
-	output HDMI-A-1 enable position 2300,0
-	output DP-1  enable position 2300,1080
+	output HDMI-A-1 enable position 0,0
+	output DP-1 enable position 0,1080
 }
+
+profile {
+	output eDP-1 disable
+	output DP-3 enable position 0,0
+}
+
+#profile {
+#	output DP-3 enable position 0,0
+#	output eDP-1 enable position
+#}

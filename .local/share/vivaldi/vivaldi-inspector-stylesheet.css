@@ -66,13 +66,24 @@
 }
 
 .tabs-left .svg-tab-stack {
-	box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2);
-	border-radius: 15px !important;
+	/* box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2); */
+	/* box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); */
+	/* border-radius: 15px; */
 }
 
 .tabs-left .tab:not(.tab-in-accordion, .tab-accordion),
 .tabs-right .tab:not(.tab-in-accordion, .tab-accordion) {
-	border-radius: 15px;
+	/* border-radius: 15px; */
+}
+
+.tabs-left .tab.active:not(.tab-in-accordion, .tab-accordion),
+.tabs-right .tab.active:not(.tab-in-accordion, .tab-accordion) {
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.tabs-left .tab.pinned,
+.tabs-right .tab.pinned {
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #browser .tab-position.colored .tab:not(.marked) + svg .stack-frame {
@@ -83,7 +94,7 @@
 	/*fill: var(--colorAccentBgAlphaHeavy);*/
 	fill: var(--colorHighlightBgAlpha);
 	stroke: var(--colorAccentBgFadedMost);
-	stroke-width: 2px;
+	stroke-width: 0px;
 }
 
 .tabs-left .button-toolbar.workspace-popup.tabbar-workspace-button {
@@ -108,7 +119,7 @@
 #webpage-stack {
 	border-radius: 6px !important;
 	background-color: var(--colorBg) !important;
-	box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.6);
+	/* box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.6); */
 	margin: 1px !important;
 	/* box-shadow: 0px 0px 7px -3px rgba(0, 0, 0, 0.6); */
 	/* box-shadow: -5px 0 8px -5px rgba(0, 0, 0, 0.1); */
