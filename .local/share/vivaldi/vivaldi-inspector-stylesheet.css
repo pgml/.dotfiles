@@ -68,7 +68,12 @@
 .tabs-left .svg-tab-stack {
 	/* box-shadow: 0 3px 2px -1px rgba(0, 0, 0, 0.2); */
 	/* box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); */
+	box-shadow: inset 2px 0px 0 rgba(0, 100, 200, 0.4);
 	/* border-radius: 15px; */
+}
+
+.tabs-left .is-pinned .svg-tab-stack {
+	box-shadow: 0;
 }
 
 .tabs-left .tab:not(.tab-in-accordion, .tab-accordion),
@@ -84,6 +89,13 @@
 .tabs-left .tab.pinned,
 .tabs-right .tab.pinned {
 	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: none;
+}
+
+.tabs-left .tab.pinned.active,
+.tabs-right .tab.pinned.active {
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: none !important;
 }
 
 #browser .tab-position.colored .tab:not(.marked) + svg .stack-frame {

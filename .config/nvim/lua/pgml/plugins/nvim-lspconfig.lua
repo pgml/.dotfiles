@@ -144,6 +144,8 @@ return {
 		})
 
 		vim.lsp.config("zls", {
+			cmd = {  vim.fn.stdpath("data") .. "/mason/bin/zls"  },
+			capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			--filetypes = { "zig", "zir" },
 			--single_file_support = true,
 			--root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cmd,
