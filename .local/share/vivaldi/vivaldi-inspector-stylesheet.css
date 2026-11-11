@@ -72,6 +72,20 @@
 	/* border-radius: 15px; */
 }
 
+.tab .stack-counter {
+    background: var(--colorHighlightBgFaded);
+    color: white;
+    font-size: 9px;
+}
+#tabs-container .tab.tab-small.tab-mini .tab-header .stack-counter {
+	display: block;
+	position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 5px;
+    height: 13px;
+}
+
 .tabs-left .is-pinned .svg-tab-stack {
 	box-shadow: 0;
 }
