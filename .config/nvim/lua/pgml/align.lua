@@ -147,6 +147,15 @@ local function wrap_params(each)
 		last = last + 1
 	end
 
+	-- In `if (call(...))` wrap the call's arguments, not the condition paren.
+	---@type string?
+	local kw = text:sub(1, open - 1):match("(%a+)%s*$")
+	---@type integer?
+	local inner = text:find("[%w_]%(", open + 1)
+	if (kw == "if" or kw == "while") and inner and inner < matching_paren(text, open) then
+		open = inner + 1
+	end
+
 	local close = matching_paren(text, open)
 	local params = split_params(text:sub(open + 1, close - 1))
 	local tail = text:sub(close)
@@ -188,7 +197,10 @@ local function wrap_params(each)
 		for i, p in ipairs(params) do
 			local piece = p .. (i < #params and "," or tail)
 			local sep = i == 1 and "" or " "
-			if i > 1 and (each or not fits(cur .. sep .. piece)) then
+			-- On a single line the trailing " {" also has to fit.
+			---@type string
+			local after = (i == #params and #out == 0) and suffix or ""
+			if i > 1 and (each or not fits(cur .. sep .. piece .. after)) then
 				table.insert(out, cur)
 				cur = cont .. piece
 			else
@@ -215,8 +227,11 @@ local function wrap_params(each)
 
 		if too_long and #params > 0 then
 			out = { head }
-			for _, p in ipairs(params) do
-				table.insert(out, indent .. indent_unit() .. p .. ",")
+			for i, p in ipairs(params) do
+				-- C doesn't allow a trailing comma after the last argument.
+				---@type string
+				local comma = (i < #params or vim.bo.filetype ~= "c") and "," or ""
+				table.insert(out, indent .. indent_unit() .. p .. comma)
 			end
 			table.insert(out, indent .. tail .. suffix)
 		end

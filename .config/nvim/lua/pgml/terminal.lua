@@ -34,6 +34,19 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "WinClosed", "TabClosed" }, {
 	end,
 })
 
+-- Switching from one terminal split to another lands in terminal mode.
+vim.api.nvim_create_autocmd("WinEnter", {
+	group = terminal_buffers,
+	callback = function()
+		---@type integer
+		local prev_nr = vim.fn.winnr("#")
+		if vim.bo.buftype == "terminal" and prev_nr ~= 0
+			and vim.bo[vim.api.nvim_win_get_buf(vim.fn.win_getid(prev_nr))].buftype == "terminal" then
+			vim.cmd.startinsert()
+		end
+	end,
+})
+
 --- Open a terminal in its own tab and enter terminal mode immediately.
 local function terminal_tab()
 	vim.cmd.tabnew()

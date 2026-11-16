@@ -218,8 +218,8 @@ binds {
 	Mod+Shift+Slash { show-hotkey-overlay; }
 
 	Ctrl+Space { spawn "~/.config/rofi/scripts/launcher_t7"; }
-	Mod+Ctrl+Alt+C { spawn "wl-color-picker"; }
-	Ctrl+Alt+C { spawn "wl-color-picker" "clipboard"; }
+	Mod+Ctrl+Alt+C { spawn-sh "~/.local/bin/wl-color-picker"; }
+	Ctrl+Alt+C { spawn-sh "~/.local/bin/wl-color-picker clipboard"; }
 	Ctrl+Shift+X { spawn "bbclip"; }
 	Mod+Ctrl+W { spawn "~/.local/bin/waypaper" "--zen-mode"; }
 
