@@ -53,7 +53,7 @@
 }
 
 .tab.pinned {
-	background-color: var(--colorAccentBgAlphaHeavy);
+	/* background-color: var(--colorAccentBgAlphaHeavy); */
 }
 .accordion-toggle-arrow {
 	z-index: 5;
@@ -79,7 +79,7 @@
     font-size: 9px;
 }
 #tabs-container .tab.tab-small.tab-mini .tab-header .stack-counter {
-	display: block;
+	/* display: block;
 	position: absolute;
     left: -1px;
     top: -1px;

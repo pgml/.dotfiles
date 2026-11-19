@@ -24,7 +24,7 @@ return {
 				live_grep = { initial_mode = "insert", theme = "ivy", },
 				git_files = { initial_mode = "insert", },
 				find_file = { initial_mode = "insert", },
-				--lsp_document_symbols = { initial_mode = "insert", }
+				lsp_document_symbols = { symbol_width = 50, },
 			},
 			extensions = {
 				["ui-select"] = { require("telescope.themes").get_dropdown(), },

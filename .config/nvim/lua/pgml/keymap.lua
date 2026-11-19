@@ -38,10 +38,10 @@ vim.keymap.set("n", "<leader>w", vim.cmd.tabclose);
 
 vim.keymap.set('t', '<esc><esc>', "<C-\\><C-n>")
 vim.keymap.set('t', 'jk', "<C-\\><C-n>")
-vim.keymap.set('t', '<C-h>', "<Cmd>wincmd h<CR>")
-vim.keymap.set('t', '<C-j>', "<Cmd>wincmd j<CR>")
-vim.keymap.set('t', '<C-k>', "<Cmd>wincmd k<CR>")
-vim.keymap.set('t', '<C-l>', "<Cmd>wincmd l<CR>")
+--vim.keymap.set('t', '<C-h>', "<Cmd>wincmd h<CR>")
+--vim.keymap.set('t', '<C-j>', "<Cmd>wincmd j<CR>")
+--vim.keymap.set('t', '<C-k>', "<Cmd>wincmd k<CR>")
+--vim.keymap.set('t', '<C-l>', "<Cmd>wincmd l<CR>")
 vim.keymap.set('t', '<C-w>', "<C-\\><C-n><C-w>")
 
 vim.keymap.set("n", "<leader>i", function()
