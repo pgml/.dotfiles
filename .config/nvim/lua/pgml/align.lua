@@ -12,7 +12,7 @@ local function depth_of(line, unit)
 	return n
 end
 
-local function align_fields(rules, l1, l2)
+local function align_fields(rules, l1, l2, unalign)
 	local lines = vim.api.nvim_buf_get_lines(0, l1 - 1, l2, false)
 	local parsed, widths, walrus = {}, {}, {}
 	local unit = indent_unit()
@@ -66,7 +66,7 @@ local function align_fields(rules, l1, l2)
 		if sep == "=" or sep == ":=" then
 			sep = ((walrus[key] and sep == "=") and "  " or " ") .. sep .. " "
 		end
-		lines[i] = head .. string.rep(" ", widths[key] - #head) .. sep .. rest
+		lines[i] = head .. string.rep(" ", unalign and 0 or widths[key] - #head) .. sep .. rest
 	end
 
 	vim.api.nvim_buf_set_lines(0, l1 - 1, l2, false, lines)
@@ -123,7 +123,7 @@ end
 local function wrap_params(each)
 	local row = vim.api.nvim_win_get_cursor(0)[1]
 	local line = vim.api.nvim_get_current_line()
-	local open = line:find("proc[^(]*%(") or 1
+	local open = line:find("%f[%w_]proc%f[^%w_][^(]*%(") or 1
 	open = line:find("(", open, true)
 	if not open then
 		return
@@ -131,11 +131,13 @@ local function wrap_params(each)
 
 	local count = vim.api.nvim_buf_line_count(0)
 	local text, last = line, row
+	local pieces = { (line:gsub("%s+$", "")) }
 	local function next_line()
 		return vim.trim(vim.api.nvim_buf_get_lines(0, last, last + 1, false)[1])
 	end
 
 	while paren_depth(text, open) > 0 and last < count do
+		table.insert(pieces, next_line())
 		text = text .. " " .. next_line()
 		last = last + 1
 	end
@@ -158,6 +160,7 @@ local function wrap_params(each)
 
 	local close = matching_paren(text, open)
 	local params = split_params(text:sub(open + 1, close - 1))
+	local trailing = vim.trim(text:sub(open + 1, close - 1)):sub(-1) == ","
 	local tail = text:sub(close)
 	local brace = tail:find("%s*{%s*$")
 	if brace then
@@ -187,7 +190,17 @@ local function wrap_params(each)
 	local joined = head .. table.concat(params, ", ")
 	local out
 
-	if (not each or #params < 2) and fits(joined .. tail .. suffix) then
+	if not each and not trailing and #pieces > 1 then
+		local cont = indent .. string.rep(" ", vim.fn.strdisplaywidth(head) - vim.fn.strdisplaywidth(indent))
+		out = { pieces[1] }
+		for i = 2, #pieces do
+			table.insert(out, cont .. pieces[i])
+		end
+		if brace then
+			out[#out] = (out[#out]:gsub("%s*{%s*$", ""))
+			table.insert(out, indent .. "{")
+		end
+	elseif not trailing and (not each or #params < 2) and fits(joined .. tail .. suffix) then
 		out = { joined .. tail .. suffix }
 	else
 		local cont = indent .. string.rep(" ", vim.fn.strdisplaywidth(head) - vim.fn.strdisplaywidth(indent))
@@ -225,7 +238,7 @@ local function wrap_params(each)
 			end
 		end
 
-		if too_long and #params > 0 then
+		if (too_long or trailing) and #params > 0 then
 			out = { head }
 			for i, p in ipairs(params) do
 				-- C doesn't allow a trailing comma after the last argument.
@@ -351,8 +364,12 @@ function M.attach(rules)
 	vim.api.nvim_buf_create_user_command(0, "AlignFields", function(o)
 		align_fields(rules, o.line1, o.line2)
 	end, { range = true })
+	vim.api.nvim_buf_create_user_command(0, "UnalignFields", function(o)
+		align_fields(rules, o.line1, o.line2, true)
+	end, { range = true })
 
 	vim.keymap.set("x", "<leader>a", ":AlignFields<cr>", { buffer = true, silent = true })
+	vim.keymap.set("x", "<leader>A", ":UnalignFields<cr>", { buffer = true, silent = true })
 	vim.keymap.set("n", "<leader>a", function()
 		if not wrap_condition(false) then
 			wrap_params(false)
