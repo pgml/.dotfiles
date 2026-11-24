@@ -109,7 +109,7 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 3
+	geometry-corner-radius 1
 	clip-to-geometry true
 	draw-border-with-background true
 
@@ -218,6 +218,7 @@ binds {
 	Mod+Shift+Slash { show-hotkey-overlay; }
 
 	Ctrl+Space { spawn "~/.config/rofi/scripts/launcher_t7"; }
+	Mod+Ctrl+Alt+Space repeat=false { switch-layout "next"; }
 	Mod+Ctrl+Alt+C { spawn-sh "~/.local/bin/wl-color-picker"; }
 	Ctrl+Alt+C { spawn-sh "~/.local/bin/wl-color-picker clipboard"; }
 	Ctrl+Shift+X { spawn "bbclip"; }
@@ -225,6 +226,8 @@ binds {
 
 	Mod+N { spawn "~/.config/niri/toggle-ironbar.sh"; }
 	Mod+Ctrl+Y { spawn "~/.config/ghostty/toggle-theme"; }
+	Mod+Ctrl+P hotkey-overlay-title="Cycle power mode" { spawn "~/.config/niri/niri-powermode.sh" "cycle"; }
+	Mod+Ctrl+V hotkey-overlay-title="Toggle WireGuard" { spawn "~/.config/ironbar/scripts/wireguard" "toggle"; }
 
 	Mod+T {
 		spawn "ghostty" "+new-window";
@@ -426,7 +429,6 @@ binds {
 	Ctrl+Alt+Delete { quit; }
 
 	Mod+Shift+P { power-off-monitors; }
-	Mod+Ctrl+D { spawn "~/.config/niri/nirilayout"; }
 }
 
 // Machine-specific work overrides. This repository is intentionally separate

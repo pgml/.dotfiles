@@ -1,0 +1,22 @@
+#!/bin/sh
+# WireGuard (wg-quick) toggle; sudo auth = YubiKey FIDO2 PIN + touch (PAM service sudo-wg)
+# Usage: wireguard          -> print status (for ironbar)
+#        wireguard toggle   -> bring the interface up/down
+
+IF=$(cat "$HOME/.config/wireguard-profile") || exit 1
+
+if ip link show "$IF" >/dev/null 2>&1; then
+	UP=1
+fi
+
+if [ "$1" = "toggle" ]; then
+	[ -n "$UP" ] && ACTION=down || ACTION=up
+	if SUDO_ASKPASS="$HOME/.config/ironbar/scripts/yubikey-askpass" sudo -A /usr/bin/wg-quick "$ACTION" "$IF"; then
+		notify-send --expire-time=2000 "WireGuard" "$IF $ACTION"
+	else
+		notify-send --urgency=critical "WireGuard" "Failed to bring $IF $ACTION"
+	fi
+	exit
+fi
+
+[ -n "$UP" ] && echo "󰖂 VPN" || echo "󰖂 off"

@@ -133,6 +133,60 @@ let {
 		direction = "h"
 	}
 
+	$powermode = {
+		type = "custom"
+		bar = [
+			{
+				type = "button"
+				class = "powermode"
+				label = "{{3000:~/.config/niri/niri-powermode.sh}}"
+				on_click = "popup:toggle"
+			}
+		]
+		popup = [
+			{
+				type = "box"
+				class = "powermode-popup"
+				orientation = "vertical"
+				widgets = [
+					{ type = "label" label = "Power mode" }
+					{
+						type = "button"
+						label = "󰤄 Silent"
+						on_click = "!~/.config/niri/niri-powermode.sh set power-saver"
+					}
+					{
+						type = "button"
+						label = "󰾅 Office"
+						on_click = "!~/.config/niri/niri-powermode.sh set balanced"
+					}
+					{
+						type = "button"
+						label = "󰓅 Performance"
+						on_click = "!~/.config/niri/niri-powermode.sh set performance"
+					}
+					{
+						type = "button"
+						label = "󰜗 Cool down"
+						on_click = "!~/.config/niri/niri-powermode.sh cool"
+					}
+				]
+			}
+		]
+	}
+
+	$wireguard = {
+		type = "custom"
+		bar = [
+			{
+				type = "button"
+				class = "wireguard"
+				label = "{{3000:~/.config/ironbar/scripts/wireguard}}"
+				on_click = "!~/.config/ironbar/scripts/wireguard toggle"
+			}
+		]
+	}
+
 	$upower = {
 		type = "battery"
 		format = "{percentage}%"
@@ -154,11 +208,20 @@ let {
 
 	$start = [ $focused $music ]
 	$center = [ $clock ]
-	$end = [ $volume $SysInfo $network $tray $upower $power_menu ]
+	$end = [ $volume $SysInfo $wireguard $network $tray $powermode $upower $power_menu ]
 }
 
 in {
 	monitors.DVI-I-1 = {
+		//autohide = 1000
+		height = 20
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
+	monitors.DVI-I-3 = {
 		//autohide = 1000
 		height = 20
 		icon_theme = "Tela-circle-nord"

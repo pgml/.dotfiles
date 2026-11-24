@@ -1,0 +1,4 @@
+#!/bin/sh
+PIN=$(zenity --password --title="YubiKey PIN") || exit 1
+notify-send --expire-time=5000 "YubiKey" "Touch your YubiKey"
+printf '%s\n' "$PIN"
