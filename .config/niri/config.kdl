@@ -109,7 +109,7 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius 1
+	geometry-corner-radius 2
 	clip-to-geometry true
 	draw-border-with-background true
 
