@@ -43,9 +43,9 @@ let {
 		interval.networks = 3
 
 		format = [
-			" {cpu_percent}%"
-			" {memory_used} GB / {memory_total} GB"
-			" {temp_c@k10temp Tctl}°C"
+			"  {cpu_percent}%"
+			"  {memory_used} GB / {memory_total} GB"
+			"  {temp_c@k10temp Tctl}°C"
 			//" {disk_free:/}GB"
 		]
 	}
@@ -135,6 +135,8 @@ let {
 
 	$powermode = {
 		type = "custom"
+		show_if = "86400000:command -v tlpctl"
+		transition_type = "none"
 		bar = [
 			{
 				type = "button"
@@ -152,22 +154,22 @@ let {
 					{ type = "label" label = "Power mode" }
 					{
 						type = "button"
-						label = "󰤄 Silent"
+						label = "<span font-size='28px'>󰤄</span> Silent"
 						on_click = "!~/.config/niri/niri-powermode.sh set power-saver"
 					}
 					{
 						type = "button"
-						label = "󰾅 Office"
+						label = "<span font-size='28px'>󰾅</span> Office"
 						on_click = "!~/.config/niri/niri-powermode.sh set balanced"
 					}
 					{
 						type = "button"
-						label = "󰓅 Performance"
+						label = "<span font-size='28px'>󰓅</span> Performance"
 						on_click = "!~/.config/niri/niri-powermode.sh set performance"
 					}
 					{
 						type = "button"
-						label = "󰜗 Cool down"
+						label = "<span font-size='28px'>󰜗</span> Cool down"
 						on_click = "!~/.config/niri/niri-powermode.sh cool"
 					}
 				]
@@ -177,6 +179,8 @@ let {
 
 	$wireguard = {
 		type = "custom"
+		show_if = "86400000:test -x /usr/bin/wg-quick"
+		transition_type = "none"
 		bar = [
 			{
 				type = "button"
@@ -189,6 +193,8 @@ let {
 
 	$upower = {
 		type = "battery"
+		show_if = "86400000:ls /sys/class/power_supply/BAT*"
+		transition_type = "none"
 		format = "{percentage}%"
 		icon_size = 14
 	}
@@ -240,6 +246,15 @@ in {
 		end = $end
 	}
 	monitors.HDMI-A-1 = {
+		//autohide = 1000
+		height = 26
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
+	monitors.DP-3 = {
 		//autohide = 1000
 		height = 26
 		icon_theme = "Tela-circle-nord"

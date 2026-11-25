@@ -7,9 +7,9 @@
 
 label() {
 	case $1 in
-		power-saver) echo "󰤄 Silent" ;;
-		balanced)    echo "󰾅 Office" ;;
-		performance) echo "󰓅 Perf" ;;
+		power-saver) echo "󰤄  Silent" ;;
+		balanced)    echo "󰾅  Office" ;;
+		performance) echo "󰓅  Perf" ;;
 		*)           echo "? $1" ;;
 	esac
 }
@@ -46,4 +46,4 @@ if [ -n "$NEXT" ]; then
 		"Power mode" "$(label "$CUR")"
 fi
 
-[ -e /run/fan-cool ] && echo "󰜗 Cool" || label "$CUR"
+[ -e /run/fan-cool ] && echo "󰜗  Cool" || label "$CUR"

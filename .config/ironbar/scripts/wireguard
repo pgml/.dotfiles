@@ -19,4 +19,4 @@ if [ "$1" = "toggle" ]; then
 	exit
 fi
 
-[ -n "$UP" ] && echo "󰖂 VPN" || echo "󰖂 off"
+[ -n "$UP" ] && echo "󰖂  VPN" || echo "󰖂  off"
