@@ -21,9 +21,9 @@ let {
 		type = "music"
 		player_type = "mpris"
 		format = "{title}/{artist}"
-		truncate = "end"
+		truncate.mode = "end"
 		// truncate.length = 30
-		// truncate.max_length = 100
+		truncate.max_length = 40
 		icons.play = " "
 		icons.pause = " "
 		icons.prev = ""
