@@ -1,24 +1,25 @@
 :root {
-	--font: SF UI Display, VictorMono Nerd Font, MesloLGSDZ Nerd Font;
+	--font:  VictorMono Nerd Font, MesloLGSDZ Nerd Font;
 	--font-size: 13px;
 
-	--radius: 4px;
+	--radius: 5px;
 	--radius-small: 2px;
 	--pad-x: 10px;
 	--gap: 10px;
-	--icon-gap: 5px;
-	--popup-icon-size: 28px;
+	--icon-gap: 0px;
+	--popup-icon-gap: 12px;
+	--popup-icon-size: 20px;
 	--track: 2px;
 	--handle: 12px;
 	--margin-top: 5px;
-	--opacity: 0.8;
-	--transition: all 0.3s ease-in-out;
+	--opacity: 1;
+	--transition: all 0.2s ease-in-out;
 
 	--fg: #bbb;
 	--fg-muted: #999;
-	--bg: rgba(33, 33, 33, 0.0);
-	--border: rgba(66, 66, 66, 0.5);
-	--shadow: rgba(0, 0, 0, 0.1) 2px 2px 5px 2px;
+	--bg: rgba(46, 56, 66, 0.1);
+	--border: rgba(126, 136, 146, 0.4);
+	--shadow: rgba(0, 0, 0, 0.0) 2px 2px 5px 2px;
 	--accent: rgb(94, 129, 172);
 	--danger: #ff757f;
 
@@ -54,11 +55,6 @@ popover contents {
 	border: 1px solid var(--popover-border);
 }
 
-calendar {
-	background: transparent;
-	color: var(--fg);
-}
-
 calendar label,
 calendar button {
 	color: var(--fg);
@@ -80,8 +76,11 @@ calendar .today {
 .focused,
 .music,
 .clock,
+.calendar,
+.wlogout,
 .tray, .upower, .network_manager, .battery, .powermode, .wireguard {
 	padding: 0 var(--pad-x);
+	font-weight: 500;
 	margin-top: var(--margin-top);
 	margin-right: var(--gap);
 	border-radius: var(--radius);
@@ -89,6 +88,8 @@ calendar .today {
 	background: var(--bg);
 	opacity: var(--opacity);
 	box-shadow: var(--shadow);
+	border-top: 1px solid var(--border);
+	border-bottom: 1px solid var(--border);
 	border: 1px solid var(--border);
 }
 
@@ -105,22 +106,12 @@ calendar .today {
 }
 
 .wlogout {
-	padding-right: var(--pad-x);
-	margin-top: var(--margin-top);
 	margin-right: 36px;
-	border-radius: var(--radius);
-	color: var(--danger);
-	background: var(--bg);
-	opacity: var(--opacity);
-	box-shadow: var(--shadow);
-	border-bottom: 1px solid var(--border);
-	font-size: 14px;
 }
 
 .wlogout:hover,
 .script:hover {
-	color: var(--hover-fg);
-	background: var(--dark-bg);
+	color: var(--danger);
 	transition: var(--transition);
 }
 
@@ -149,6 +140,10 @@ calendar .today {
 
 .network_manager .icon {
 	margin-right: 0;
+}
+
+popover .icon {
+	margin-right: var(--popup-icon-gap);
 }
 
 popover .icon,
@@ -232,6 +227,22 @@ popover .btn-mute {
 	color: var(--hover-fg);
 }
 
+.power-btn,
+.sleep-btn {
+	color: var(--fg);
+	background: var(--bg);
+	border-radius: var(--radius);
+	font-size: var(--popup-icon-size);
+	margin: var(--margin-top) var(--icon-gap);
+	padding: 4px var(--pad-x);
+}
+
+#header,
+#uptime,
+#power-clock {
+	margin: var(--margin-top) 0;
+}
+
 /* volume popup */
 .popup-volume {
 	color: var(--fg);
@@ -240,6 +251,20 @@ popover .btn-mute {
 
 .popup-volume * {
 	color: var(--fg);
+}
+
+.popup-volume button {
+	background: var(--bg);
+	border-radius: var(--radius);
+}
+
+.popup-volume dropdown listview {
+	background: transparent;
+}
+
+.popup-volume dropdown row:hover,
+.popup-volume dropdown row:selected {
+	background: var(--bg);
 }
 
 scale trough {
@@ -285,6 +310,8 @@ scale slider {
 	font-size: var(--popup-icon-size);
 	margin-right: 5px;
 	padding: 0 5px;
+	background: var(--bg);
+	border-radius: var(--radius);
 }
 
 tooltip.background {

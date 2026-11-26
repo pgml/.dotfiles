@@ -46,4 +46,4 @@ if [ -n "$NEXT" ]; then
 		"Power mode" "$(label "$CUR")"
 fi
 
-[ -e /run/fan-cool ] && echo "󰜗  Cool" || label "$CUR"
+pgrep -x fan-cool >/dev/null && echo "󰜗  Cool" || label "$CUR"

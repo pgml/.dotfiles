@@ -14,7 +14,7 @@ let {
 		icon_theme = "Tela-circle-nord"
 
 		truncate.mode = "start"
-		truncate.max_length = 50
+		truncate.max_length = 40
 	}
 
 	$music = {
@@ -24,8 +24,8 @@ let {
 		truncate.mode = "end"
 		// truncate.length = 30
 		truncate.max_length = 40
-		icons.play = " "
-		icons.pause = " "
+		icons.play = ""
+		icons.pause = ""
 		icons.prev = ""
 		icons.next = ""
 		//music_dir = "/home/bluebyt/Music"
@@ -78,24 +78,25 @@ let {
 			{ type = "label" name = "header" label = "Power menu" }
 			{
 				type = "box"
+				halign = "center"
 				widgets = [
 					{
 						type = "button"
 						class="power-btn"
-						label = "<span font-size='20pt'></span>"
-						on_click = "!shutdown now"
+						label = ""
+						on_click = "!systemctl poweroff"
 					}
 					{
 						type = "button"
 						class="power-btn"
-						label = "<span font-size='20pt'></span>"
-						on_click = "!reboot"
+						label = ""
+						on_click = "!systemctl reboot"
 					}
 					{
 						type = "button"
 						class = "sleep-btn"
-						label = "<span font-size='20pt'>󰒲</span>"
-						on_click = "systemctl suspend"
+						label = "󰒲"
+						on_click = "!systemctl suspend"
 					}
 				]
 			}
@@ -105,7 +106,7 @@ let {
 				label = "Uptime: {{30000:uptime -p | cut -d ' ' -f2-}}"
 			}
 			{
-				type = "clock" disable_popup = true
+				type = "clock" name = "power-clock" disable_popup = true
 			}
 		]
 	}
@@ -154,22 +155,34 @@ let {
 					{ type = "label" label = "Power mode" }
 					{
 						type = "button"
-						label = "<span font-size='28px'>󰤄</span> Silent"
+						widgets = [
+							{ type = "label" class = "icon" label = "<span font-size='16pt'>󰤄</span>" }
+							{ type = "label" label = "Silent" }
+						]
 						on_click = "!~/.config/niri/niri-powermode.sh set power-saver"
 					}
 					{
 						type = "button"
-						label = "<span font-size='28px'>󰾅</span> Office"
+						widgets = [
+							{ type = "label" class = "icon" label = "<span font-size='16pt'>󰾅</span>" }
+							{ type = "label" label = "Office" }
+						]
 						on_click = "!~/.config/niri/niri-powermode.sh set balanced"
 					}
 					{
 						type = "button"
-						label = "<span font-size='28px'>󰓅</span> Performance"
+						widgets = [
+							{ type = "label" class = "icon" label = "<span font-size='16pt'>󰓅</span>" }
+							{ type = "label" label = "Performance" }
+						]
 						on_click = "!~/.config/niri/niri-powermode.sh set performance"
 					}
 					{
 						type = "button"
-						label = "<span font-size='28px'>󰜗</span> Cool down"
+						widgets = [
+							{ type = "label" class = "icon" label = "<span font-size='16pt'>󰜗</span>" }
+							{ type = "label" label = "Cool down" }
+						]
 						on_click = "!~/.config/niri/niri-powermode.sh cool"
 					}
 				]
@@ -214,11 +227,20 @@ let {
 
 	$start = [ $focused $music ]
 	$center = [ $clock ]
-	$end = [ $volume $SysInfo $wireguard $network $tray $powermode $upower $power_menu ]
+	$end = [ $volume $SysInfo $powermode $wireguard $network $tray $upower $power_menu ]
 }
 
 in {
 	monitors.DVI-I-1 = {
+		//autohide = 1000
+		height = 20
+		icon_theme = "Tela-circle-nord"
+		position = "top"
+		start = $start
+		center = $center
+		end = $end
+	}
+	monitors.DVI-I-2 = {
 		//autohide = 1000
 		height = 20
 		icon_theme = "Tela-circle-nord"
