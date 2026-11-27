@@ -15,6 +15,7 @@
 	--opacity: 1;
 	--transition: all 0.2s ease-in-out;
 
+	--font-weight: 400;
 	--fg: #bbb;
 	--fg-muted: #999;
 	--bg: rgba(46, 56, 66, 0.1);
@@ -68,7 +69,7 @@ calendar .today {
 	background: var(--accent);
 	color: #fff;
 	border-radius: var(--radius);
-	font-weight: bold;
+	font-weight: 7000;
 }
 
 .sysinfo .item,
@@ -80,7 +81,7 @@ calendar .today {
 .wlogout,
 .tray, .upower, .network_manager, .battery, .powermode, .wireguard {
 	padding: 0 var(--pad-x);
-	font-weight: 500;
+	font-weight: var(--font-weight);
 	margin-top: var(--margin-top);
 	margin-right: var(--gap);
 	border-radius: var(--radius);
@@ -121,17 +122,8 @@ calendar .today {
 }
 
 .clock {
-	margin-top: var(--margin-top);
 	margin-right: var(--gap);
 	margin-left: var(--gap);
-	padding-right: var(--pad-x);
-	padding-left: var(--pad-x);
-	border-radius: var(--radius);
-	color: var(--fg);
-	background: var(--bg);
-	opacity: var(--opacity);
-	box-shadow: var(--shadow);
-	font-weight: 500;
 }
 
 .icon {

@@ -69,7 +69,8 @@ layout {
 		active-color "#990000"
 		inactive-color "gray"
 		urgent-color "blue"
-		gap 0
+		gap -1
+		gaps-between-tabs 0
 	}
 
 	preset-column-widths {
@@ -140,14 +141,15 @@ gestures {
 }
 
 cursor {
-	xcursor-theme "Vimix-cursors"
+	xcursor-theme "Banana"
+	xcursor-size 32
 	hide-when-typing
 }
 
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "kwalletd6"
 spawn-at-startup "mako"
-//spawn-at-startup "kanshi"
+spawn-at-startup "kanshi"
 spawn-sh-at-startup "owncloud --quite"
 spawn-sh-at-startup "~/.config/niri/niri-tilemod -n 2 -b 0 100 --solo_first_column"
 spawn-sh-at-startup "~/.local/bin/waypaper --restore"
